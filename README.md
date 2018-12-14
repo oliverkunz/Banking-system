@@ -14,6 +14,8 @@ Analysieren Sie die Anforderungen und erstellen Sie folgende Diagramme:
 - ein Anwendungsfalldiagramm mit den Anwendungsfällen und Akteuren des Bankensystems
 - ein Systemdiagramm mit den Subsystemen und Datenflüssen zwischen diesen
 - ein Klassendiagramm mit den Klassen und Beziehungen des zentralen Subsystems
-## Anwendungsfalldiagramm
 
+
+## Anwendungsfalldiagramm
+!(C:\Projects\oop1-projekt\Ressources\Use-case Diagram.jpg)
 ## Klassendiagramm

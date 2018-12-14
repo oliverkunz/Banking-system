@@ -23,3 +23,4 @@ Analysieren Sie die Anforderungen und erstellen Sie folgende Diagramme:
 ![SystemDiagramm](Ressources/Systemdiagramm.jpg)
 
 ## Klassendiagramm
+![ClassDiagramm](Ressources/Klassendiagramm.jpg)

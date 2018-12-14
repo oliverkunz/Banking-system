@@ -17,5 +17,9 @@ Analysieren Sie die Anforderungen und erstellen Sie folgende Diagramme:
 
 
 ## Anwendungsfalldiagramm
-![test](Ressources/Use-case%20Diagram.jpg)
+![UsecaseDiagramm](Ressources/Use-case%20Diagram.jpg)
+
+## Systemdiagramm
+![SystemDiagramm](Ressources/Systemdiagramm.jpg)
+
 ## Klassendiagramm

@@ -17,5 +17,5 @@ Analysieren Sie die Anforderungen und erstellen Sie folgende Diagramme:
 
 
 ## Anwendungsfalldiagramm
-!(C:\Projects\oop1-projekt\Ressources\Use-case Diagram.jpg)
+!(Ressources/Use-case%20Diagram.jpg)
 ## Klassendiagramm

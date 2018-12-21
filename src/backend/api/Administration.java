@@ -2,19 +2,17 @@ package backend.api;
 
 import java.rmi.Remote;
 
-import backend.data.Account;
-import backend.data.Customer;
-
 public interface Administration extends Remote {
-    public boolean createCustomer(Customer customer);
+    public boolean createCustomer(String firstName, String lastName, String password);
 
-    public boolean createAccount(Account account, Customer customer);
+    public boolean createAccount(String customerID, AccountType type, double balance, double interest,
+	    double overdraftInterest, double dailyLimit, double monthyLimit, int pin);
 
-    public boolean closeAccount(Account account);
+    public boolean closeAccount(String accountID);
 
-    public Account showAccount(Account account);
+    public Account showAccount(String accountID);
 
-    public boolean deposit(Account account, double amount);
+    public boolean deposit(String accountID, double amount);
 
-    public boolean withdraw(Account account, double amount);
+    public boolean withdraw(String accountID, double amount);
 }

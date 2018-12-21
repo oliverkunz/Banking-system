@@ -9,7 +9,41 @@ public class Customer {
     private String customerID;
     private ArrayList<Account> accounts = new ArrayList<Account>();
 
-    private boolean login(String password) {
+    public Customer(String customerID, String firstName, String lastName, String password) {
+	super();
+	this.firstName = firstName;
+	this.lastName = lastName;
+	this.password = password;
+	this.customerID = customerID;
+    }
+
+    public boolean login(String password) {
 	return true;
     }
+
+    public boolean addAccount(Account account) {
+	this.accounts.add(account);
+	return true;
+    }
+
+    public String getFirstName() {
+	return firstName;
+    }
+
+    public String getLastName() {
+	return lastName;
+    }
+
+    public String getPassword() {
+	return password;
+    }
+
+    public String getCustomerID() {
+	return customerID;
+    }
+
+    public ArrayList<Account> getAccounts() {
+	return accounts;
+    }
+
 }

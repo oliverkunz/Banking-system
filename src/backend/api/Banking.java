@@ -4,14 +4,12 @@ import java.rmi.Remote;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-import backend.data.Account;
-
 public interface Banking extends Remote {
     public boolean login(String customerID, String password);
 
-    public ArrayList<Account> showAccounts();
+    public ArrayList<Account> showAccounts(String customerID);
 
-    public Account showAccount(Account account);
+    public Account showAccount(String accountID);
 
-    public boolean transfer(Account toAccount, double amount, LocalDate date);
+    public boolean transfer(String fromAccountID, String toAccountID, double amount, LocalDate date);
 }

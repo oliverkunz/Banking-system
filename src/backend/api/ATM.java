@@ -2,12 +2,10 @@ package backend.api;
 
 import java.rmi.Remote;
 
-import backend.data.Account;
-
 public interface ATM extends Remote {
     public boolean login(String accountID, int pin);
 
-    public Account showAccount(Account account);
+    public Account showAccount(String accountID);
 
-    public boolean withdraw(Account account, double amount);
+    public boolean withdraw(String accountID, double amount);
 }

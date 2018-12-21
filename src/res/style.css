@@ -1,0 +1,67 @@
+
+
+#intro1{
+	-fx-font: normal bold 30.0px sans-serif;
+	-fx-padding: 30.0 10.0 10.0 10.0;
+}
+
+#intro2{
+	-fx-font: normal bold 40.0px sans-serif;
+	-fx-padding: 10.0;
+}
+
+#introScreen{
+  	-fx-padding: 20.0 80.0 40.0 80.0;
+}
+
+#ATMScreen{
+	-fx-padding: 20.0 20.0 40.0 20.0;
+  	-fx-font: normal bold 20.0px sans-serif;
+    -fx-alignment: center ;
+}
+
+.button { 
+	-fx-font: normal bold 18.0px sans-serif;
+	-fx-padding: 10.0 15.0 10.0 15.0;
+    -fx-background-insets: 0,0 0 5 0, 0 0 6 0, 0 0 7 0;
+    -fx-background-radius: 8;
+    -fx-background-color: 
+        linear-gradient(#686868 0%, #232723 25%, #373837 75%, #757575 100%),
+        linear-gradient(#020b02, #3a3a3a),
+        linear-gradient(#b9b9b9 0%, #c2c2c2 20%, #afafaf 80%, #c8c8c8 100%),
+        linear-gradient(#f5f5f5 0%, #dbdbdb 50%, #cacaca 51%, #d7d7d7 100%);
+    -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.75) , 4,0,0,1 );
+}
+.button:hover { 
+	 -fx-background-color: 
+        linear-gradient(from 0% 93% to 0% 100%, #a34313 0%, #903b12 100%),
+        #9d4024,
+        #d86e3a,
+        radial-gradient(center 50% 50%, radius 100%, #ffa500, #c54e2c);
+}
+.button:pressed { 
+	 -fx-padding: 10.0 15.0 10.0 15.0;
+     -fx-background-insets: 2 0 0 0,2 0 3 0, 2 0 4 0, 2 0 5 0;
+}
+
+.label{
+	-fx-font: normal bold 18.0px sans-serif;
+	-fx-padding: 10.0 10.0 10.0 10.0;
+}
+
+.choice-box{
+	-fx-font: normal bold 9.0px sans-serif;
+	-fx-padding: 2.0 2.0 2.0 2.0;
+	-fx-min-width:200.0px;
+}
+
+.radio-button{
+	-fx-font: normal bold 18.0px sans-serif;
+	-fx-padding: 10.0 5.0 10.0 5.0;
+}
+
+.text-field{
+	-fx-font: normal bold 18.0px sans-serif;
+	-fx-padding: 10.0 10.0 10.0 10.0;
+	-fx-min-width:200.0px;
+}

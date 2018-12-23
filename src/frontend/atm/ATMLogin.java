@@ -16,7 +16,9 @@ public class ATMLogin extends Pane{
 		
 	    GridPane grid = new GridPane();
 	    grid.setAlignment(Pos.CENTER);
-	    grid.setPadding(new Insets(250, 25, 25, 150)); //(top/right/bottom/left)
+	    grid.setPadding(new Insets(250, 0, 25, 100)); //(top/right/bottom/left)
+	    grid.setHgap(10);
+	    grid.setVgap(10);
 
 	    Label l1 = new Label("Kontonummer");
 	    Label l2 = new Label("PIN");

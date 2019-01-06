@@ -68,3 +68,16 @@
 	-fx-padding: 10.0 10.0 10.0 10.0;
 	-fx-min-width:200.0px;
 }
+.table-view{
+	-fx-font: normal bold 18.0px sans-serif;
+	-fx-padding: 10.0 10.0 10.0 10.0;
+	-fx-background-color: linear-gradient(#131313 0%, #424141 100%);
+	-fx-min-width:200.0px;
+	-fx-text-fill: black;
+}
+
+.table-view .column-header .label{
+   -fx-text-fill: black;
+   -fx-font-weight: bold; 
+}
+

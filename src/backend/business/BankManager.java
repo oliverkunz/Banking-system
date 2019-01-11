@@ -8,6 +8,7 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.logging.Logger;
 
 import org.persistence.ObjectStore;
 
@@ -25,8 +26,13 @@ import backend.data.State;
 import util.Utils;
 
 // Bank interface is used for testing
+/**
+ * Handles all business logic for a bank
+ * 
+ * @author fkg
+ *
+ */
 public class BankManager implements ATM, Banking, Administration, Bank {
-    private String bankName;
     private String bankNumber;
     private ArrayList<Account> accounts;
     private ArrayList<Customer> customers;
@@ -35,9 +41,10 @@ public class BankManager implements ATM, Banking, Administration, Bank {
 
     Registry registry;
 
-    public BankManager(String bankName, String bankNumber) throws IOException {
+    private static final Logger LOGGER = Logger.getLogger(BankManager.class.getName());
+
+    public BankManager(String bankNumber) throws IOException {
 	super();
-	this.bankName = bankName;
 	this.bankNumber = bankNumber;
 	this.accounts = new ArrayList<Account>();
 	this.bankAccount = new BankAccount(this.generateAccountID(), 1000000, 0, 0, 0, 0, 0, 123456789);
@@ -53,28 +60,45 @@ public class BankManager implements ATM, Banking, Administration, Bank {
 	registry = LocateRegistry.getRegistry("localhost", 2001);
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see backend.api.Banking#login(java.lang.String, java.lang.String)
+     */
     @Override
     public boolean login(String customerID, String password) {
 	Customer customer = findCustomer(customerID);
 
 	if (customer == null || !customer.getPassword().equals(password)) {
+	    LOGGER.info("Could not login customer, wrong password");
 	    return false;
 	}
 
 	return true;
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see backend.api.ATM#login(java.lang.String, int)
+     */
     @Override
     public boolean login(String accountID, int pin) {
 	Account account = findAccount(accountID);
 
 	if (account == null || account.getPin() != pin) {
+	    LOGGER.info("Could not login account, wrong password");
 	    return false;
 	}
 
 	return true;
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see backend.api.Banking#showAccounts(java.lang.String)
+     */
     @Override
     public ArrayList<backend.api.Account> showAccounts(String customerID) {
 	ArrayList<backend.api.Account> simpleAccounts = new ArrayList<backend.api.Account>();
@@ -82,6 +106,7 @@ public class BankManager implements ATM, Banking, Administration, Bank {
 	Customer customer = findCustomer(customerID);
 
 	if (customer == null) {
+	    LOGGER.info("Could not show accounts, customer not found");
 	    return null;
 	}
 
@@ -94,6 +119,12 @@ public class BankManager implements ATM, Banking, Administration, Bank {
 	return simpleAccounts;
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see backend.api.Banking#transfer(java.lang.String, java.lang.String, double,
+     * java.time.LocalDate)
+     */
     @Override
     public boolean transfer(String fromAccountID, String toAccountID, double amount, LocalDate date)
 	    throws AccessException, RemoteException, NotBoundException {
@@ -110,6 +141,8 @@ public class BankManager implements ATM, Banking, Administration, Bank {
 	// transfer from internal account to bank account (withdraw) as use case 1
 
 	if (toParts.length != 2 || fromParts.length != 2) {
+	    LOGGER.warning("Cannot transfer money, IBAN is wrong");
+
 	    return false;
 	}
 
@@ -122,6 +155,8 @@ public class BankManager implements ATM, Banking, Administration, Bank {
 	    Account fromAccount = findAccount(fromAccountID);
 
 	    if (toAccount == null || fromAccount == null) {
+		LOGGER.warning("Cannot transfer money, account could not be found");
+
 		return false;
 	    }
 
@@ -135,10 +170,12 @@ public class BankManager implements ATM, Banking, Administration, Bank {
 	    Account fromAccount = findAccount(fromAccountID);
 
 	    if (fromAccount == null) {
+		LOGGER.warning("Cannot transfer money, account could not be found");
 		return false;
 	    }
 
 	    if (!fromAccount.withdraw(amount)) {
+		LOGGER.warning("Cannot transfer money, account could not be found");
 		return false;
 	    }
 	    fromAccount.addTransaction(new Transaction(toAccountID, fromAccountID, -amount, date));
@@ -149,12 +186,14 @@ public class BankManager implements ATM, Banking, Administration, Bank {
 	    Account toAccount = findAccount(toAccountID);
 
 	    if (toAccount == null) {
+		LOGGER.warning("Cannot transfer money, account could not be found");
 		return false;
 	    }
 
 	    toAccount.deposit(amount);
 	    toAccount.addTransaction(new Transaction(toAccountID, fromAccountID, amount, date));
 	} else {
+	    LOGGER.severe("Cannot transfer money, transaction unknown");
 	    return false;
 	}
 
@@ -163,6 +202,12 @@ public class BankManager implements ATM, Banking, Administration, Bank {
 	return true;
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see backend.api.Administration#createCustomer(java.lang.String,
+     * java.lang.String, java.lang.String)
+     */
     @Override
     public String createCustomer(String firstName, String lastName, String password) {
 	Customer customer = new Customer(Utils.generateGUID(), firstName, lastName, password);
@@ -174,12 +219,19 @@ public class BankManager implements ATM, Banking, Administration, Bank {
 	return customer.getCustomerID();
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see backend.api.Administration#createAccount(java.lang.String,
+     * backend.api.AccountType, double, double, double, double, double, double, int)
+     */
     @Override
     public String createAccount(String customerID, AccountType type, double balance, double interest,
 	    double overdraftInterest, double dailyLimit, double monthyLimit, double maxMinus, int pin) {
 	Customer customer = this.findCustomer(customerID);
 
 	if (customer == null) {
+	    LOGGER.severe("Could not create account for customer, customer is null");
 	    return null;
 	}
 
@@ -195,6 +247,7 @@ public class BankManager implements ATM, Banking, Administration, Bank {
 	}
 
 	if (account == null) {
+	    LOGGER.warning("Could not create account for customer, type is unkown");
 	    return null;
 	}
 
@@ -207,11 +260,17 @@ public class BankManager implements ATM, Banking, Administration, Bank {
 	return account.getAccountID();
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see backend.api.Administration#closeAccount(java.lang.String)
+     */
     @Override
     public boolean closeAccount(String accountID) {
 	Account account = findAccount(accountID);
 
 	if (account == null) {
+	    LOGGER.warning("Could not close account, account is unkown");
 	    return false;
 	}
 
@@ -222,40 +281,64 @@ public class BankManager implements ATM, Banking, Administration, Bank {
 	return true;
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see backend.api.ATM#showAccount(java.lang.String)
+     */
     @Override
     public backend.api.Account showAccount(String accountID) {
 	Account account = findAccount(accountID);
 
 	if (account == null) {
+	    LOGGER.warning("Could not show account, account is unkown");
 	    return null;
 	}
 
 	return new backend.api.Account(account.getBalance(), account.getTransactions());
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see backend.api.Administration#deposit(java.lang.String, double)
+     */
     @Override
     public boolean deposit(String accountID, double amount) throws AccessException, RemoteException, NotBoundException {
 	Account toAccount = findAccount(accountID);
 
 	if (toAccount == null) {
+	    LOGGER.warning("Could not deposit to account, account is unkown");
 	    return false;
 	}
 
 	return this.transfer(this.bankAccount.getAccountID(), toAccount.getAccountID(), amount, LocalDate.now());
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see backend.api.ATM#withdraw(java.lang.String, double)
+     */
     @Override
     public boolean withdraw(String accountID, double amount)
 	    throws AccessException, RemoteException, NotBoundException {
 	Account fromAccount = findAccount(accountID);
 
 	if (fromAccount == null) {
+	    LOGGER.warning("Could not withdraw from account, account is unkown");
 	    return false;
 	}
 
 	return this.transfer(fromAccount.getAccountID(), this.bankAccount.getAccountID(), amount, LocalDate.now());
     }
 
+    /**
+     * finds an account based on its ID
+     * 
+     * @param accountID
+     * @return account
+     */
     private Account findAccount(String accountID) {
 	if (this.bankAccount.getAccountID().equals(accountID)) {
 	    return this.bankAccount;
@@ -267,9 +350,17 @@ public class BankManager implements ATM, Banking, Administration, Bank {
 	    }
 	}
 
+	LOGGER.warning("Could not find account");
+
 	return null;
     }
 
+    /**
+     * finds an customer based on its ID
+     * 
+     * @param customerID
+     * @return customer
+     */
     private Customer findCustomer(String customerID) {
 	for (Customer customer : this.customers) {
 	    if (customer.getCustomerID().equals(customerID)) {
@@ -277,35 +368,65 @@ public class BankManager implements ATM, Banking, Administration, Bank {
 	    }
 	}
 
+	LOGGER.warning("Could not find customer");
 	return null;
     }
 
+    /**
+     * Gets the right bank, needed for transfer
+     * 
+     * @param bankNumber
+     * @return bank
+     * @throws AccessException
+     * @throws RemoteException
+     * @throws NotBoundException
+     */
     private Bank getRemoteBankManager(String bankNumber) throws AccessException, RemoteException, NotBoundException {
 	return (Bank) registry.lookup(bankNumber);
     }
 
+    /**
+     * Generates an accountID with bank prefix
+     * 
+     * @return accountID
+     */
     private String generateAccountID() {
 	return this.bankNumber + "_" + Utils.generateGUID();
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see backend.api.Administration#handleInterests(java.lang.String)
+     */
     @Override
     public boolean handleInterests(String accountID) {
 	// TODO needs this to be withdrawn or deposited to the bank account?
 	return false;
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see backend.api.Administration#handleOverdrawInterests(java.lang.String)
+     */
     @Override
     public boolean handleOverdrawInterests(String accountID) {
 	// TODO Auto-generated method stub
 	return false;
     }
 
+    /**
+     * Saves all customers to the file system
+     * 
+     * @param customers
+     */
     public void save(ArrayList<Customer> customers) {
 	try {
 	    this.store.save("customers", customers);
 	} catch (IOException e) {
 	    // TODO Auto-generated catch block
-	    e.printStackTrace();
+	    LOGGER.severe("Could not save data to file system");
 	}
     }
 }

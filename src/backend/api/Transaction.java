@@ -3,6 +3,12 @@ package backend.api;
 import java.io.Serializable;
 import java.time.LocalDate;
 
+/**
+ * Transactions for a account
+ * 
+ * @author fkg
+ *
+ */
 public class Transaction implements Serializable {
     /**
      * 
@@ -26,22 +32,37 @@ public class Transaction implements Serializable {
 	this.type = type;
     }
 
+    /**
+     * @return receiverID
+     */
     public String getReceiver() {
 	return receiverID;
     }
 
+    /**
+     * @return senderID
+     */
     public String getSender() {
 	return senderID;
     }
 
+    /**
+     * @return amount
+     */
     public double getAmount() {
 	return amount;
     }
 
+    /**
+     * @return dueDate
+     */
     public LocalDate getDueDate() {
 	return dueDate;
     }
 
+    /**
+     * @return type
+     */
     public TransactionType getType() {
 	return type;
     }

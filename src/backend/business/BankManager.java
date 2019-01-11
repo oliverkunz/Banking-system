@@ -1,5 +1,6 @@
 package backend.business;
 
+import java.io.IOException;
 import java.rmi.AccessException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
@@ -8,10 +9,11 @@ import java.rmi.registry.Registry;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
+import org.persistence.ObjectStore;
+
 import backend.api.ATM;
 import backend.api.AccountType;
 import backend.api.Administration;
-import backend.api.Bank;
 import backend.api.Banking;
 import backend.api.Transaction;
 import backend.data.Account;
@@ -22,21 +24,31 @@ import backend.data.SavingsAccount;
 import backend.data.State;
 import util.Utils;
 
+// Bank interface is used for testing
 public class BankManager implements ATM, Banking, Administration, Bank {
     private String bankName;
     private String bankNumber;
     private ArrayList<Account> accounts;
     private ArrayList<Customer> customers;
     private BankAccount bankAccount;
+    private ObjectStore<ArrayList<Customer>> store;
+
     Registry registry;
 
-    public BankManager(String bankName, String bankNumber) throws RemoteException {
+    public BankManager(String bankName, String bankNumber) throws IOException {
 	super();
 	this.bankName = bankName;
 	this.bankNumber = bankNumber;
 	this.accounts = new ArrayList<Account>();
-	this.customers = new ArrayList<Customer>();
 	this.bankAccount = new BankAccount(this.generateAccountID(), 1000000, 0, 0, 0, 0, 0, 123456789);
+	this.store = new ObjectStore<ArrayList<Customer>>();
+
+	this.customers = this.store.load("customers");
+
+	if (this.customers == null) {
+	    this.customers = new ArrayList<Customer>();
+	    this.save(this.customers);
+	}
 
 	registry = LocateRegistry.getRegistry("localhost", 2001);
     }
@@ -146,6 +158,8 @@ public class BankManager implements ATM, Banking, Administration, Bank {
 	    return false;
 	}
 
+	this.save(this.customers);
+
 	return true;
     }
 
@@ -154,6 +168,8 @@ public class BankManager implements ATM, Banking, Administration, Bank {
 	Customer customer = new Customer(Utils.generateGUID(), firstName, lastName, password);
 
 	this.customers.add(customer);
+
+	this.save(this.customers);
 
 	return customer.getCustomerID();
     }
@@ -186,6 +202,8 @@ public class BankManager implements ATM, Banking, Administration, Bank {
 	customer.addAccount(account);
 	this.accounts.add(account);
 
+	this.save(this.customers);
+
 	return account.getAccountID();
     }
 
@@ -198,6 +216,8 @@ public class BankManager implements ATM, Banking, Administration, Bank {
 	}
 
 	account.setState(State.CLOSED);
+
+	this.save(this.customers);
 
 	return true;
     }
@@ -278,5 +298,14 @@ public class BankManager implements ATM, Banking, Administration, Bank {
     public boolean handleOverdrawInterests(String accountID) {
 	// TODO Auto-generated method stub
 	return false;
+    }
+
+    public void save(ArrayList<Customer> customers) {
+	try {
+	    this.store.save("customers", customers);
+	} catch (IOException e) {
+	    // TODO Auto-generated catch block
+	    e.printStackTrace();
+	}
     }
 }

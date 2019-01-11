@@ -1,5 +1,7 @@
 package backend.api;
 
-public enum TransactionType {
+import java.io.Serializable;
+
+public enum TransactionType implements Serializable {
     NORMAL, INTERESTS
 }

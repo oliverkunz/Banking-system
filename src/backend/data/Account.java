@@ -1,12 +1,17 @@
 package backend.data;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
 import backend.api.Transaction;
 import util.Utils;
 
-public abstract class Account {
+public abstract class Account implements Serializable {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -5815010121334705462L;
     protected double balance;
     private double interest;
     private double overdraftInterest;

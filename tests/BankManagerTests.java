@@ -18,8 +18,8 @@ import org.junit.runners.MethodSorters;
 
 import backend.api.Account;
 import backend.api.AccountType;
-import backend.api.Bank;
 import backend.api.Transaction;
+import backend.business.Bank;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 class BankManagerTests {
@@ -204,7 +204,7 @@ class BankManagerTests {
 
     }
 
-    @Test
+    // @Test
     void testRMI() throws RemoteException, NotBoundException {
 	Registry registry = LocateRegistry.getRegistry("localhost", 2001);
 	stub1 = (Bank) registry.lookup("ubs");

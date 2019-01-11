@@ -1,5 +1,7 @@
 package backend.data;
 
-public enum State {
+import java.io.Serializable;
+
+public enum State implements Serializable {
     OPEN, CLOSED
 }

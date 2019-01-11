@@ -3,6 +3,11 @@ package backend.api;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+/**
+ * Account entity, transfered via rmi
+ * 
+ * @author fkg
+ */
 public class Account implements Serializable {
     /**
      * 
@@ -16,10 +21,20 @@ public class Account implements Serializable {
 	this.transactions = transactions;
     }
 
+    /**
+     * get the current balance of the account
+     * 
+     * @return balance
+     */
     public double getBalance() {
 	return balance;
     }
 
+    /**
+     * get all the transaction associated with the account
+     * 
+     * @return transactions
+     */
     public ArrayList<Transaction> getTransactions() {
 	return transactions;
     }

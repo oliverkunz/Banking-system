@@ -25,8 +25,13 @@ import backend.data.State;
 import util.Utils;
 
 // Bank interface is used for testing
+/**
+ * Handles all business logic for a bank
+ * 
+ * @author fkg
+ *
+ */
 public class BankManager implements ATM, Banking, Administration, Bank {
-    private String bankName;
     private String bankNumber;
     private ArrayList<Account> accounts;
     private ArrayList<Customer> customers;
@@ -35,9 +40,8 @@ public class BankManager implements ATM, Banking, Administration, Bank {
 
     Registry registry;
 
-    public BankManager(String bankName, String bankNumber) throws IOException {
+    public BankManager(String bankNumber) throws IOException {
 	super();
-	this.bankName = bankName;
 	this.bankNumber = bankNumber;
 	this.accounts = new ArrayList<Account>();
 	this.bankAccount = new BankAccount(this.generateAccountID(), 1000000, 0, 0, 0, 0, 0, 123456789);
@@ -53,6 +57,11 @@ public class BankManager implements ATM, Banking, Administration, Bank {
 	registry = LocateRegistry.getRegistry("localhost", 2001);
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see backend.api.Banking#login(java.lang.String, java.lang.String)
+     */
     @Override
     public boolean login(String customerID, String password) {
 	Customer customer = findCustomer(customerID);
@@ -64,6 +73,11 @@ public class BankManager implements ATM, Banking, Administration, Bank {
 	return true;
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see backend.api.ATM#login(java.lang.String, int)
+     */
     @Override
     public boolean login(String accountID, int pin) {
 	Account account = findAccount(accountID);
@@ -75,6 +89,11 @@ public class BankManager implements ATM, Banking, Administration, Bank {
 	return true;
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see backend.api.Banking#showAccounts(java.lang.String)
+     */
     @Override
     public ArrayList<backend.api.Account> showAccounts(String customerID) {
 	ArrayList<backend.api.Account> simpleAccounts = new ArrayList<backend.api.Account>();
@@ -94,6 +113,12 @@ public class BankManager implements ATM, Banking, Administration, Bank {
 	return simpleAccounts;
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see backend.api.Banking#transfer(java.lang.String, java.lang.String, double,
+     * java.time.LocalDate)
+     */
     @Override
     public boolean transfer(String fromAccountID, String toAccountID, double amount, LocalDate date)
 	    throws AccessException, RemoteException, NotBoundException {
@@ -163,6 +188,12 @@ public class BankManager implements ATM, Banking, Administration, Bank {
 	return true;
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see backend.api.Administration#createCustomer(java.lang.String,
+     * java.lang.String, java.lang.String)
+     */
     @Override
     public String createCustomer(String firstName, String lastName, String password) {
 	Customer customer = new Customer(Utils.generateGUID(), firstName, lastName, password);
@@ -174,6 +205,12 @@ public class BankManager implements ATM, Banking, Administration, Bank {
 	return customer.getCustomerID();
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see backend.api.Administration#createAccount(java.lang.String,
+     * backend.api.AccountType, double, double, double, double, double, double, int)
+     */
     @Override
     public String createAccount(String customerID, AccountType type, double balance, double interest,
 	    double overdraftInterest, double dailyLimit, double monthyLimit, double maxMinus, int pin) {
@@ -207,6 +244,11 @@ public class BankManager implements ATM, Banking, Administration, Bank {
 	return account.getAccountID();
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see backend.api.Administration#closeAccount(java.lang.String)
+     */
     @Override
     public boolean closeAccount(String accountID) {
 	Account account = findAccount(accountID);
@@ -222,6 +264,11 @@ public class BankManager implements ATM, Banking, Administration, Bank {
 	return true;
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see backend.api.ATM#showAccount(java.lang.String)
+     */
     @Override
     public backend.api.Account showAccount(String accountID) {
 	Account account = findAccount(accountID);
@@ -233,6 +280,11 @@ public class BankManager implements ATM, Banking, Administration, Bank {
 	return new backend.api.Account(account.getBalance(), account.getTransactions());
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see backend.api.Administration#deposit(java.lang.String, double)
+     */
     @Override
     public boolean deposit(String accountID, double amount) throws AccessException, RemoteException, NotBoundException {
 	Account toAccount = findAccount(accountID);
@@ -244,6 +296,11 @@ public class BankManager implements ATM, Banking, Administration, Bank {
 	return this.transfer(this.bankAccount.getAccountID(), toAccount.getAccountID(), amount, LocalDate.now());
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see backend.api.ATM#withdraw(java.lang.String, double)
+     */
     @Override
     public boolean withdraw(String accountID, double amount)
 	    throws AccessException, RemoteException, NotBoundException {
@@ -256,6 +313,12 @@ public class BankManager implements ATM, Banking, Administration, Bank {
 	return this.transfer(fromAccount.getAccountID(), this.bankAccount.getAccountID(), amount, LocalDate.now());
     }
 
+    /**
+     * finds an account based on its ID
+     * 
+     * @param accountID
+     * @return account
+     */
     private Account findAccount(String accountID) {
 	if (this.bankAccount.getAccountID().equals(accountID)) {
 	    return this.bankAccount;
@@ -270,6 +333,12 @@ public class BankManager implements ATM, Banking, Administration, Bank {
 	return null;
     }
 
+    /**
+     * finds an customer based on its ID
+     * 
+     * @param customerID
+     * @return customer
+     */
     private Customer findCustomer(String customerID) {
 	for (Customer customer : this.customers) {
 	    if (customer.getCustomerID().equals(customerID)) {
@@ -280,26 +349,55 @@ public class BankManager implements ATM, Banking, Administration, Bank {
 	return null;
     }
 
+    /**
+     * Gets the right bank, needed for transfer
+     * 
+     * @param bankNumber
+     * @return bank
+     * @throws AccessException
+     * @throws RemoteException
+     * @throws NotBoundException
+     */
     private Bank getRemoteBankManager(String bankNumber) throws AccessException, RemoteException, NotBoundException {
 	return (Bank) registry.lookup(bankNumber);
     }
 
+    /**
+     * Generates an accountID with bank prefix
+     * 
+     * @return accountID
+     */
     private String generateAccountID() {
 	return this.bankNumber + "_" + Utils.generateGUID();
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see backend.api.Administration#handleInterests(java.lang.String)
+     */
     @Override
     public boolean handleInterests(String accountID) {
 	// TODO needs this to be withdrawn or deposited to the bank account?
 	return false;
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see backend.api.Administration#handleOverdrawInterests(java.lang.String)
+     */
     @Override
     public boolean handleOverdrawInterests(String accountID) {
 	// TODO Auto-generated method stub
 	return false;
     }
 
+    /**
+     * Saves all customers to the file system
+     * 
+     * @param customers
+     */
     public void save(ArrayList<Customer> customers) {
 	try {
 	    this.store.save("customers", customers);

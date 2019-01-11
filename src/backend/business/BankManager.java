@@ -8,6 +8,7 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.logging.Logger;
 
 import org.persistence.ObjectStore;
 
@@ -40,6 +41,8 @@ public class BankManager implements ATM, Banking, Administration, Bank {
 
     Registry registry;
 
+    private static final Logger LOGGER = Logger.getLogger(BankManager.class.getName());
+
     public BankManager(String bankNumber) throws IOException {
 	super();
 	this.bankNumber = bankNumber;
@@ -67,6 +70,7 @@ public class BankManager implements ATM, Banking, Administration, Bank {
 	Customer customer = findCustomer(customerID);
 
 	if (customer == null || !customer.getPassword().equals(password)) {
+	    LOGGER.info("Could not login customer, wrong password");
 	    return false;
 	}
 
@@ -83,6 +87,7 @@ public class BankManager implements ATM, Banking, Administration, Bank {
 	Account account = findAccount(accountID);
 
 	if (account == null || account.getPin() != pin) {
+	    LOGGER.info("Could not login account, wrong password");
 	    return false;
 	}
 
@@ -101,6 +106,7 @@ public class BankManager implements ATM, Banking, Administration, Bank {
 	Customer customer = findCustomer(customerID);
 
 	if (customer == null) {
+	    LOGGER.info("Could not show accounts, customer not found");
 	    return null;
 	}
 
@@ -135,6 +141,8 @@ public class BankManager implements ATM, Banking, Administration, Bank {
 	// transfer from internal account to bank account (withdraw) as use case 1
 
 	if (toParts.length != 2 || fromParts.length != 2) {
+	    LOGGER.warning("Cannot transfer money, IBAN is wrong");
+
 	    return false;
 	}
 
@@ -147,6 +155,8 @@ public class BankManager implements ATM, Banking, Administration, Bank {
 	    Account fromAccount = findAccount(fromAccountID);
 
 	    if (toAccount == null || fromAccount == null) {
+		LOGGER.warning("Cannot transfer money, account could not be found");
+
 		return false;
 	    }
 
@@ -160,10 +170,12 @@ public class BankManager implements ATM, Banking, Administration, Bank {
 	    Account fromAccount = findAccount(fromAccountID);
 
 	    if (fromAccount == null) {
+		LOGGER.warning("Cannot transfer money, account could not be found");
 		return false;
 	    }
 
 	    if (!fromAccount.withdraw(amount)) {
+		LOGGER.warning("Cannot transfer money, account could not be found");
 		return false;
 	    }
 	    fromAccount.addTransaction(new Transaction(toAccountID, fromAccountID, -amount, date));
@@ -174,12 +186,14 @@ public class BankManager implements ATM, Banking, Administration, Bank {
 	    Account toAccount = findAccount(toAccountID);
 
 	    if (toAccount == null) {
+		LOGGER.warning("Cannot transfer money, account could not be found");
 		return false;
 	    }
 
 	    toAccount.deposit(amount);
 	    toAccount.addTransaction(new Transaction(toAccountID, fromAccountID, amount, date));
 	} else {
+	    LOGGER.severe("Cannot transfer money, transaction unknown");
 	    return false;
 	}
 
@@ -217,6 +231,7 @@ public class BankManager implements ATM, Banking, Administration, Bank {
 	Customer customer = this.findCustomer(customerID);
 
 	if (customer == null) {
+	    LOGGER.severe("Could not create account for customer, customer is null");
 	    return null;
 	}
 
@@ -232,6 +247,7 @@ public class BankManager implements ATM, Banking, Administration, Bank {
 	}
 
 	if (account == null) {
+	    LOGGER.warning("Could not create account for customer, type is unkown");
 	    return null;
 	}
 
@@ -254,6 +270,7 @@ public class BankManager implements ATM, Banking, Administration, Bank {
 	Account account = findAccount(accountID);
 
 	if (account == null) {
+	    LOGGER.warning("Could not close account, account is unkown");
 	    return false;
 	}
 
@@ -274,6 +291,7 @@ public class BankManager implements ATM, Banking, Administration, Bank {
 	Account account = findAccount(accountID);
 
 	if (account == null) {
+	    LOGGER.warning("Could not show account, account is unkown");
 	    return null;
 	}
 
@@ -290,6 +308,7 @@ public class BankManager implements ATM, Banking, Administration, Bank {
 	Account toAccount = findAccount(accountID);
 
 	if (toAccount == null) {
+	    LOGGER.warning("Could not deposit to account, account is unkown");
 	    return false;
 	}
 
@@ -307,6 +326,7 @@ public class BankManager implements ATM, Banking, Administration, Bank {
 	Account fromAccount = findAccount(accountID);
 
 	if (fromAccount == null) {
+	    LOGGER.warning("Could not withdraw from account, account is unkown");
 	    return false;
 	}
 
@@ -330,6 +350,8 @@ public class BankManager implements ATM, Banking, Administration, Bank {
 	    }
 	}
 
+	LOGGER.warning("Could not find account");
+
 	return null;
     }
 
@@ -346,6 +368,7 @@ public class BankManager implements ATM, Banking, Administration, Bank {
 	    }
 	}
 
+	LOGGER.warning("Could not find customer");
 	return null;
     }
 
@@ -403,7 +426,7 @@ public class BankManager implements ATM, Banking, Administration, Bank {
 	    this.store.save("customers", customers);
 	} catch (IOException e) {
 	    // TODO Auto-generated catch block
-	    e.printStackTrace();
+	    LOGGER.severe("Could not save data to file system");
 	}
     }
 }

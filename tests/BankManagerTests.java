@@ -45,7 +45,7 @@ class BankManagerTests {
 	// make sure backend.Main is running
 	Registry registry = LocateRegistry.getRegistry("localhost", 2001);
 	stub1 = (Bank) registry.lookup("ubs");
-	stub2 = (Bank) registry.lookup("rai");
+	stub2 = (Bank) registry.lookup("raif");
     }
 
     @Test
@@ -204,11 +204,11 @@ class BankManagerTests {
 
     }
 
-    // @Test
+    @Test
     void testRMI() throws RemoteException, NotBoundException {
 	Registry registry = LocateRegistry.getRegistry("localhost", 2001);
 	stub1 = (Bank) registry.lookup("ubs");
-	stub2 = (Bank) registry.lookup("rai");
+	stub2 = (Bank) registry.lookup("raif");
 
 	String customerId = stub1.createCustomer("Fabian", "Küng", "1234");
 	System.out.println(customerId);

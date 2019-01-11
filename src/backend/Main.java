@@ -24,6 +24,7 @@ public class Main {
     public static void main(String[] args) throws AlreadyBoundException, IOException {
 	BankManager manager1 = new BankManager("ubs");
 	BankManager manager2 = new BankManager("raif");
+
 	Bank stub1 = (Bank) UnicastRemoteObject.exportObject(manager1, 0);
 	Bank stub2 = (Bank) UnicastRemoteObject.exportObject(manager2, 0);
 

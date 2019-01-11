@@ -3,6 +3,7 @@ package backend.data;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.logging.Logger;
 
 import backend.api.Transaction;
 import util.Utils;
@@ -29,6 +30,8 @@ public abstract class Account implements Serializable {
     private int pin;
     private ArrayList<Transaction> transactions = new ArrayList<Transaction>();
     private State state;
+
+    private static final Logger LOGGER = Logger.getLogger(Account.class.getName());
 
     public Account(String accountID, double balance, double interest, double overdraftInterest, double dailyLimit,
 	    double monthyLimit, double maxMinus, int pin) {
@@ -71,6 +74,7 @@ public abstract class Account implements Serializable {
      */
     public boolean withdraw(double amount) {
 	if (isDailyLimitReached(amount) || isMontlyLimitReached(amount) || this.balance - amount <= -this.maxMinus) {
+	    LOGGER.info("Could not withdraw money, limit is reached or negative limit reached");
 	    return false;
 	}
 

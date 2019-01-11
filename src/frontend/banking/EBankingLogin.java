@@ -1,4 +1,4 @@
-package frontend.atm;
+package frontend.banking;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -8,11 +8,10 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 
-
-public class ATMLogin extends Pane{
+public class EBankingLogin extends Pane{
 	
-	public ATMLogin() {
-		this.setId("ATMLogin");
+	public EBankingLogin() {
+		this.setId("EBankingLogin");
 		
 	    GridPane grid = new GridPane();
 	    grid.setAlignment(Pos.CENTER);
@@ -20,8 +19,8 @@ public class ATMLogin extends Pane{
 	    grid.setHgap(10);
 	    grid.setVgap(10);
 
-	    Label l1 = new Label("Kontonummer");
-	    Label l2 = new Label("PIN");
+	    Label l1 = new Label("Kundennummer");
+	    Label l2 = new Label("Passwort");
 	    Label l3 = new Label("");
 	    
 	    TextField kontonummer = new TextField();

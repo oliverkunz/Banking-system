@@ -10,7 +10,6 @@ public class Customer {
     private ArrayList<Account> accounts = new ArrayList<Account>();
 
     public Customer(String customerID, String firstName, String lastName, String password) {
-	super();
 	this.firstName = firstName;
 	this.lastName = lastName;
 	this.password = password;

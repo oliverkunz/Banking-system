@@ -10,6 +10,7 @@ public class Utils {
     }
 
     public static boolean isBetween(LocalDate fromDate, LocalDate toDate, LocalDate date) {
-	return date.isBefore(toDate) && date.isAfter(fromDate);
+	// inverse and change after/before is the same and checks if their are equal
+	return !date.isAfter(toDate) && !date.isBefore(fromDate);
     }
 }

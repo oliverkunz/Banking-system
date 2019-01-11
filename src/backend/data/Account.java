@@ -3,6 +3,7 @@ package backend.data;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
+import backend.api.Transaction;
 import util.Utils;
 
 public abstract class Account {
@@ -11,6 +12,7 @@ public abstract class Account {
     private double overdraftInterest;
     private double dailyLimit;
     private double monthyLimit;
+    private double maxMinus;
     private String accountID;
     private Customer customer;
     private int pin;
@@ -18,14 +20,15 @@ public abstract class Account {
     private State state;
 
     public Account(String accountID, double balance, double interest, double overdraftInterest, double dailyLimit,
-	    double monthyLimit, int pin) {
+	    double monthyLimit, double maxMinus, int pin) {
 	this.balance = balance;
 	this.interest = interest;
 	this.overdraftInterest = overdraftInterest;
 	this.dailyLimit = dailyLimit;
 	this.monthyLimit = monthyLimit;
+	this.maxMinus = maxMinus;
 	this.pin = pin;
-	this.accountID = Utils.generateGUID();
+	this.accountID = accountID;
     }
 
     public void setCustomer(Customer customer) {
@@ -39,6 +42,10 @@ public abstract class Account {
     }
 
     public boolean withdraw(double amount) {
+	if (isDailyLimitReached(amount) || isMontlyLimitReached(amount) || this.balance - amount <= -this.maxMinus) {
+	    return false;
+	}
+
 	this.balance -= amount;
 
 	return true;
@@ -56,22 +63,27 @@ public abstract class Account {
 	return this;
     }
 
-    public boolean checkMontlyLimit() {
+    public boolean isMontlyLimitReached(double amount) {
 	LocalDate date = LocalDate.now().minusMonths(1);
 
-	return checkLimit(this.getTransactions(), date, this.getMonthyLimit());
+	return isLimitReached(this.getTransactions(), date, this.getMonthyLimit(), amount);
     }
 
-    public boolean checkDailyLimit() {
-	LocalDate date = LocalDate.now().minusDays(1);
+    public boolean isDailyLimitReached(double amount) {
+	LocalDate date = LocalDate.now();
 
-	return checkLimit(this.getTransactions(), date, this.getDailyLimit());
+	return isLimitReached(this.getTransactions(), date, this.getDailyLimit(), amount);
     }
 
-    public boolean checkLimit(ArrayList<Transaction> transactions, LocalDate date, double limit) {
-	double currentTransfers = 0;
+    public boolean isLimitReached(ArrayList<Transaction> transactions, LocalDate date, double limit, double amount) {
+	double currentTransfers = amount;
+
+	if (limit == 0) {
+	    return false;
+	}
 
 	for (Transaction transaction : this.getTransactions()) {
+	    // transaction date between 1 month or 1 day and now
 	    if (Utils.isBetween(date, LocalDate.now(), transaction.getDueDate())) {
 		// transaction is withdraw
 		if (transaction.getAmount() < 0) {
@@ -80,7 +92,7 @@ public abstract class Account {
 	    }
 	}
 
-	return currentTransfers >= limit;
+	return currentTransfers > limit;
     }
 
     public boolean setState(State state) {

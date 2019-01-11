@@ -4,3 +4,7 @@
 /Administration.class
 /Banking.class
 /Customer.class
+/Bank.class
+/ExternalBank.class
+/Transaction.class
+/TransactionType.class

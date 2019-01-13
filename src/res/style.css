@@ -61,6 +61,13 @@
 .radio-button{
 	-fx-font: normal bold 18.0px sans-serif;
 	-fx-padding: 10.0 5.0 10.0 5.0;
+	-fx-text-fill: white;
+}
+
+.gridpane{
+	-fx-border-style: solid inside;
+	-fx-border-with: 3 0 3 0;
+	-fx-border-color: white;
 }
 
 .text-field{

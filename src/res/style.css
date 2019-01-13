@@ -12,14 +12,12 @@
 	-fx-padding: 10.0;
 }
 
-#introScreen{
-  	-fx-padding: 20.0 80.0 40.0 80.0;
-}
-
 #ATMScreen{
 	-fx-padding: 20.0 20.0 40.0 20.0;
   	-fx-font: normal bold 20.0px sans-serif;
-    -fx-alignment: center ;
+    -fx-alignment: center;
+    -fx-stroke: black;
+    -fx-stroke-width: 5;
 }
 
 .button { 
@@ -50,6 +48,8 @@
 	-fx-font: normal bold 24.0px sans-serif;
 	-fx-padding: 10.0 10.0 10.0 10.0;
 	-fx-text-fill: white;
+	-fx-stroke: black;
+    -fx-stroke-width: 5;
 }
 
 .choice-box{
@@ -78,6 +78,7 @@
 
 .table-view .column-header .label{
    -fx-text-fill: black;
-   -fx-font-weight: bold; 
+   -fx-font-weight: bold;
+
 }
 

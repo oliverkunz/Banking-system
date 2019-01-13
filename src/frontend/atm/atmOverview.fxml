@@ -1,6 +1,67 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" />
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" stylesheets="@../../res/style.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="frontend.atm.Controller">
+   <top>
+      <Label prefHeight="53.0" prefWidth="920.0" stylesheets="@../../res/style.css" text="Bank Name" BorderPane.alignment="CENTER" />
+   </top>
+   <bottom>
+      <HBox alignment="CENTER_LEFT" prefHeight="167.0" prefWidth="900.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label fx:id="withdrawMoneyL" stylesheets="@../../res/style.css" text="Withdraw money">
+               <HBox.margin>
+                  <Insets bottom="50.0" left="5.0" right="5.0" top="5.0" />
+               </HBox.margin>
+            </Label>
+            <TextField fx:id="amountTF" promptText="Amount" stylesheets="@../../res/style.css">
+               <HBox.margin>
+                  <Insets bottom="50.0" left="5.0" right="5.0" top="5.0" />
+               </HBox.margin>
+            </TextField>
+            <Button fx:id="withdraw" mnemonicParsing="false" onAction="#WithdrawMoney" stylesheets="@../../res/style.css" text="Withdraw">
+               <HBox.margin>
+                  <Insets bottom="50.0" left="5.0" right="5.0" top="5.0" />
+               </HBox.margin>
+            </Button>
+         </children>
+      </HBox>
+   </bottom>
+   <center>
+      <VBox prefHeight="229.0" prefWidth="600.0" stylesheets="@../../res/style.css" BorderPane.alignment="CENTER">
+         <children>
+            <Label fx:id="customerNameL" prefHeight="47.0" prefWidth="618.0" stylesheets="@../../res/style.css" text="Customer Name" textFill="WHITE">
+               <font>
+                  <Font name="MS Reference Sans Serif" size="16.0" />
+               </font>
+               <VBox.margin>
+                  <Insets top="5.0" />
+               </VBox.margin>
+            </Label>
+            <TableView fx:id="accountsT" prefHeight="319.0" prefWidth="900.0" stylesheets="@../../res/style.css">
+              <columns>
+                <TableColumn fx:id="colAccountT" prefWidth="302.00007152557373" text="Account" />
+                <TableColumn fx:id="colBalanceT" minWidth="0.0" prefWidth="311.9998474121094" text="Balance" />
+                  <TableColumn fx:id="colLimitT" minWidth="0.0" prefWidth="276.0" text="Daily Limit" />
+              </columns>
+               <padding>
+                  <Insets top="5.0" />
+               </padding>
+               <VBox.margin>
+                  <Insets bottom="5.0" top="20.0" />
+               </VBox.margin>
+            </TableView>
+         </children>
+      </VBox>
+   </center>
+</BorderPane>

@@ -1,4 +1,4 @@
-package frontend.atm;
+package frontend.banking;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -6,29 +6,29 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-public class Main extends Application {
+public class EBankingMain extends Application {
 	Stage primaryStage;
 	Parent root;
 	
 	FXMLLoader fxmlLoader = new FXMLLoader();
-	Controller controller = (Controller) fxmlLoader.getController();
+	EBankingController eBankingController = (EBankingController) fxmlLoader.getController();
 	
 	public static void main(String[] args) {
 		launch(args);
 	}
 	
 	public void start(Stage primaryStage) throws Exception {
-		FXMLLoader loader = new FXMLLoader(getClass().getResource("atm.fxml"));
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("ebanking.fxml"));
 		
 		Parent root = loader.load();
 		
 		this.primaryStage = primaryStage;
-		primaryStage.setTitle("ATM Login");
+		primaryStage.setTitle("E-Banking");
 		primaryStage.setScene(new Scene(root, 900, 600));
 		primaryStage.show();
 		
-		Controller controller = loader.getController();
-		controller.setMain(this);
+		EBankingController eBankingController = loader.getController();
+		eBankingController.setEBankingMain(this);
 	}
 	
 	public void setScene(Scene scene) {

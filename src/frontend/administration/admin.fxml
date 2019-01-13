@@ -33,11 +33,11 @@
               </rowConstraints>
                <children>
                   <Label prefHeight="47.0" prefWidth="307.0" text="Kunde registrieren" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
-                  <TextField maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="250.0" promptText="Nachname" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
-                  <TextField maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="250.0" promptText="Vorname" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
-                  <TextField maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="250.0" promptText="Passwort" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
-                  <TextField maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="250.0" promptText="Kundennummer" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
-                  <Button mnemonicParsing="false" prefHeight="41.0" prefWidth="140.0" text="Registrieren" GridPane.columnIndex="2" GridPane.rowIndex="2">
+                  <TextField fx:id="lastNameTF" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="250.0" promptText="Nachname" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
+                  <TextField fx:id="firstNameTF" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="250.0" promptText="Vorname" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
+                  <TextField fx:id="passwordTF" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="250.0" promptText="Passwort" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
+                  <TextField fx:id="customerIDregisterTF" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="250.0" promptText="Kundennummer" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
+                  <Button fx:id="registerButton" mnemonicParsing="false" onAction="#RegisterCustomer" prefHeight="41.0" prefWidth="140.0" text="Registrieren" GridPane.columnIndex="2" GridPane.rowIndex="2">
                      <GridPane.margin>
                         <Insets left="5.0" />
                      </GridPane.margin>
@@ -62,16 +62,16 @@
         </rowConstraints>
          <children>
             <Label text="Konto eröffnen" />
-            <TextField maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="250.0" promptText="Zins" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
-            <TextField maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="250.0" promptText="Limit (täglich)" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
-            <TextField maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="250.0" promptText="Kontonummer" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
-            <TextField maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="250.0" promptText="PIN" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
-            <TextField maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="250.0" promptText="Kundennummer" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
-            <TextField maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="250.0" promptText="Limit (monatlich)" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
-            <Button mnemonicParsing="false" prefHeight="41.0" prefWidth="140.0" text="Eröffnen" GridPane.columnIndex="3" GridPane.rowIndex="2" />
-            <TextField maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="250.0" promptText="Überzugszins" GridPane.columnIndex="3" GridPane.halignment="LEFT" GridPane.rowIndex="1" />
-            <RadioButton mnemonicParsing="false" stylesheets="@../../res/style.css" text="Privatkonto" textFill="WHITE" GridPane.columnIndex="2" />
-            <RadioButton mnemonicParsing="false" text="Sparkonto" GridPane.columnIndex="3" />
+            <TextField fx:id="interestTF" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="250.0" promptText="Zins" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
+            <TextField fx:id="dailyLimitTF" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="250.0" promptText="Limit (täglich)" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
+            <TextField fx:id="accountIDTF" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="250.0" promptText="Kontonummer" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
+            <TextField fx:id="pinTF" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="250.0" promptText="PIN" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
+            <TextField fx:id="customerIDaccountTF" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="250.0" promptText="Kundennummer" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
+            <TextField fx:id="monthlyLimitTF" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="250.0" promptText="Limit (monatlich)" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
+            <Button fx:id="openButton" mnemonicParsing="false" onAction="#OpenAccount" prefHeight="41.0" prefWidth="140.0" text="Eröffnen" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+            <TextField fx:id="overdraftTF" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="250.0" promptText="Überzugszins" GridPane.columnIndex="3" GridPane.halignment="LEFT" GridPane.rowIndex="1" />
+            <RadioButton fx:id="privateRButton" mnemonicParsing="false" stylesheets="@../../res/style.css" text="Privatkonto" textFill="WHITE" GridPane.columnIndex="2" />
+            <RadioButton fx:id="savingRButton" mnemonicParsing="false" text="Sparkonto" GridPane.columnIndex="3" />
          </children>
       </GridPane>
    </center>
@@ -95,8 +95,8 @@
                </VBox.margin>
                <children>
                   <Label text="Konto auflösen" />
-                  <TextField maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="250.0" promptText="Zins" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
-                  <Button mnemonicParsing="false" prefHeight="41.0" prefWidth="140.0" text="Eröffnen" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <TextField fx:id="accountIDresolveTF" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="250.0" promptText="Kontonummer" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
+                  <Button fx:id="resolveButton" mnemonicParsing="false" onAction="#ResolveAccount" prefHeight="41.0" prefWidth="140.0" text="Auflösen" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                </children>
             </GridPane>
             <GridPane prefHeight="135.0" prefWidth="1280.0" style="-fx-border-color: white; -fx-border-style: solid inside; -fx-border-width: 3 0 3 0;">
@@ -110,8 +110,8 @@
               </rowConstraints>
                <children>
                   <Label text="Konto Aktionen" />
-                  <TextField maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="250.0" promptText="Kontonummer" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
-                  <Button mnemonicParsing="false" prefHeight="41.0" prefWidth="140.0" text="Anzeigen" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <TextField fx:id="accountIDactionsTF" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="250.0" promptText="Kontonummer" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
+                  <Button fx:id="showButton" mnemonicParsing="false" onAction="#ShowAccount" prefHeight="41.0" prefWidth="140.0" text="Anzeigen" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                </children>
                <VBox.margin>
                   <Insets top="25.0" />

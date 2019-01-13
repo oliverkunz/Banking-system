@@ -6,7 +6,10 @@ import java.util.ResourceBundle;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
@@ -91,7 +94,12 @@ public class AdminController implements Initializable {
 	
 	@FXML
     public void ShowAccount(final ActionEvent event) throws IOException  {
-    	//Logic for showing an account
+		//Kontonummer logic
+		
+		Parent root;
+    	root = FXMLLoader.load(getClass().getResource("adminAccount.fxml"));  
+    	Scene scene = new Scene(root, 900, 600);     
+    	this.adminMain.setScene(scene);
     	    	
     }
     

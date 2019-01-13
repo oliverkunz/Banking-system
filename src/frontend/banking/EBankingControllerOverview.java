@@ -30,6 +30,9 @@ public class EBankingControllerOverview implements Initializable {
 	@FXML private Label bankNameL;
 	@FXML private Label customerNameL;
 	
+	
+	//Tableview -----todo
+	
 	Alert alert = new Alert(AlertType.CONFIRMATION, "Bitte Transaktion bestätigen");
 	Alert info = new Alert(AlertType.INFORMATION, "Transaktion ausgeführt");
 	Alert error = new Alert(AlertType.ERROR, "Transaktion abgebrochen");

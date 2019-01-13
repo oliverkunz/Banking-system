@@ -1,5 +1,5 @@
 .root {
-     -fx-background-image: url("background.jpg");
+     -fx-background-image: url("background2.jpg");
 }
 
 #intro1{
@@ -48,8 +48,12 @@
 	-fx-font: normal bold 24.0px sans-serif;
 	-fx-padding: 10.0 10.0 10.0 10.0;
 	-fx-text-fill: white;
-	-fx-stroke: black;
-    -fx-stroke-width: 5;
+}
+
+.outline.label .text {
+    -fx-fill: white;
+    -fx-stroke: black;
+    -fx-stroke-width: 10px;
 }
 
 .choice-box{

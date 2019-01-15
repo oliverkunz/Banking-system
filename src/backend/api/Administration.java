@@ -53,7 +53,7 @@ public interface Administration extends Remote {
     public boolean closeAccount(String accountID) throws RemoteException;
 
     /**
-     * Shows the accoutn (including transactions etc.)
+     * Shows the account (including transactions etc.)
      * 
      * @param accountID
      * @return account

@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import frontend.banking.BaseController;
+import frontend.banking.EBankingMain;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -16,9 +18,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 
-public class AdminControllerAccount implements Initializable {
-	
-	AdminMain adminMain = null;
+public class AdminControllerAccount extends AdminBaseController implements Initializable {
 	
 	@FXML private Button implementButton;
 	@FXML private Button backButton;
@@ -36,7 +36,10 @@ public class AdminControllerAccount implements Initializable {
 	private SimpleStringProperty accountNumber = new SimpleStringProperty("");
 	private SimpleStringProperty amount = new SimpleStringProperty("");
 	private SimpleStringProperty customerName = new SimpleStringProperty("");
-
+	
+	public AdminControllerAccount(AdminMain adminMain) {
+		super(adminMain);
+	}
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -68,15 +71,9 @@ public class AdminControllerAccount implements Initializable {
     public void ShowOverview(final ActionEvent event) throws IOException  {
 		//Kontonummer logic
 		
-		Parent root;
-    	root = FXMLLoader.load(getClass().getResource("admin.fxml"));  
-    	Scene scene = new Scene(root, 1280, 900);     
-    	this.adminMain.setScene(scene);
+   
+    	this.adminMain.setScene("admin");
     	    	
-    }
-    
-    public void setAdminMain(AdminMain adminMain) {
-    	this.adminMain = adminMain;
     }
 
 	public SimpleStringProperty getAccountNumber() {
@@ -101,6 +98,11 @@ public class AdminControllerAccount implements Initializable {
 
 	public void setCustomerName(SimpleStringProperty customerName) {
 		this.customerName = customerName;
+	}
+
+	@Override
+	public void onNavigate(String route) {
+		
 	}
 	
 

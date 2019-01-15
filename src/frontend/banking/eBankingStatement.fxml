@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" stylesheets="@../../res/style.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="frontend.banking.EBankingControllerStatement">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" stylesheets="@../../res/style.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <top>
       <Label fx:id="accountL" prefHeight="53.0" prefWidth="920.0" stylesheets="@../../res/style.css" text="Konto" BorderPane.alignment="CENTER" />
    </top>
@@ -25,11 +25,11 @@
                   <Insets top="5.0" />
                </VBox.margin>
             </Label>
-            <TableView fx:id="accountsT" prefHeight="405.0" prefWidth="900.0" stylesheets="@../../res/style.css">
+            <TableView fx:id="transactionsT" prefHeight="405.0" prefWidth="900.0" stylesheets="@../../res/style.css">
               <columns>
-                <TableColumn fx:id="colAccountT" prefWidth="198.6666612625122" text="Betrag" />
-                <TableColumn fx:id="colBalanceT" minWidth="0.0" prefWidth="340.6667022705078" text="Sender" />
-                  <TableColumn prefWidth="428.66656494140625" text="Empfänger" />
+              	<TableColumn fx:id="colSenderT" minWidth="0.0" prefWidth="340.6667022705078" text="Sender" />
+                <TableColumn fx:id="colReceiverT" prefWidth="428.66656494140625" text="Empfänger" />
+                <TableColumn fx:id="colAmountT" prefWidth="198.6666612625122" text="Betrag" />
               </columns>
                <padding>
                   <Insets top="5.0" />

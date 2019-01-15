@@ -13,10 +13,12 @@ public class Account implements Serializable {
      * 
      */
     private static final long serialVersionUID = 2569733681448450445L;
+    private String accountID;
     private double balance;
     private ArrayList<Transaction> transactions = new ArrayList<Transaction>();
 
-    public Account(double balance, ArrayList<Transaction> transactions) {
+    public Account(String accountID, double balance, ArrayList<Transaction> transactions) {
+	this.accountID = accountID;
 	this.balance = balance;
 	this.transactions = transactions;
     }
@@ -38,4 +40,12 @@ public class Account implements Serializable {
     public ArrayList<Transaction> getTransactions() {
 	return transactions;
     }
+
+    /**
+     * @return accountID
+     */
+    public String getAccountID() {
+	return accountID;
+    }
+
 }

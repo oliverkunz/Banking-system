@@ -35,14 +35,14 @@ public class Transaction implements Serializable {
     /**
      * @return receiverID
      */
-    public String getReceiver() {
+    public String getReceiverID() {
 	return receiverID;
     }
 
     /**
      * @return senderID
      */
-    public String getSender() {
+    public String getSenderID() {
 	return senderID;
     }
 

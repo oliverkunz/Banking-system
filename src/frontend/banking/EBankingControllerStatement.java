@@ -2,51 +2,84 @@ package frontend.banking;
 
 import java.io.IOException;
 import java.net.URL;
+import java.rmi.RemoteException;
 import java.util.ResourceBundle;
+
+import backend.api.Transaction;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 
-public class EBankingControllerStatement implements Initializable {
+public class EBankingControllerStatement extends BaseController implements Initializable {
 
-EBankingMain eBankingMain = null;
-	
-//TAbleview
-	@FXML private Button statementB;
-	@FXML private Label accountL;
-	
-	private SimpleStringProperty account = new SimpleStringProperty("");
+    // TAbleview
+    @FXML
+    private Button statementB;
+    @FXML
+    private Label accountL;
+    @FXML
+    private TableColumn<Transaction, String> colReceiverT;
+    @FXML
+    private TableColumn<Transaction, String> colSenderT;
+    @FXML
+    private TableColumn<Transaction, Double> colAmountT;
+    @FXML
+    private TableView<Transaction> transactionsT;
+
+    private final ObservableList<Transaction> transactionsObservableList = FXCollections.observableArrayList();
+
+    private SimpleStringProperty account = new SimpleStringProperty("");
+
+    public EBankingControllerStatement(EBankingMain main) {
+	super(main);
+	// TODO Auto-generated constructor stub
+    }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-    	accountL.textProperty().bindBidirectional(this.getAccount());
-    }
- 	
-	@FXML
-    public void BackToOverview(final ActionEvent event) throws IOException  {
-		Parent root;
-    	root = FXMLLoader.load(getClass().getResource("eBankingOverview.fxml"));  
-    	Scene scene = new Scene(root, 900, 600);     
-    	this.eBankingMain.setScene(scene);
-    }
-    
-    public void setEBankingMain(EBankingMain eBankingMain) {
-    	this.eBankingMain = eBankingMain;
-    }
-    
-    
-	public SimpleStringProperty getAccount() {
-		return account;
-	}
+	accountL.textProperty().bindBidirectional(this.getAccount());
 
-	public void setAmount(SimpleStringProperty account) {
-		this.account = account;
+	transactionsT.setItems(transactionsObservableList);
+
+	colAmountT.setCellValueFactory(new PropertyValueFactory<Transaction, Double>("amount"));
+	colReceiverT.setCellValueFactory(new PropertyValueFactory<Transaction, String>("receiverID"));
+	colSenderT.setCellValueFactory(new PropertyValueFactory<Transaction, String>("senderID"));
+    }
+
+    @FXML
+    public void BackToOverview(final ActionEvent event) throws IOException {
+	this.main.setScene("overview");
+    }
+
+    public SimpleStringProperty getAccount() {
+	return account;
+    }
+
+    public void setAmount(SimpleStringProperty account) {
+	this.account = account;
+    }
+
+    @Override
+    public void onNavigate(String route) {
+	this.transactionsObservableList.setAll(this.main.getSelectedAccount().getTransactions());
+	this.transactionsT.refresh();
+
+	// maybe in the mean time, there has been new data (transactions), so refresh it
+	try {
+	    this.main.setSelectedAccount(
+		    this.main.getBanking().showAccount(this.main.getSelectedAccount().getAccountID()));
+	} catch (RemoteException e) {
+	    // TODO Auto-generated catch block
+	    e.printStackTrace();
 	}
+    }
 
 }

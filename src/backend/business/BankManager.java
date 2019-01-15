@@ -8,6 +8,7 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.persistence.ObjectStore;
@@ -53,6 +54,7 @@ public class BankManager implements ATM, Banking, Administration, Bank {
 	this.customers = this.store.load("customers");
 
 	if (this.customers == null) {
+	    LOGGER.log(Level.INFO, "[{0}] Restoring customer from file system", this.bankNumber);
 	    this.customers = new ArrayList<Customer>();
 	    this.save(this.customers);
 	}
@@ -70,7 +72,8 @@ public class BankManager implements ATM, Banking, Administration, Bank {
 	Customer customer = findCustomer(customerID);
 
 	if (customer == null || !customer.getPassword().equals(password)) {
-	    LOGGER.info("Could not login customer, wrong password");
+	    LOGGER.log(Level.INFO, "[{0}] Could not login customer {1}, wrong password",
+		    new Object[] { this.bankNumber, customerID });
 	    return false;
 	}
 
@@ -87,7 +90,8 @@ public class BankManager implements ATM, Banking, Administration, Bank {
 	Account account = findAccount(accountID);
 
 	if (account == null || account.getPin() != pin) {
-	    LOGGER.info("Could not login account, wrong password");
+	    LOGGER.log(Level.INFO, "[{0}] Could not login account {1}, wrong password",
+		    new Object[] { this.bankNumber, accountID });
 	    return false;
 	}
 
@@ -106,14 +110,16 @@ public class BankManager implements ATM, Banking, Administration, Bank {
 	Customer customer = findCustomer(customerID);
 
 	if (customer == null) {
-	    LOGGER.info("Could not show accounts, customer not found");
+	    LOGGER.log(Level.INFO, "[{0}] Could not show accounts, customer {1} not found",
+		    new Object[] { this.bankNumber, customerID });
 	    return null;
 	}
 
 	ArrayList<Account> accounts = customer.getAccounts();
 
 	for (Account account : accounts) {
-	    simpleAccounts.add(new backend.api.Account(account.getBalance(), account.getTransactions()));
+	    simpleAccounts.add(
+		    new backend.api.Account(account.getAccountID(), account.getBalance(), account.getTransactions()));
 	}
 
 	return simpleAccounts;
@@ -131,6 +137,9 @@ public class BankManager implements ATM, Banking, Administration, Bank {
 	String[] toParts = toAccountID.split("_");
 	String[] fromParts = fromAccountID.split("_");
 
+	LOGGER.log(Level.INFO, "[{0}] Transfering money from {1} to {2}, amount: {3}, date: {4}",
+		new Object[] { this.bankNumber, fromAccountID, toAccountID, amount, date });
+
 	// transfer from internal account to internal account (fromParts[0] &&
 	// toParts[0] == bankNumber)
 	// transfer from internal account to external account (fromParts[0] ==
@@ -141,7 +150,7 @@ public class BankManager implements ATM, Banking, Administration, Bank {
 	// transfer from internal account to bank account (withdraw) as use case 1
 
 	if (toParts.length != 2 || fromParts.length != 2) {
-	    LOGGER.warning("Cannot transfer money, IBAN is wrong");
+	    LOGGER.log(Level.WARNING, "[{0}] Cannot transfer money, IBAN is wrong", this.bankNumber);
 
 	    return false;
 	}
@@ -155,7 +164,7 @@ public class BankManager implements ATM, Banking, Administration, Bank {
 	    Account fromAccount = findAccount(fromAccountID);
 
 	    if (toAccount == null || fromAccount == null) {
-		LOGGER.warning("Cannot transfer money, account could not be found");
+		LOGGER.log(Level.WARNING, "[{0}] Cannot transfer money, account could not be found", this.bankNumber);
 
 		return false;
 	    }
@@ -165,35 +174,45 @@ public class BankManager implements ATM, Banking, Administration, Bank {
 	    fromAccount.withdraw(amount);
 	    fromAccount.addTransaction(new Transaction(toAccountID, fromAccountID, -amount, date));
 
+	    LOGGER.log(Level.INFO, "[{0}] Transaction successfully done", this.bankNumber);
+
 	    return true;
 	} else if (isToExternal) {
 	    Account fromAccount = findAccount(fromAccountID);
 
 	    if (fromAccount == null) {
-		LOGGER.warning("Cannot transfer money, account could not be found");
+		LOGGER.log(Level.WARNING, "[{0}] Cannot transfer money, account could not be found", this.bankNumber);
 		return false;
 	    }
 
 	    if (!fromAccount.withdraw(amount)) {
-		LOGGER.warning("Cannot transfer money, account could not be found");
+		LOGGER.log(Level.WARNING, "[{0}] Transaction failed, check monthly/daily reached or not enough money.",
+			this.bankNumber);
 		return false;
 	    }
+
 	    fromAccount.addTransaction(new Transaction(toAccountID, fromAccountID, -amount, date));
 
 	    Bank externalBank = this.getRemoteBankManager(toParts[0]);
 	    externalBank.transfer(fromAccountID, toAccountID, amount, date);
-	} else if (isFromExternal) {
+
+	    LOGGER.log(Level.INFO, "[{0}] Transaction succefully done.", this.bankNumber);
+	} else if (isFromExternal)
+
+	{
 	    Account toAccount = findAccount(toAccountID);
 
 	    if (toAccount == null) {
-		LOGGER.warning("Cannot transfer money, account could not be found");
+		LOGGER.log(Level.WARNING, "[{0}] Cannot transfer money, account could not be found.", this.bankNumber);
 		return false;
 	    }
 
 	    toAccount.deposit(amount);
 	    toAccount.addTransaction(new Transaction(toAccountID, fromAccountID, amount, date));
+
+	    LOGGER.log(Level.INFO, "[{0}] Transaction succefully done.", this.bankNumber);
 	} else {
-	    LOGGER.severe("Cannot transfer money, transaction unknown");
+	    LOGGER.log(Level.SEVERE, "[{0}] Cannot transfer money, transaction unknown.", this.bankNumber);
 	    return false;
 	}
 
@@ -210,11 +229,17 @@ public class BankManager implements ATM, Banking, Administration, Bank {
      */
     @Override
     public String createCustomer(String firstName, String lastName, String password) {
+	LOGGER.log(Level.INFO, "[{0}] Creating new customer {1} {2}",
+		new Object[] { this.bankNumber, firstName, lastName });
+
 	Customer customer = new Customer(Utils.generateGUID(), firstName, lastName, password);
 
 	this.customers.add(customer);
 
 	this.save(this.customers);
+
+	LOGGER.log(Level.INFO, "[{0}] Customer {1} successfully created",
+		new Object[] { this.bankNumber, customer.getCustomerID() });
 
 	return customer.getCustomerID();
     }
@@ -228,10 +253,16 @@ public class BankManager implements ATM, Banking, Administration, Bank {
     @Override
     public String createAccount(String customerID, AccountType type, double balance, double interest,
 	    double overdraftInterest, double dailyLimit, double monthyLimit, double maxMinus, int pin) {
+	LOGGER.log(Level.INFO,
+		"[{0}] Creating new account for customer {1} type: {2} balance {3}: interest {4}: overdraftInterest {5}, dailyLimit {6}, monthyLimit {7}, maxMinus {8}",
+		new Object[] { this.bankNumber, customerID, type, balance, interest, overdraftInterest, dailyLimit,
+			monthyLimit, maxMinus, pin });
+
 	Customer customer = this.findCustomer(customerID);
 
 	if (customer == null) {
-	    LOGGER.severe("Could not create account for customer, customer is null");
+	    LOGGER.log(Level.SEVERE, "[{0}] Could not create account for customer, customer couldn't be found",
+		    new Object[] { this.bankNumber, customerID });
 	    return null;
 	}
 
@@ -247,7 +278,8 @@ public class BankManager implements ATM, Banking, Administration, Bank {
 	}
 
 	if (account == null) {
-	    LOGGER.warning("Could not create account for customer, type is unkown");
+	    LOGGER.log(Level.INFO, "[{0}] Could not create account for customer {1}, type is unkown",
+		    new Object[] { this.bankNumber, customerID });
 	    return null;
 	}
 
@@ -256,6 +288,9 @@ public class BankManager implements ATM, Banking, Administration, Bank {
 	this.accounts.add(account);
 
 	this.save(this.customers);
+
+	LOGGER.log(Level.INFO, "[{0}] Account {1} successfully created",
+		new Object[] { this.bankNumber, account.getAccountID() });
 
 	return account.getAccountID();
     }
@@ -270,13 +305,15 @@ public class BankManager implements ATM, Banking, Administration, Bank {
 	Account account = findAccount(accountID);
 
 	if (account == null) {
-	    LOGGER.warning("Could not close account, account is unkown");
+	    LOGGER.log(Level.WARNING, "[{0}] Could not close account, account is unkown.", this.bankNumber);
 	    return false;
 	}
 
 	account.setState(State.CLOSED);
 
 	this.save(this.customers);
+
+	LOGGER.log(Level.INFO, "[{0}] Account {1} successfully closed", new Object[] { this.bankNumber, accountID });
 
 	return true;
     }
@@ -291,11 +328,12 @@ public class BankManager implements ATM, Banking, Administration, Bank {
 	Account account = findAccount(accountID);
 
 	if (account == null) {
-	    LOGGER.warning("Could not show account, account is unkown");
+	    LOGGER.log(Level.WARNING, "[{0}] Could not show account, account is unkown.", this.bankNumber);
+
 	    return null;
 	}
 
-	return new backend.api.Account(account.getBalance(), account.getTransactions());
+	return new backend.api.Account(account.getAccountID(), account.getBalance(), account.getTransactions());
     }
 
     /*
@@ -308,7 +346,7 @@ public class BankManager implements ATM, Banking, Administration, Bank {
 	Account toAccount = findAccount(accountID);
 
 	if (toAccount == null) {
-	    LOGGER.warning("Could not deposit to account, account is unkown");
+	    LOGGER.log(Level.WARNING, "[{0}] Could not deposit to account, account is unkown.", this.bankNumber);
 	    return false;
 	}
 
@@ -326,7 +364,7 @@ public class BankManager implements ATM, Banking, Administration, Bank {
 	Account fromAccount = findAccount(accountID);
 
 	if (fromAccount == null) {
-	    LOGGER.warning("Could not withdraw from account, account is unkown");
+	    LOGGER.log(Level.WARNING, "[{0}] Could not withdraw from account, account is unkown.", this.bankNumber);
 	    return false;
 	}
 
@@ -350,7 +388,7 @@ public class BankManager implements ATM, Banking, Administration, Bank {
 	    }
 	}
 
-	LOGGER.warning("Could not find account");
+	LOGGER.log(Level.WARNING, "[{0}] Could not find account {1}.", new Object[] { this.bankNumber, accountID });
 
 	return null;
     }
@@ -368,7 +406,8 @@ public class BankManager implements ATM, Banking, Administration, Bank {
 	    }
 	}
 
-	LOGGER.warning("Could not find customer");
+	LOGGER.log(Level.WARNING, "[{0}] Could not find customer {1}.", new Object[] { this.bankNumber, customerID });
+
 	return null;
     }
 
@@ -425,8 +464,8 @@ public class BankManager implements ATM, Banking, Administration, Bank {
 	try {
 	    this.store.save("customers", customers);
 	} catch (IOException e) {
-	    // TODO Auto-generated catch block
-	    LOGGER.severe("Could not save data to file system");
+	    LOGGER.log(Level.SEVERE, "[{0}] Could not save data to file system.", this.bankNumber);
 	}
     }
+
 }

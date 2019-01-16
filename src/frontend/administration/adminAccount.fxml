@@ -14,14 +14,11 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" stylesheets="@../../res/style.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" >
-   <top>
-      <Label fx:id="customerNameL" mouseTransparent="true" prefHeight="53.0" prefWidth="920.0" text="Kundenname" BorderPane.alignment="CENTER" />
-   </top>
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" stylesheets="@../../res/style.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <center>
       <VBox prefHeight="270.0" prefWidth="900.0" stylesheets="@../../res/style.css" BorderPane.alignment="CENTER">
          <children>
-            <TableView prefHeight="265.0" prefWidth="900.0" stylesheets="@../../res/style.css">
+            <TableView fx:id="accountsT" prefHeight="265.0" prefWidth="900.0" stylesheets="@../../res/style.css">
               <columns>
                 <TableColumn fx:id="colAccountT" prefWidth="550.6666669845581" text="Konto" />
                 <TableColumn fx:id="colBalanceT" minWidth="0.0" prefWidth="339.333251953125" text="Betrag" />
@@ -56,7 +53,7 @@
                   <TextField fx:id="amountTF" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="250.0" promptText="Betrag" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
                   <RadioButton fx:id="withdrawRButton" mnemonicParsing="false" text="Auszahlen" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                   <RadioButton fx:id="depositRButton" mnemonicParsing="false" text="Einzahlen" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                  <Button fx:id="implementButton" mnemonicParsing="false" text="Durchführen" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                  <Button fx:id="implementButton" mnemonicParsing="false" onAction="#TransferMoney" text="Durchführen" GridPane.columnIndex="2" GridPane.rowIndex="2" />
                </children>
             </GridPane>
             <HBox alignment="CENTER" prefHeight="179.0" prefWidth="900.0">

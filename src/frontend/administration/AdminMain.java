@@ -4,6 +4,7 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.HashMap;
 
+import backend.api.Account;
 import backend.api.AccountType;
 import backend.api.Administration;
 import backend.api.Banking;
@@ -24,6 +25,8 @@ public class AdminMain extends Application {
 	Administration administration;
 	
 	AccountType accountType;
+	
+	Account selectedAccount = null;
 	
 	FXMLLoader fxmlLoader = new FXMLLoader();
 	AdminController adminController = (AdminController) fxmlLoader.getController();
@@ -65,6 +68,14 @@ public class AdminMain extends Application {
     
     public AccountType getAccountType() {
     	return this.accountType;
+    }
+    
+    public Account getSelectedAccount() {
+    	return selectedAccount;
+    }
+
+    public void setSelectedAccount(Account selectedAccount) {
+    	this.selectedAccount = selectedAccount;
     }
 
 }

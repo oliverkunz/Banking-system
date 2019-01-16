@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import backend.api.Account;
 import backend.api.AccountType;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.StringBinding;
@@ -48,7 +49,7 @@ public class AdminController extends AdminBaseController implements Initializabl
 	@FXML private TextField dailyLimitTF;
 	@FXML private TextField monthlyLimitTF;
 	@FXML private TextField overdraftTF;
-	@FXML private TextField accountOverdraftTF;
+	@FXML private TextField maxMinusTF;
 	@FXML private TextField pinTF;
 	@FXML private TextField customerIDaccountTF;
 	@FXML private TextField accountIDresolveTF;
@@ -61,12 +62,12 @@ public class AdminController extends AdminBaseController implements Initializabl
 	private SimpleStringProperty firstName = new SimpleStringProperty("");
 	private SimpleStringProperty password = new SimpleStringProperty("");
 	private SimpleStringProperty customerIDregister = new SimpleStringProperty("");
-	private SimpleDoubleProperty interest = new SimpleDoubleProperty();
-	private SimpleDoubleProperty dailyLimit = new SimpleDoubleProperty();
-	private SimpleDoubleProperty monthlyLimit = new SimpleDoubleProperty();
-	private SimpleDoubleProperty overdraft = new SimpleDoubleProperty();
-	private SimpleDoubleProperty accountOverdraft = new SimpleDoubleProperty();
-	private SimpleIntegerProperty pin = new SimpleIntegerProperty();
+	private SimpleStringProperty interest = new SimpleStringProperty();
+	private SimpleStringProperty dailyLimit = new SimpleStringProperty();
+	private SimpleStringProperty monthlyLimit = new SimpleStringProperty();
+	private SimpleStringProperty overdraft = new SimpleStringProperty();
+	private SimpleStringProperty maxMinus = new SimpleStringProperty();
+	private SimpleStringProperty pin = new SimpleStringProperty();
 	private SimpleStringProperty customerIDaccount = new SimpleStringProperty("");
 	private SimpleStringProperty accountIDresolve = new SimpleStringProperty("");
 	private SimpleStringProperty accountIDactions = new SimpleStringProperty("");
@@ -76,9 +77,7 @@ public class AdminController extends AdminBaseController implements Initializabl
 	}
 
     @Override
-    public void initialize(URL location, ResourceBundle resources) {
-    	//Textfield to double Binding doesnt work
-    	
+    public void initialize(URL location, ResourceBundle resources) {  	
     	lastNameTF.textProperty().bindBidirectional(this.getLastName());
     	firstNameTF.textProperty().bindBidirectional(this.getFirstName());
     	passwordTF.textProperty().bindBidirectional(this.getPassword());
@@ -87,11 +86,8 @@ public class AdminController extends AdminBaseController implements Initializabl
     	dailyLimitTF.textProperty().bindBidirectional(this.getDailyLimit());
     	monthlyLimitTF.textProperty().bindBidirectional(this.getMonthlyLimit());
     	overdraftTF.textProperty().bindBidirectional(this.getOverdraft());
-    	accountOverdraftTF.textProperty().bindBidirectional(this.getAccountOverdraft());
+    	maxMinusTF.textProperty().bindBidirectional(this.getMaxMinus());
     	pinTF.textProperty().bindBidirectional(this.getPin());
-    	
-    	//DoubleStringConverter converter =  new DoubleStringConverter();
-    	//Bindings.bindBidirectional(pinTF.textProperty(), getPin(), (DoubleStringConverter)converter);
     	customerIDaccountTF.textProperty().bindBidirectional(this.getCustomerIDaccount());
     	accountIDresolveTF.textProperty().bindBidirectional(this.getAccountIDresolve());
     	accountIDactionsTF.textProperty().bindBidirectional(this.getAccountIDactions());
@@ -112,18 +108,24 @@ public class AdminController extends AdminBaseController implements Initializabl
 			info.showAndWait();
 		} else {
 			double accountBalance = 0;
-			this.adminMain.getAdministration().createAccount(customerIDaccount.getValue(), GetAccountType(), accountBalance, interest.getValue().doubleValue(), overdraft.getValue().doubleValue(), dailyLimit.getValue().doubleValue(), monthlyLimit.getValue().doubleValue(), accountOverdraft.getValue().doubleValue(), pin.getValue().intValue());
+			double interestD = Double.parseDouble(interest.getValue());
+			double overdraftD = Double.parseDouble(overdraft.getValue());
+			double dailyLimitD = Double.parseDouble(dailyLimit.getValue());
+			double monthlyLimitD = Double.parseDouble(monthlyLimit.getValue());
+			double maxMinusD = Double.parseDouble(maxMinus.getValue());
+			int pinI = Integer.parseInt(pin.getValue());
+			this.adminMain.getAdministration().createAccount(customerIDaccount.getValue(), GetAccountType(), accountBalance, interestD, overdraftD, dailyLimitD, monthlyLimitD, maxMinusD, pinI);
 		}
     	    	
     }
 	
 	public AccountType GetAccountType() {
-		AccountType accountType;
+		AccountType accountType = null;
 		if (privateRButton.isSelected()) {
-			//set accountType PRIVATE
+			accountType = accountType.PRIVATE;
 		}
 		if (savingRButton.isSelected()) {
-			//accountType.SAVINGS;
+			accountType = accountType.SAVINGS;
 		}
 		return accountType;
 	} 
@@ -137,8 +139,8 @@ public class AdminController extends AdminBaseController implements Initializabl
 	
 	@FXML
     public void ShowAccount(final ActionEvent event) throws IOException  {
-		this.adminMain.getAdministration().showAccount(accountIDactions.getValue());
-		    
+
+		this.adminMain.setSelectedAccount(this.adminMain.getAdministration().showAccount(accountIDactions.getValue())); 
     	this.adminMain.setScene("account");
     	    	
     }
@@ -175,51 +177,51 @@ public class AdminController extends AdminBaseController implements Initializabl
 		this.customerIDregister = customerIDregister;
 	}
 
-	public SimpleDoubleProperty getInterest() {
+	public SimpleStringProperty getInterest() {
 		return interest;
 	}
 
-	public void setInterest(SimpleDoubleProperty interest) {
+	public void setInterest(SimpleStringProperty interest) {
 		this.interest = interest;
 	}
 
-	public SimpleDoubleProperty getDailyLimit() {
+	public SimpleStringProperty getDailyLimit() {
 		return dailyLimit;
 	}
 
-	public void setDailyLimit(SimpleDoubleProperty dailyLimit) {
+	public void setDailyLimit(SimpleStringProperty dailyLimit) {
 		this.dailyLimit = dailyLimit;
 	}
 
-	public SimpleDoubleProperty getMonthlyLimit() {
+	public SimpleStringProperty getMonthlyLimit() {
 		return monthlyLimit;
 	}
 
-	public void setMonthlyLimit(SimpleDoubleProperty monthlyLimit) {
+	public void setMonthlyLimit(SimpleStringProperty monthlyLimit) {
 		this.monthlyLimit = monthlyLimit;
 	}
 
-	public SimpleDoubleProperty getOverdraft() {
+	public SimpleStringProperty getOverdraft() {
 		return overdraft;
 	}
 
-	public void setOverdraft(SimpleDoubleProperty overdraft) {
+	public void setOverdraft(SimpleStringProperty overdraft) {
 		this.overdraft = overdraft;
 	}
 
-	public SimpleDoubleProperty getAccountOverdraft() {
-		return accountOverdraft;
+	public SimpleStringProperty getMaxMinus() {
+		return maxMinus;
 	}
 
-	public void setAccountOverdraft(SimpleDoubleProperty accountOverdraft) {
-		this.accountOverdraft = accountOverdraft;
+	public void setMaxMinus(SimpleStringProperty maxMinus) {
+		this.maxMinus = maxMinus;
 	}
 
-	public SimpleIntegerProperty getPin() {
+	public SimpleStringProperty getPin() {
 		return pin;
 	}
 
-	public void setPin(SimpleIntegerProperty pin) {
+	public void setPin(SimpleStringProperty pin) {
 		this.pin = pin;
 	}
 

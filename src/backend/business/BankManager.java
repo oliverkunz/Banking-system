@@ -35,6 +35,7 @@ import util.Utils;
  */
 public class BankManager implements ATM, Banking, Administration, Bank {
     private String bankNumber;
+    private String bankName;
     private ArrayList<Customer> customers;
     private BankAccount bankAccount;
     private ObjectStore<ArrayList<Customer>> store;
@@ -43,9 +44,11 @@ public class BankManager implements ATM, Banking, Administration, Bank {
 
     private static final Logger LOGGER = Logger.getLogger(BankManager.class.getName());
 
-    public BankManager(String bankNumber) throws IOException {
+    public BankManager(String bankNumber, String bankName) throws IOException {
 	super();
 	this.bankNumber = bankNumber;
+	this.bankName = bankName;
+
 	this.bankAccount = new BankAccount(this.generateAccountID(), 1000000, 0, 0, 0, 0, 0, 123456789);
 	this.store = new ObjectStore<ArrayList<Customer>>();
 

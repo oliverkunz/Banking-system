@@ -3,6 +3,7 @@ package frontend.atm;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.HashMap;
+
 import backend.api.ATM;
 import backend.api.Account;
 import frontend.common.Pair;
@@ -13,7 +14,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class Main extends Application {
-    HashMap<String, Pair<Scene, Controller>> scenes = new HashMap<>();
+    HashMap<String, Pair<Scene, BaseControllerATM>> scenes = new HashMap<>();
 
     Stage primaryStage;
     Parent root;
@@ -36,12 +37,12 @@ public class Main extends Application {
 	atm = (ATM) registry.lookup("ubs");
 
 	FXMLLoader loader = new FXMLLoader(getClass().getResource("atm.fxml"));
-	Controller controller = new Controller(this);
+	BaseControllerATM controller = new Controller(this);
 	loader.setController(controller);
 	scenes.put("atmLogin", Pair.of(new Scene(loader.load(), 900, 600), controller));
 
 	loader = new FXMLLoader(getClass().getResource("atmOverview.fxml"));
-	controller = new Controller(this);
+	controller = new ATMControllerOverview(this);
 	loader.setController(controller);
 	scenes.put("atmOverview", Pair.of(new Scene(loader.load(), 900, 600), controller));
 

@@ -27,9 +27,9 @@
             </Label>
             <TableView fx:id="transactionsT" prefHeight="405.0" prefWidth="900.0" stylesheets="@../../res/style.css">
               <columns>
-              	<TableColumn fx:id="colSenderT" minWidth="0.0" prefWidth="340.6667022705078" text="Sender" />
-                <TableColumn fx:id="colReceiverT" prefWidth="428.66656494140625" text="Empfänger" />
-                <TableColumn fx:id="colAmountT" prefWidth="198.6666612625122" text="Betrag" />
+              	<TableColumn fx:id="colSenderT" minWidth="50.0" prefWidth="340.6667022705078" text="Sender" />
+                <TableColumn fx:id="colReceiverT" minWidth="50.0" prefWidth="262.4415283203125" text="Empfänger" />
+                <TableColumn fx:id="colAmountT" minWidth="50.0" prefWidth="365.2987060546875" text="Betrag" />
               </columns>
                <padding>
                   <Insets top="5.0" />

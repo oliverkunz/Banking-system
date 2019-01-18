@@ -33,3 +33,9 @@
 2019-01-18 10:55:20 [INFORMATION] backend.business.BankManager transfer: [ubs] Transaction successfully done
 2019-01-18 10:55:30 [INFORMATION] backend.business.BankManager transfer: [ubs] Transfering money from ubs_67a16818-c282-4998-a4fa-77c8bec742a6 to ubs_f67b4d99-1de1-4d1b-bbab-d495db8fcb2e, amount: -1'000, date: 2019-01-18
 2019-01-18 10:55:30 [INFORMATION] backend.business.BankManager transfer: [ubs] Transaction successfully done
+2019-01-18 10:58:51 [INFORMATION] backend.business.BankManager transfer: [ubs] Transfering money from ubs_67a16818-c282-4998-a4fa-77c8bec742a6 to ubs_f67b4d99-1de1-4d1b-bbab-d495db8fcb2e, amount: 1, date: 2019-01-18
+2019-01-18 10:58:51 [INFORMATION] backend.data.Account withdraw: Could not withdraw money, limit is reached or negative limit reached
+2019-01-18 10:59:01 [INFORMATION] backend.business.BankManager transfer: [ubs] Transfering money from ubs_67a16818-c282-4998-a4fa-77c8bec742a6 to ubs_f67b4d99-1de1-4d1b-bbab-d495db8fcb2e, amount: -3, date: 2019-01-18
+2019-01-18 10:59:01 [INFORMATION] backend.business.BankManager transfer: [ubs] Transaction successfully done
+2019-01-18 10:59:39 [INFORMATION] backend.business.BankManager transfer: [ubs] Transfering money from ubs_67a16818-c282-4998-a4fa-77c8bec742a6 to ubs_f67b4d99-1de1-4d1b-bbab-d495db8fcb2e, amount: -3'000, date: 2019-01-18
+2019-01-18 10:59:39 [INFORMATION] backend.business.BankManager transfer: [ubs] Transaction successfully done

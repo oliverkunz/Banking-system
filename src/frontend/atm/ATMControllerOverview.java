@@ -24,7 +24,6 @@ public class ATMControllerOverview extends BaseControllerATM implements Initiali
 
 	@FXML private Button withdraw;
 	@FXML private TextField amountTF;
-	@FXML private Label bankNameL;
 	@FXML private TableView<Account> accountsT;
 	@FXML private TableColumn<Account, Double> colBalanceT;
 	@FXML private TableColumn<Account, String> colAccountT;
@@ -32,10 +31,9 @@ public class ATMControllerOverview extends BaseControllerATM implements Initiali
     private final ObservableList<Account> accountsObservableList = FXCollections.observableArrayList();
 	
 	private SimpleStringProperty amount = new SimpleStringProperty("");
-	private SimpleStringProperty bankName = new SimpleStringProperty("");
 	
 	Alert info = new Alert(AlertType.INFORMATION, "Transaktion ausgeführt");
-	Alert error = new Alert(AlertType.ERROR, "Fehler");
+	Alert error = new Alert(AlertType.ERROR, "Nicht ausreichende Mittel verfügbar");
 
 	public ATMControllerOverview(Main main) {
 		super(main);
@@ -44,7 +42,6 @@ public class ATMControllerOverview extends BaseControllerATM implements Initiali
     @Override
     public void initialize(URL location, ResourceBundle resources) {
     	amountTF.textProperty().bindBidirectional(this.getAmount());
-    	bankNameL.textProperty().bindBidirectional(this.getBankName());
     	
     	accountsT.setItems(accountsObservableList);
 
@@ -71,14 +68,6 @@ public class ATMControllerOverview extends BaseControllerATM implements Initiali
 
 	public void setAmount(SimpleStringProperty amount) {
 		this.amount = amount;
-	}
-	
-	public SimpleStringProperty getBankName() {
-		return bankName;
-	}
-
-	public void setBankName(SimpleStringProperty bankName) {
-		this.bankName = bankName;
 	}
 
 	@Override

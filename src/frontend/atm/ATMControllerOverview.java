@@ -28,7 +28,6 @@ public class ATMControllerOverview extends BaseControllerATM implements Initiali
 	@FXML private TableView<Account> accountsT;
 	@FXML private TableColumn<Account, Double> colBalanceT;
 	@FXML private TableColumn<Account, String> colAccountT;
-	@FXML private TableColumn<Account, Double> colLimitT;
 	
     private final ObservableList<Account> accountsObservableList = FXCollections.observableArrayList();
 	
@@ -50,9 +49,7 @@ public class ATMControllerOverview extends BaseControllerATM implements Initiali
     	accountsT.setItems(accountsObservableList);
 
     	colBalanceT.setCellValueFactory(new PropertyValueFactory<Account, Double>("balance"));
-    	colAccountT.setCellValueFactory(new PropertyValueFactory<Account, String>("accountID"));
-    	colLimitT.setCellValueFactory(new PropertyValueFactory<Account, Double>("dailyLimit"));
-       
+    	colAccountT.setCellValueFactory(new PropertyValueFactory<Account, String>("accountID"));       
     }
 
 	@FXML
@@ -63,6 +60,8 @@ public class ATMControllerOverview extends BaseControllerATM implements Initiali
 		} else {
 			error.showAndWait();
 		}
+		this.accountsObservableList.setAll(this.main.getLoggedInAccount());
+		this.accountsT.refresh();
     	    	
     }
 	

@@ -37,7 +37,7 @@ public class AdminMain extends Application {
 	this.primaryStage = primaryStage;
 
 	Registry registry = LocateRegistry.getRegistry("localhost", 2001);
-	administration = (Administration) registry.lookup("ubs");
+	administration = (Administration) registry.lookup("raif");
 
 	FXMLLoader loader = new FXMLLoader(getClass().getResource("admin.fxml"));
 	AdminBaseController adminController = new AdminController(this);

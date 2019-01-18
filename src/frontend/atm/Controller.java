@@ -38,6 +38,15 @@ public class Controller extends BaseControllerATM implements Initializable {
 	@FXML
     public void PressLoginButton(final ActionEvent event) throws IOException  {
 		int pinI = Integer.parseInt(customerPIN.getValue());
+		
+		String[] parts = this.accountID.getValue().split("_");
+		if(parts.length != 2) {
+			//TODO show error message
+			return;
+		}
+		
+		this.main.initializeATMForBank(parts[0]);
+		
     	if (this.main.getATM().login(accountID.getValue(), pinI)) {
     		loginMessage.setValue("Login erfolgreich"); 	
     	

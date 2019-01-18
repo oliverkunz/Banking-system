@@ -1,5 +1,7 @@
 package frontend.atm;
 
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.HashMap;
@@ -25,6 +27,8 @@ public class Main extends Application {
 
     FXMLLoader fxmlLoader = new FXMLLoader();
     Controller controller = (Controller) fxmlLoader.getController();
+    
+    Registry registry;
 
     public static void main(String[] args) {
 	launch(args);
@@ -33,8 +37,7 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception {
 	this.primaryStage = primaryStage;
 
-	Registry registry = LocateRegistry.getRegistry("localhost", 2001);
-	atm = (ATM) registry.lookup("ubs");
+	registry = LocateRegistry.getRegistry("localhost", 2001);
 
 	FXMLLoader loader = new FXMLLoader(getClass().getResource("atm.fxml"));
 	BaseControllerATM controller = new Controller(this);
@@ -67,6 +70,15 @@ public class Main extends Application {
 
     public void setLoggedInAccount(Account loggedInAccount) {
 	this.loggedInAccount = loggedInAccount;
+    }
+    
+    public void initializeATMForBank(String bankId) {
+    	try {
+			atm = (ATM) this.registry.lookup(bankId);
+		} catch (RemoteException | NotBoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
 
 }

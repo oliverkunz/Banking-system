@@ -3,6 +3,7 @@ package frontend.atm;
 import java.io.IOException;
 import java.net.URL;
 import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
 import java.util.ResourceBundle;
 import backend.api.Account;
 import javafx.beans.property.SimpleStringProperty;
@@ -20,61 +21,78 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 
-public class ATMControllerOverview extends BaseControllerATM implements Initializable  {
+public class ATMControllerOverview extends BaseControllerATM implements Initializable {
 
-	@FXML private Button withdraw;
-	@FXML private TextField amountTF;
-	@FXML private TableView<Account> accountsT;
-	@FXML private TableColumn<Account, Double> colBalanceT;
-	@FXML private TableColumn<Account, String> colAccountT;
-	
+    @FXML
+    private Button withdraw;
+    @FXML
+    private TextField amountTF;
+    @FXML
+    private TableView<Account> accountsT;
+    @FXML
+    private TableColumn<Account, Double> colBalanceT;
+    @FXML
+    private TableColumn<Account, String> colAccountT;
+
     private final ObservableList<Account> accountsObservableList = FXCollections.observableArrayList();
-	
-	private SimpleStringProperty amount = new SimpleStringProperty("");
-	
-	Alert info = new Alert(AlertType.INFORMATION, "Transaktion ausgeführt");
-	Alert error = new Alert(AlertType.ERROR, "Nicht ausreichende Mittel verfügbar");
 
-	public ATMControllerOverview(Main main) {
-		super(main);
-	}
+    private SimpleStringProperty amount = new SimpleStringProperty("");
+    private SimpleStringProperty bankName = new SimpleStringProperty("");
+
+    Alert info = new Alert(AlertType.INFORMATION, "Transaktion ausgefhrt");
+    Alert error = new Alert(AlertType.ERROR, "Fehler");
+
+    public ATMControllerOverview(Main main) {
+	super(main);
+    }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-    	amountTF.textProperty().bindBidirectional(this.getAmount());
-    	
-    	accountsT.setItems(accountsObservableList);
+	amountTF.textProperty().bindBidirectional(this.getAmount());
 
-    	colBalanceT.setCellValueFactory(new PropertyValueFactory<Account, Double>("balance"));
-    	colAccountT.setCellValueFactory(new PropertyValueFactory<Account, String>("accountID"));       
+	accountsT.setItems(accountsObservableList);
+
+	colBalanceT.setCellValueFactory(new PropertyValueFactory<Account, Double>("balance"));
+	colAccountT.setCellValueFactory(new PropertyValueFactory<Account, String>("accountID"));
     }
 
-	@FXML
-    public void WithdrawMoney(final ActionEvent event) throws IOException, NotBoundException  {
-		double amountD = Double.parseDouble(amount.getValue());
-		if (this.main.getATM().withdraw(this.main.getLoggedInAccount().getAccountID(), amountD)) {
-			info.showAndWait();
-		} else {
-			error.showAndWait();
-		}
-		this.accountsObservableList.setAll(this.main.getLoggedInAccount());
-		this.accountsT.refresh();
-    	    	
+    @FXML
+    public void WithdrawMoney(final ActionEvent event) throws IOException, NotBoundException {
+	double amountD = Double.parseDouble(amount.getValue());
+	if (this.main.getATM().withdraw(this.main.getLoggedInAccount().getAccountID(), amountD)) {
+	    info.showAndWait();
+	} else {
+	    error.showAndWait();
+	}
+
+	// little hack to reload the account, too lazy to execute the same again
+	this.onNavigate("dummy");
     }
-	
-	public SimpleStringProperty getAmount() {
-		return amount;
+
+    public SimpleStringProperty getAmount() {
+	return amount;
+    }
+
+    public void setAmount(SimpleStringProperty amount) {
+	this.amount = amount;
+    }
+
+    public SimpleStringProperty getBankName() {
+	return bankName;
+    }
+
+    @Override
+    public void onNavigate(String route) {
+	try {
+	    this.accountsObservableList
+		    .setAll(this.main.getATM().showAccount(this.main.getLoggedInAccount().getAccountID()));
+	    this.accountsT.refresh();
+	} catch (RemoteException e) {
+	    // TODO Auto-generated catch block
+	    e.printStackTrace();
 	}
 
-	public void setAmount(SimpleStringProperty amount) {
-		this.amount = amount;
-	}
-
-	@Override
-	public void onNavigate(String route) {
-		this.accountsObservableList.setAll(this.main.getLoggedInAccount());
-		this.accountsT.refresh();
-			    
-	}
+    }
 
 }
+

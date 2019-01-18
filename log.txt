@@ -39,3 +39,33 @@
 2019-01-18 10:59:01 [INFORMATION] backend.business.BankManager transfer: [ubs] Transaction successfully done
 2019-01-18 10:59:39 [INFORMATION] backend.business.BankManager transfer: [ubs] Transfering money from ubs_67a16818-c282-4998-a4fa-77c8bec742a6 to ubs_f67b4d99-1de1-4d1b-bbab-d495db8fcb2e, amount: -3'000, date: 2019-01-18
 2019-01-18 10:59:39 [INFORMATION] backend.business.BankManager transfer: [ubs] Transaction successfully done
+2019-01-18 12:39:16 [INFORMATION] backend.business.BankManager transfer: [ubs] Transfering money from ubs_67a16818-c282-4998-a4fa-77c8bec742a6 to ubs_f67b4d99-1de1-4d1b-bbab-d495db8fcb2e, amount: 111, date: 2019-01-18
+2019-01-18 12:39:16 [INFORMATION] backend.data.Account withdraw: Could not withdraw money, limit is reached or negative limit reached
+2019-01-18 12:40:30 [INFORMATION] backend.business.BankManager createCustomer: [raif] Creating new customer Test Hans
+2019-01-18 12:40:30 [INFORMATION] backend.business.BankManager createCustomer: [raif] Customer e1e715a9-faa8-4efa-a8f3-dac7d350a3f2 successfully created
+2019-01-18 12:41:04 [INFORMATION] backend.business.BankManager createAccount: [raif] Creating new account for customer e1e715a9-faa8-4efa-a8f3-dac7d350a3f2 type: PRIVATE balance 0: interest 2: overdraftInterest 2, dailyLimit 2'000, monthyLimit 20'000, maxMinus 2'000
+2019-01-18 12:41:04 [INFORMATION] backend.business.BankManager createAccount: [raif] Account raif_c9ff8a10-655f-4e0a-80f6-1491d3390082 successfully created
+2019-01-18 12:45:33 [INFORMATION] backend.business.BankManager transfer: [raif] Transfering money from raif_c9ff8a10-655f-4e0a-80f6-1491d3390082 to raif_d289ea00-a182-45f6-8013-2c545a00773f, amount: 100, date: 2019-01-18
+2019-01-18 12:45:33 [INFORMATION] backend.business.BankManager transfer: [raif] Transaction successfully done
+2019-01-18 12:45:51 [INFORMATION] backend.business.BankManager transfer: [raif] Transfering money from raif_c9ff8a10-655f-4e0a-80f6-1491d3390082 to raif_d289ea00-a182-45f6-8013-2c545a00773f, amount: 100, date: 2019-01-18
+2019-01-18 12:45:51 [INFORMATION] backend.business.BankManager transfer: [raif] Transaction successfully done
+2019-01-18 12:45:59 [INFORMATION] backend.business.BankManager transfer: [raif] Transfering money from raif_c9ff8a10-655f-4e0a-80f6-1491d3390082 to raif_d289ea00-a182-45f6-8013-2c545a00773f, amount: -1'009, date: 2019-01-18
+2019-01-18 12:45:59 [INFORMATION] backend.business.BankManager transfer: [raif] Transaction successfully done
+2019-01-18 12:46:06 [INFORMATION] backend.business.BankManager transfer: [raif] Transfering money from raif_c9ff8a10-655f-4e0a-80f6-1491d3390082 to raif_d289ea00-a182-45f6-8013-2c545a00773f, amount: 9, date: 2019-01-18
+2019-01-18 12:46:06 [INFORMATION] backend.business.BankManager transfer: [raif] Transaction successfully done
+2019-01-18 12:46:19 [INFORMATION] backend.business.BankManager transfer: [raif] Transfering money from raif_c9ff8a10-655f-4e0a-80f6-1491d3390082 to raif_d289ea00-a182-45f6-8013-2c545a00773f, amount: 800, date: 2019-01-18
+2019-01-18 12:46:19 [INFORMATION] backend.business.BankManager transfer: [raif] Transaction successfully done
+2019-01-18 12:46:26 [INFORMATION] backend.business.BankManager transfer: [raif] Transfering money from raif_c9ff8a10-655f-4e0a-80f6-1491d3390082 to raif_d289ea00-a182-45f6-8013-2c545a00773f, amount: -69, date: 2019-01-18
+2019-01-18 12:46:26 [INFORMATION] backend.business.BankManager transfer: [raif] Transaction successfully done
+2019-01-18 12:46:35 [INFORMATION] backend.business.BankManager transfer: [raif] Transfering money from raif_c9ff8a10-655f-4e0a-80f6-1491d3390082 to raif_d289ea00-a182-45f6-8013-2c545a00773f, amount: 0.69, date: 2019-01-18
+2019-01-18 12:46:35 [INFORMATION] backend.business.BankManager transfer: [raif] Transaction successfully done
+2019-01-18 12:46:42 [INFORMATION] backend.business.BankManager transfer: [raif] Transfering money from raif_c9ff8a10-655f-4e0a-80f6-1491d3390082 to raif_d289ea00-a182-45f6-8013-2c545a00773f, amount: -0.69, date: 2019-01-18
+2019-01-18 12:46:42 [INFORMATION] backend.business.BankManager transfer: [raif] Transaction successfully done
+2019-01-18 12:46:44 [INFORMATION] backend.business.BankManager transfer: [raif] Transfering money from raif_c9ff8a10-655f-4e0a-80f6-1491d3390082 to raif_d289ea00-a182-45f6-8013-2c545a00773f, amount: -0.69, date: 2019-01-18
+2019-01-18 12:46:44 [INFORMATION] backend.business.BankManager transfer: [raif] Transaction successfully done
+2019-01-18 12:48:12 [INFORMATION] backend.business.BankManager transfer: [raif] Transfering money from raif_c9ff8a10-655f-4e0a-80f6-1491d3390082 to raif_d289ea00-a182-45f6-8013-2c545a00773f, amount: -0.69, date: 2019-01-18
+2019-01-18 12:48:12 [INFORMATION] backend.business.BankManager transfer: [raif] Transaction successfully done
+2019-01-18 12:48:19 [INFORMATION] backend.business.BankManager transfer: [raif] Transfering money from raif_c9ff8a10-655f-4e0a-80f6-1491d3390082 to raif_d289ea00-a182-45f6-8013-2c545a00773f, amount: 0.69, date: 2019-01-18
+2019-01-18 12:48:19 [INFORMATION] backend.business.BankManager transfer: [raif] Transaction successfully done
+2019-01-18 12:48:25 [INFORMATION] backend.business.BankManager transfer: [raif] Transfering money from raif_c9ff8a10-655f-4e0a-80f6-1491d3390082 to raif_d289ea00-a182-45f6-8013-2c545a00773f, amount: 30'000, date: 2019-01-18
+2019-01-18 12:48:25 [INFORMATION] backend.data.Account withdraw: Could not withdraw money, limit is reached or negative limit reached

@@ -1,4 +1,4 @@
-package backend.api;
+package frontend.common;
 
 /**
  * Customer used by the clients

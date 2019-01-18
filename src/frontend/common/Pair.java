@@ -1,4 +1,4 @@
-package frontend.banking;
+package frontend.common;
 
 public class Pair<T, K> {
     private T value1;
@@ -10,7 +10,7 @@ public class Pair<T, K> {
     }
 
     public static <T, K> Pair<T, K> of(T value1, K value2) {
-	return new Pair(value1, value2);
+	return new Pair<T, K>(value1, value2);
     }
 
     public T getFirstValue() {

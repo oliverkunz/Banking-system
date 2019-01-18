@@ -78,8 +78,7 @@ public class EBankingController extends BaseController implements Initializable 
 
     @Override
     public void onNavigate(String route) {
-	// TODO Auto-generated method stub
-
+	this.main.refreshData();
     }
 
 }

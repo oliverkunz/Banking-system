@@ -98,6 +98,8 @@ public class EBankingControllerOverview extends BaseController implements Initia
 	    try {
 		boolean rmiResult = this.main.getBanking().transfer(this.main.selectedAccount.getAccountID(),
 			this.getReceiver().getValue(), this.getAmount().getValue(), LocalDate.now());
+
+		this.refreshAccounts();
 	    } catch (NotBoundException e) {
 		e.printStackTrace();
 	    }
@@ -155,6 +157,10 @@ public class EBankingControllerOverview extends BaseController implements Initia
 
     @Override
     public void onNavigate(String route) {
+	this.refreshAccounts();
+    }
+
+    public void refreshAccounts() {
 	try {
 	    ArrayList<Account> accounts = this.main.getBanking()
 		    .showAccounts(this.main.getLoggedInCustomer().getCustomerID());

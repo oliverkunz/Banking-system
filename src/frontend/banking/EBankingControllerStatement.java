@@ -2,7 +2,6 @@ package frontend.banking;
 
 import java.io.IOException;
 import java.net.URL;
-import java.rmi.RemoteException;
 import java.util.ResourceBundle;
 
 import backend.api.Transaction;
@@ -69,17 +68,10 @@ public class EBankingControllerStatement extends BaseController implements Initi
 
     @Override
     public void onNavigate(String route) {
+	this.getMain().refreshData();
+
 	this.transactionsObservableList.setAll(this.main.getSelectedAccount().getTransactions());
 	this.transactionsT.refresh();
-
-	// maybe in the mean time, there has been new data (transactions), so refresh it
-	try {
-	    this.main.setSelectedAccount(
-		    this.main.getBanking().showAccount(this.main.getSelectedAccount().getAccountID()));
-	} catch (RemoteException e) {
-	    // TODO Auto-generated catch block
-	    e.printStackTrace();
-	}
     }
 
 }

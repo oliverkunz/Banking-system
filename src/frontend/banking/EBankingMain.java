@@ -1,5 +1,6 @@
 package frontend.banking;
 
+import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.HashMap;
@@ -80,6 +81,17 @@ public class EBankingMain extends Application {
 
     public void setSelectedAccount(Account selectedAccount) {
 	this.selectedAccount = selectedAccount;
+    }
+
+    public void refreshData() {
+	if (selectedAccount != null) {
+	    try {
+		this.setSelectedAccount(this.banking.showAccount(this.selectedAccount.getAccountID()));
+	    } catch (RemoteException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	    }
+	}
     }
 
 }

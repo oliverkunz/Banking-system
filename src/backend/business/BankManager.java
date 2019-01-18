@@ -35,7 +35,6 @@ import util.Utils;
  */
 public class BankManager implements ATM, Banking, Administration, Bank {
     private String bankNumber;
-    private ArrayList<Account> accounts;
     private ArrayList<Customer> customers;
     private BankAccount bankAccount;
     private ObjectStore<ArrayList<Customer>> store;
@@ -47,7 +46,6 @@ public class BankManager implements ATM, Banking, Administration, Bank {
     public BankManager(String bankNumber) throws IOException {
 	super();
 	this.bankNumber = bankNumber;
-	this.accounts = new ArrayList<Account>();
 	this.bankAccount = new BankAccount(this.generateAccountID(), 1000000, 0, 0, 0, 0, 0, 123456789);
 	this.store = new ObjectStore<ArrayList<Customer>>();
 
@@ -169,14 +167,15 @@ public class BankManager implements ATM, Banking, Administration, Bank {
 		return false;
 	    }
 
-	    toAccount.deposit(amount);
-	    toAccount.addTransaction(new Transaction(toAccountID, fromAccountID, amount, date));
-	    fromAccount.withdraw(amount);
+	    if (!fromAccount.withdraw(amount)) {
+		return false;
+	    }
 	    fromAccount.addTransaction(new Transaction(toAccountID, fromAccountID, -amount, date));
 
-	    LOGGER.log(Level.INFO, "[{0}] Transaction successfully done", this.bankNumber);
+	    toAccount.deposit(amount);
+	    toAccount.addTransaction(new Transaction(toAccountID, fromAccountID, amount, date));
 
-	    return true;
+	    LOGGER.log(Level.INFO, "[{0}] Transaction successfully done", this.bankNumber);
 	} else if (isToExternal) {
 	    Account fromAccount = findAccount(fromAccountID);
 
@@ -285,7 +284,6 @@ public class BankManager implements ATM, Banking, Administration, Bank {
 
 	account.setCustomer(customer);
 	customer.addAccount(account);
-	this.accounts.add(account);
 
 	this.save(this.customers);
 
@@ -382,9 +380,11 @@ public class BankManager implements ATM, Banking, Administration, Bank {
 	    return this.bankAccount;
 	}
 
-	for (Account account : this.accounts) {
-	    if (account.getAccountID().equals(accountID)) {
-		return account;
+	for (Customer customer : this.customers) {
+	    for (Account account : customer.getAccounts()) {
+		if (account.getAccountID().equals(accountID)) {
+		    return account;
+		}
 	    }
 	}
 

@@ -1,0 +1,21 @@
+2019-01-18 09:52:28 [INFORMATION] backend.business.BankManager createCustomer: [ubs] Creating new customer Fabian Küng
+2019-01-18 09:52:28 [INFORMATION] backend.business.BankManager createCustomer: [ubs] Customer b7a61a32-69de-466f-bf18-df187e181af8 successfully created
+2019-01-18 09:52:28 [INFORMATION] backend.business.BankManager createCustomer: [ubs] Creating new customer Oliver Kunz
+2019-01-18 09:52:28 [INFORMATION] backend.business.BankManager createCustomer: [ubs] Customer 69f48fe7-944d-4e95-8e04-c2b5eb5f9dc2 successfully created
+2019-01-18 09:52:28 [INFORMATION] backend.business.BankManager createAccount: [ubs] Creating new account for customer 69f48fe7-944d-4e95-8e04-c2b5eb5f9dc2 type: PRIVATE balance 1'000: interest 0.25: overdraftInterest 1.25, dailyLimit 200, monthyLimit 1'000, maxMinus 600
+2019-01-18 09:52:28 [INFORMATION] backend.business.BankManager createAccount: [ubs] Account ubs_cad90e79-cf19-487f-967a-b7d114d8a107 successfully created
+2019-01-18 09:52:28 [INFORMATION] backend.business.BankManager createAccount: [ubs] Creating new account for customer b7a61a32-69de-466f-bf18-df187e181af8 type: SAVINGS balance 5'000: interest 1.25: overdraftInterest 0, dailyLimit 200, monthyLimit 1'000, maxMinus 0
+2019-01-18 09:52:28 [INFORMATION] backend.business.BankManager createAccount: [ubs] Account ubs_2c6cf765-e715-4fdc-9f25-ce3ad9af0135 successfully created
+2019-01-18 09:52:28 [INFORMATION] backend.business.BankManager transfer: [ubs] Transfering money from ubs_cad90e79-cf19-487f-967a-b7d114d8a107 to ubs_2c6cf765-e715-4fdc-9f25-ce3ad9af0135, amount: 100, date: 2019-01-18
+2019-01-18 09:52:28 [INFORMATION] backend.business.BankManager transfer: [ubs] Transaction successfully done
+2019-01-18 09:52:28 [INFORMATION] backend.business.BankManager createCustomer: [raif] Creating new customer Fabian Küng external
+2019-01-18 09:52:28 [INFORMATION] backend.business.BankManager createCustomer: [raif] Customer cf057d5f-b60e-4112-ac44-0847185b02d1 successfully created
+2019-01-18 09:52:28 [INFORMATION] backend.business.BankManager createCustomer: [raif] Creating new customer Oliver Kunz external
+2019-01-18 09:52:28 [INFORMATION] backend.business.BankManager createCustomer: [raif] Customer ef017f9b-69b6-499b-a948-78e7206f4f0b successfully created
+2019-01-18 09:52:28 [INFORMATION] backend.business.BankManager createAccount: [raif] Creating new account for customer ef017f9b-69b6-499b-a948-78e7206f4f0b type: SAVINGS balance 6'000: interest 0.25: overdraftInterest 1.25, dailyLimit 200, monthyLimit 1'000, maxMinus 0
+2019-01-18 09:52:28 [INFORMATION] backend.business.BankManager createAccount: [raif] Account raif_57a9698f-7f6c-44dc-ba2b-04ac88106e83 successfully created
+2019-01-18 09:52:28 [INFORMATION] backend.business.BankManager createAccount: [raif] Creating new account for customer cf057d5f-b60e-4112-ac44-0847185b02d1 type: PRIVATE balance 400: interest 1.25: overdraftInterest 0, dailyLimit 200, monthyLimit 500, maxMinus 1'000
+2019-01-18 09:52:28 [INFORMATION] backend.business.BankManager createAccount: [raif] Account raif_f1e35cfd-3dc5-49e8-9da4-04619a6cfe4f successfully created
+2019-01-18 09:52:28 [INFORMATION] backend.business.BankManager transfer: [ubs] Transfering money from ubs_cad90e79-cf19-487f-967a-b7d114d8a107 to raif_57a9698f-7f6c-44dc-ba2b-04ac88106e83, amount: 500, date: 2019-01-18
+2019-01-18 09:52:28 [INFORMATION] backend.data.Account withdraw: Could not withdraw money, limit is reached or negative limit reached
+2019-01-18 09:52:28 [WARNUNG] backend.business.BankManager transfer: [ubs] Transaction failed, check monthly/daily reached or not enough money.

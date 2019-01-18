@@ -19,7 +19,6 @@ public class Main extends Application {
 	Stage primaryStage;
 	Parent root;
 	
-	Banking banking;
 	Account loggedInAccount = null;
 	
 	ATM atm;
@@ -35,7 +34,7 @@ public class Main extends Application {
 		this.primaryStage = primaryStage;
 		
 		Registry registry = LocateRegistry.getRegistry("localhost", 2001);
-		banking = (Banking) registry.lookup("ubs");
+		atm = (ATM) registry.lookup("ubs");
 		
 		
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("atm.fxml"));
@@ -58,10 +57,6 @@ public class Main extends Application {
 	public void setScene(String name) {
 		primaryStage.setScene(this.scenes.get(name).getFirstValue());
 		this.scenes.get(name).getSecondValue().onNavigate(name);
-	}
-	
-	public Banking getBanking() {
-		return this.banking;
 	}
 	
 	public ATM getATM() {

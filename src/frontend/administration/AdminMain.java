@@ -20,8 +20,6 @@ public class AdminMain extends Application {
 	Stage primaryStage;
 	Parent root;
 	
-	Banking banking;
-	
 	Administration administration;
 	
 	AccountType accountType;
@@ -39,7 +37,7 @@ public class AdminMain extends Application {
 		this.primaryStage = primaryStage;
 		
 		Registry registry = LocateRegistry.getRegistry("localhost", 2001);
-		banking = (Banking) registry.lookup("ubs");
+		administration = (Administration) registry.lookup("ubs");
 		
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("admin.fxml"));
 		AdminBaseController adminController = new AdminController(this);

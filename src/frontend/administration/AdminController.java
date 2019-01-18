@@ -114,7 +114,9 @@ public class AdminController extends AdminBaseController implements Initializabl
 			double monthlyLimitD = Double.parseDouble(monthlyLimit.getValue());
 			double maxMinusD = Double.parseDouble(maxMinus.getValue());
 			int pinI = Integer.parseInt(pin.getValue());
-			this.adminMain.getAdministration().createAccount(customerIDaccount.getValue(), GetAccountType(), accountBalance, interestD, overdraftD, dailyLimitD, monthlyLimitD, maxMinusD, pinI);
+			String accountID = this.adminMain.getAdministration().createAccount(customerIDaccount.getValue(), GetAccountType(), accountBalance, interestD, overdraftD, dailyLimitD, monthlyLimitD, maxMinusD, pinI);
+			Alert account = new Alert(AlertType.INFORMATION, accountID);
+			account.showAndWait();
 		}
     	    	
     }

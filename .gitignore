@@ -1,2 +1,5 @@
 /bin/
 /.metadata/
+/log.txt
+/log.txt.lck
+

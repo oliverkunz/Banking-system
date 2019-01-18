@@ -7,7 +7,8 @@ import java.util.HashMap;
 
 import backend.api.Account;
 import backend.api.Banking;
-import backend.api.Customer;
+import frontend.common.Customer;
+import frontend.common.Pair;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;

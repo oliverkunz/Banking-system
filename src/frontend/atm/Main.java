@@ -3,10 +3,8 @@ package frontend.atm;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.HashMap;
-
 import backend.api.ATM;
 import backend.api.Account;
-import backend.api.Banking;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;

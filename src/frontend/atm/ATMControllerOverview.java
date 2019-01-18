@@ -3,10 +3,8 @@ package frontend.atm;
 import java.io.IOException;
 import java.net.URL;
 import java.rmi.NotBoundException;
-import java.util.ArrayList;
 import java.util.ResourceBundle;
 import backend.api.Account;
-import backend.api.Transaction;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -17,7 +15,6 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -28,7 +25,6 @@ public class ATMControllerOverview extends BaseControllerATM implements Initiali
 	@FXML private Button withdraw;
 	@FXML private TextField amountTF;
 	@FXML private Label bankNameL;
-	@FXML private Label customerNameL;
 	@FXML private TableView<Account> accountsT;
 	@FXML private TableColumn<Account, Double> colBalanceT;
 	@FXML private TableColumn<Account, String> colAccountT;
@@ -38,7 +34,6 @@ public class ATMControllerOverview extends BaseControllerATM implements Initiali
 	
 	private SimpleStringProperty amount = new SimpleStringProperty("");
 	private SimpleStringProperty bankName = new SimpleStringProperty("");
-	private SimpleStringProperty customerName = new SimpleStringProperty("");
 	
 	Alert info = new Alert(AlertType.INFORMATION, "Transaktion ausgeführt");
 	Alert error = new Alert(AlertType.ERROR, "Fehler");
@@ -51,7 +46,6 @@ public class ATMControllerOverview extends BaseControllerATM implements Initiali
     public void initialize(URL location, ResourceBundle resources) {
     	amountTF.textProperty().bindBidirectional(this.getAmount());
     	bankNameL.textProperty().bindBidirectional(this.getBankName());
-    	customerNameL.textProperty().bindBidirectional(this.getCustomerName());
     	
     	accountsT.setItems(accountsObservableList);
 
@@ -87,24 +81,12 @@ public class ATMControllerOverview extends BaseControllerATM implements Initiali
 	public void setBankName(SimpleStringProperty bankName) {
 		this.bankName = bankName;
 	}
-	
-	public SimpleStringProperty getCustomerName() {
-		return customerName;
-	}
-
-	public void setCustomerName(SimpleStringProperty customerName) {
-		this.customerName = customerName;
-	}
 
 	@Override
 	public void onNavigate(String route) {
-		this.accountsObservableList.setAll(this.main.getLoggedInAccount().getBalance());
+		this.accountsObservableList.setAll(this.main.getLoggedInAccount());
 		this.accountsT.refresh();
-
-		// no clue
-		
-		
-	    
+			    
 	}
 
 }

@@ -18,10 +18,14 @@ public class Account implements Serializable {
     private ArrayList<Transaction> transactions = new ArrayList<Transaction>();
 
     public Account(String accountID, double balance, ArrayList<Transaction> transactions) {
-	this.accountID = accountID;
-	this.balance = balance;
-	this.transactions = transactions;
-    }
+    	this.accountID = accountID;
+    	this.balance = balance;
+    	this.transactions = transactions;
+        }
+    
+    public Account(String accountID, double balance) {
+    	this(accountID, balance, new ArrayList<Transaction>());
+        }
 
     /**
      * get the current balance of the account

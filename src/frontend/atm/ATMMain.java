@@ -15,7 +15,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-public class Main extends Application {
+public class ATMMain extends Application {
     HashMap<String, Pair<Scene, BaseControllerATM>> scenes = new HashMap<>();
 
     Stage primaryStage;
@@ -26,7 +26,7 @@ public class Main extends Application {
     ATM atm;
 
     FXMLLoader fxmlLoader = new FXMLLoader();
-    Controller controller = (Controller) fxmlLoader.getController();
+    ATMController controller = (ATMController) fxmlLoader.getController();
     
     Registry registry;
 
@@ -40,7 +40,7 @@ public class Main extends Application {
 	registry = LocateRegistry.getRegistry("localhost", 2001);
 
 	FXMLLoader loader = new FXMLLoader(getClass().getResource("atm.fxml"));
-	BaseControllerATM controller = new Controller(this);
+	BaseControllerATM controller = new ATMController(this);
 	loader.setController(controller);
 	scenes.put("atmLogin", Pair.of(new Scene(loader.load(), 900, 600), controller));
 

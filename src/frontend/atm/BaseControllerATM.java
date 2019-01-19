@@ -1,17 +1,17 @@
 package frontend.atm;
 
 public abstract class BaseControllerATM {
-	Main main = null;
+	ATMMain main = null;
 
-    public BaseControllerATM(Main main) {
+    public BaseControllerATM(ATMMain main) {
 	this.main = main;
     }
 
-    public Main getMain() {
+    public ATMMain getMain() {
 	return main;
     }
 
-    public void setMain(Main main) {
+    public void setMain(ATMMain main) {
 	this.main = main;
     }
 

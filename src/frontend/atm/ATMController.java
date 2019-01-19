@@ -5,15 +5,16 @@ import java.util.ResourceBundle;
 import backend.api.Account;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 
-public class Controller extends BaseControllerATM implements Initializable {
+public class ATMController extends BaseControllerATM implements Initializable {
 	
 	@FXML private Button loginButton;
 	@FXML private TextField accountIDTF;
@@ -24,7 +25,9 @@ public class Controller extends BaseControllerATM implements Initializable {
 	private SimpleStringProperty customerPIN = new SimpleStringProperty("");
 	private SimpleStringProperty accountID = new SimpleStringProperty("");
 	
-	public Controller(Main main) {
+	Alert error = new Alert(AlertType.ERROR, "Ungültige Kontonummer");
+	
+	public ATMController(ATMMain main) {
 		super(main);
 	}
 
@@ -41,7 +44,7 @@ public class Controller extends BaseControllerATM implements Initializable {
 		
 		String[] parts = this.accountID.getValue().split("_");
 		if(parts.length != 2) {
-			//TODO show error message
+			error.showAndWait();
 			return;
 		}
 		

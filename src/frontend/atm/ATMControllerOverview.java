@@ -42,7 +42,7 @@ public class ATMControllerOverview extends BaseControllerATM implements Initiali
     Alert info = new Alert(AlertType.INFORMATION, "Transaktion ausgefhrt");
     Alert error = new Alert(AlertType.ERROR, "Fehler");
 
-    public ATMControllerOverview(Main main) {
+    public ATMControllerOverview(ATMMain main) {
 	super(main);
     }
 

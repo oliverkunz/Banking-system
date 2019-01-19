@@ -23,10 +23,13 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.input.Clipboard;
+import javafx.scene.input.ClipboardContent;
 import javafx.util.converter.DoubleStringConverter;
 import javafx.util.converter.IntegerStringConverter;
 import javafx.util.converter.NumberStringConverter;
@@ -43,8 +46,7 @@ public class AdminController extends AdminBaseController implements Initializabl
 	
 	@FXML private TextField lastNameTF;
 	@FXML private TextField firstNameTF;
-	@FXML private TextField passwordTF;
-	@FXML private TextField customerIDregisterTF;
+	@FXML private PasswordField passwordTF;
 	@FXML private TextField interestTF;
 	@FXML private TextField dailyLimitTF;
 	@FXML private TextField monthlyLimitTF;
@@ -56,12 +58,15 @@ public class AdminController extends AdminBaseController implements Initializabl
 	@FXML private TextField accountIDactionsTF;
 	
 	Alert info = new Alert(AlertType.INFORMATION, "Es kann nur ein Kontotyp gewährt werden");
-	Alert register = new Alert(AlertType.INFORMATION, "Kunde erstellt");
+	Alert registeralert = new Alert(AlertType.INFORMATION, "Bitte alle Felder korrekt ausfüllen");
+	Alert register = new Alert(AlertType.INFORMATION, "Kunde erstellt, ID in den Zwischenspeicher kopiert");
 	
+	final Clipboard clipboard = Clipboard.getSystemClipboard();
+	final ClipboardContent content = new ClipboardContent();
+
 	private SimpleStringProperty lastName = new SimpleStringProperty("");
 	private SimpleStringProperty firstName = new SimpleStringProperty("");
 	private SimpleStringProperty password = new SimpleStringProperty("");
-	private SimpleStringProperty customerIDregister = new SimpleStringProperty("");
 	private SimpleStringProperty interest = new SimpleStringProperty();
 	private SimpleStringProperty dailyLimit = new SimpleStringProperty();
 	private SimpleStringProperty monthlyLimit = new SimpleStringProperty();
@@ -81,7 +86,6 @@ public class AdminController extends AdminBaseController implements Initializabl
     	lastNameTF.textProperty().bindBidirectional(this.getLastName());
     	firstNameTF.textProperty().bindBidirectional(this.getFirstName());
     	passwordTF.textProperty().bindBidirectional(this.getPassword());
-    	customerIDregisterTF.textProperty().bindBidirectional(this.getCustomerIDregister());
     	interestTF.textProperty().bindBidirectional(this.getInterest());
     	dailyLimitTF.textProperty().bindBidirectional(this.getDailyLimit());
     	monthlyLimitTF.textProperty().bindBidirectional(this.getMonthlyLimit());
@@ -97,9 +101,17 @@ public class AdminController extends AdminBaseController implements Initializabl
  
 	@FXML
     public void RegisterCustomer(final ActionEvent event) throws IOException  {
-    	this.adminMain.getAdministration().createCustomer(firstName.getValue(), lastName.getValue(), password.getValue());
-    	register.showAndWait();
-    	
+		String regex="[a-zA-Z]";
+    	if (firstName.getValue().matches(regex)) { //&& lastName.getValue().matches(regex) && !(password.getValue().isEmpty())) {
+    		
+    		String customerID = this.adminMain.getAdministration().createCustomer(firstName.getValue(), lastName.getValue(), password.getValue());
+    		content.putString(customerID);
+    		clipboard.setContent(content);
+        	register.showAndWait();
+        	
+    	} else {
+    		registeralert.showAndWait();
+    	}    	
     }
 	
 	@FXML
@@ -169,14 +181,6 @@ public class AdminController extends AdminBaseController implements Initializabl
 
 	public void setPassword(SimpleStringProperty password) {
 		this.password = password;
-	}
-
-	public SimpleStringProperty getCustomerIDregister() {
-		return customerIDregister;
-	}
-
-	public void setCustomerIDregister(SimpleStringProperty customerIDregister) {
-		this.customerIDregister = customerIDregister;
 	}
 
 	public SimpleStringProperty getInterest() {

@@ -40,9 +40,12 @@ public class AdminController extends AdminBaseController implements Initializabl
 	@FXML private TextField accountIDresolveTF;
 	@FXML private TextField accountIDactionsTF;
 	
-	Alert info = new Alert(AlertType.INFORMATION, "Es kann nur ein Kontotyp gewährt werden");
-	Alert registeralert = new Alert(AlertType.INFORMATION, "Bitte alle Felder korrekt ausfüllen");
-	Alert register = new Alert(AlertType.INFORMATION, "Kunde erstellt, ID in den Zwischenspeicher kopiert");
+	Alert info = new Alert(AlertType.ERROR, "Es kann nur ein Kontotyp gewährt werden");
+	Alert wrongInput = new Alert(AlertType.ERROR, "Bitte alle Felder korrekt ausfüllen");
+	Alert wrongID = new Alert(AlertType.ERROR, "Kontonummer ist ungültig");
+	Alert registerAccount = new Alert(AlertType.INFORMATION,"Account erstellt, ID in den Zwischenspeicher kopiert");
+	Alert registerCustomer = new Alert(AlertType.INFORMATION, "Kunde erstellt, ID in den Zwischenspeicher kopiert");
+
 	
 	final Clipboard clipboard = Clipboard.getSystemClipboard();
 	final ClipboardContent content = new ClipboardContent();
@@ -77,11 +80,9 @@ public class AdminController extends AdminBaseController implements Initializabl
     	pinTF.textProperty().bindBidirectional(this.getPin());
     	customerIDaccountTF.textProperty().bindBidirectional(this.getCustomerIDaccount());
     	accountIDresolveTF.textProperty().bindBidirectional(this.getAccountIDresolve());
-    	accountIDactionsTF.textProperty().bindBidirectional(this.getAccountIDactions());
-   
+    	accountIDactionsTF.textProperty().bindBidirectional(this.getAccountIDactions());  
     }
        
- 
 	@FXML
     public void RegisterCustomer(final ActionEvent event) throws IOException  {
 		
@@ -91,10 +92,11 @@ public class AdminController extends AdminBaseController implements Initializabl
     		String customerID = this.adminMain.getAdministration().createCustomer(firstName.getValue(), lastName.getValue(), password.getValue());
     		content.putString(customerID);
     		clipboard.setContent(content);
-        	register.showAndWait();
+    		
+        	registerCustomer.showAndWait();
         	
     	} else {
-    		registeralert.showAndWait();
+    		wrongInput.showAndWait();
     	}    	
     }
 	
@@ -104,17 +106,21 @@ public class AdminController extends AdminBaseController implements Initializabl
 			info.showAndWait();
 		} else {
 			double accountBalance = 0;
-			double interestD = Double.parseDouble(interest.getValue());
-			double overdraftD = Double.parseDouble(overdraft.getValue());
-			double dailyLimitD = Double.parseDouble(dailyLimit.getValue());
-			double monthlyLimitD = Double.parseDouble(monthlyLimit.getValue());
-			double maxMinusD = Double.parseDouble(maxMinus.getValue());
-			int pinI = Integer.parseInt(pin.getValue());
-			String accountID = this.adminMain.getAdministration().createAccount(customerIDaccount.getValue(), GetAccountType(), accountBalance, interestD, overdraftD, dailyLimitD, monthlyLimitD, maxMinusD, pinI);
-			Alert account = new Alert(AlertType.INFORMATION, accountID);
-			account.showAndWait();
-		}
-    	    	
+			try {
+				double interestD = Double.parseDouble(interest.getValue());
+				double overdraftD = Double.parseDouble(overdraft.getValue());
+				double dailyLimitD = Double.parseDouble(dailyLimit.getValue());
+				double monthlyLimitD = Double.parseDouble(monthlyLimit.getValue());
+				double maxMinusD = Double.parseDouble(maxMinus.getValue());
+				int pinI = Integer.parseInt(pin.getValue());
+				String accountID = this.adminMain.getAdministration().createAccount(customerIDaccount.getValue(), GetAccountType(), accountBalance, interestD, overdraftD, dailyLimitD, monthlyLimitD, maxMinusD, pinI);
+	    		content.putString(accountID);
+	    		clipboard.setContent(content);
+				registerAccount.showAndWait();
+			} catch(NumberFormatException | NullPointerException e) {
+				wrongInput.showAndWait();
+			}			
+		} 	    	
     }
 	
 	public AccountType GetAccountType() {
@@ -131,16 +137,20 @@ public class AdminController extends AdminBaseController implements Initializabl
 	
 	@FXML
     public void ResolveAccount(final ActionEvent event) throws IOException  {
-    	this.adminMain.getAdministration().closeAccount(accountIDresolve.getValue());
-    	    	
+    	try {
+    		this.adminMain.getAdministration().closeAccount(accountIDresolve.getValue());
+    	} catch (NumberFormatException | NullPointerException e) {
+    		
+    	}  	    	
     }
 	
 	@FXML
     public void ShowAccount(final ActionEvent event) throws IOException  {
 
-		this.adminMain.setSelectedAccount(this.adminMain.getAdministration().showAccount(accountIDactions.getValue())); 
-    	this.adminMain.setScene("account");
-    	    	
+			this.adminMain.setSelectedAccount(this.adminMain.getAdministration().showAccount(accountIDactions.getValue())); 
+
+			this.adminMain.setScene("account"); 
+			   	
     }
 
 	public SimpleStringProperty getLastName() {

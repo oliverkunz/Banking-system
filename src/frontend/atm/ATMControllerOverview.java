@@ -41,6 +41,7 @@ public class ATMControllerOverview extends BaseControllerATM implements Initiali
 
     Alert info = new Alert(AlertType.INFORMATION, "Transaktion ausgefhrt");
     Alert error = new Alert(AlertType.ERROR, "Fehler");
+    Alert wrongInput = new Alert(AlertType.ERROR, "Bitte alle Felder korrekt ausfüllen");
 
     public ATMControllerOverview(ATMMain main) {
 	super(main);
@@ -58,12 +59,14 @@ public class ATMControllerOverview extends BaseControllerATM implements Initiali
 
     @FXML
     public void WithdrawMoney(final ActionEvent event) throws IOException, NotBoundException {
-	double amountD = Double.parseDouble(amount.getValue());
-	if (this.main.getATM().withdraw(this.main.getLoggedInAccount().getAccountID(), amountD)) {
-	    info.showAndWait();
-	} else {
-	    error.showAndWait();
-	}
+	
+    		double amountD = Double.parseDouble(amount.getValue());
+    		
+    		if (this.main.getATM().withdraw(this.main.getLoggedInAccount().getAccountID(), amountD)) {
+    		    info.showAndWait();
+    		} else {
+    		    error.showAndWait();
+    		}
 
 	// little hack to reload the account, too lazy to execute the same again
 	this.onNavigate("dummy");

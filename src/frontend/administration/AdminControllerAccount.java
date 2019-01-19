@@ -3,9 +3,11 @@ package frontend.administration;
 import java.io.IOException;
 import java.net.URL;
 import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
 import java.util.ResourceBundle;
 
 import backend.api.Account;
+import backend.api.Transaction;
 import frontend.banking.BaseController;
 import frontend.banking.EBankingMain;
 import javafx.beans.property.SimpleStringProperty;
@@ -47,6 +49,8 @@ public class AdminControllerAccount extends AdminBaseController implements Initi
     private final ObservableList<Account> accountsObservableList = FXCollections.observableArrayList();
     
     Alert info = new Alert(AlertType.INFORMATION, "Es kann nur eine Aktion gewählt werden");
+    Alert transaction = new Alert(AlertType.INFORMATION, "Transaktion durchgeführt");
+    Alert wrongInput = new Alert(AlertType.ERROR, "Bitte alle Felder korrekt ausfüllen");
 	
 	private SimpleStringProperty accountNumber = new SimpleStringProperty("");
 	private SimpleStringProperty amount = new SimpleStringProperty("");
@@ -61,13 +65,7 @@ public class AdminControllerAccount extends AdminBaseController implements Initi
     	amountTF.textProperty().bindBidirectional(this.getAmount());
     	
     	accountsT.setItems(accountsObservableList);
-
-    	accountsT.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
-    	    if (newSelection != null) {
-    		this.adminMain.setSelectedAccount(newSelection);
-    	    }
-    	});
-
+    	
     	colBalanceT.setCellValueFactory(new PropertyValueFactory<Account, Double>("balance"));
     	colAccountT.setCellValueFactory(new PropertyValueFactory<Account, String>("accountID"));
     }
@@ -78,16 +76,22 @@ public class AdminControllerAccount extends AdminBaseController implements Initi
 			info.showAndWait();
 		} else {
 		
-			if (depositRButton.isSelected()) {
-				double amountD = Double.parseDouble(amount.getValue());
-				this.adminMain.getAdministration().deposit(this.adminMain.getSelectedAccount().getAccountID(), amountD);
+			try {
+				if (depositRButton.isSelected()) {
+					double amountD = Double.parseDouble(amount.getValue());
+					this.adminMain.getAdministration().deposit(this.adminMain.getSelectedAccount().getAccountID(), amountD);
+				}
+				if (withdrawRButton.isSelected()) {
+					double amountD = Double.parseDouble(amount.getValue());
+					this.adminMain.getAdministration().withdraw(this.adminMain.getSelectedAccount().getAccountID(), amountD);
+					this.adminMain.getAdministration().deposit(accountNumber.getValue(), amountD);
+					//geld auf angegebenes Konto vom gewählten Konto senden
+				}
+			} catch (NumberFormatException | NullPointerException e) {
+				wrongInput.showAndWait();
 			}
-			if (withdrawRButton.isSelected()) {
-				double amountD = Double.parseDouble(amount.getValue());
-				this.adminMain.getAdministration().withdraw(this.adminMain.getSelectedAccount().getAccountID(), amountD);
-				this.adminMain.getAdministration().deposit(accountNumber.getValue(), amountD);
-				//geld auf angegebenes Konto vom gewählten Konto senden
-			}
+			transaction.showAndWait();
+			this.onNavigate("dummy");
 		}  	    	
     }
 	
@@ -114,8 +118,16 @@ public class AdminControllerAccount extends AdminBaseController implements Initi
 
 	@Override
 	public void onNavigate(String route) {
-		
-	}
+		try {
+		    this.accountsObservableList
+			    .setAll(this.adminMain.getAdministration().showAccount(this.adminMain.getSelectedAccount().getAccountID()));
+		    this.accountsT.refresh();
+		} catch (RemoteException e) {
+		    // TODO Auto-generated catch block
+		    e.printStackTrace();
+		}
+
+	    }
 	
 
 }

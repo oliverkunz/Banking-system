@@ -1,6 +1,7 @@
 package backend.api;
 
 import java.io.Serializable;
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 
 /**
@@ -44,6 +45,7 @@ public class Account implements Serializable {
     public ArrayList<Transaction> getTransactions() {
 	return transactions;
     }
+    
 
     /**
      * @return accountID

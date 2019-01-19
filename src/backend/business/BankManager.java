@@ -106,8 +106,8 @@ public class BankManager implements ATM, Banking, Administration, Bank {
      * @see backend.api.Banking#showAccounts(java.lang.String)
      */
     @Override
-    public List<backend.api.Account> showAccounts(String customerID) {
-	List<backend.api.Account> simpleAccounts = new ArrayList<backend.api.Account>();
+    public ArrayList<backend.api.Account> showAccounts(String customerID) {
+	ArrayList<backend.api.Account> simpleAccounts = new ArrayList<backend.api.Account>();
 
 	Customer customer = findCustomer(customerID);
 
@@ -138,6 +138,10 @@ public class BankManager implements ATM, Banking, Administration, Bank {
 	    throws AccessException, RemoteException, NotBoundException {
 	String[] toParts = toAccountID.split("_");
 	String[] fromParts = fromAccountID.split("_");
+
+	if (amount <= 0) {
+	    return false;
+	}
 
 	LOGGER.log(Level.INFO, "[{0}] Transfering money from {1} to {2}, amount: {3}, date: {4}",
 		new Object[] { this.bankNumber, fromAccountID, toAccountID, amount, date });
@@ -174,6 +178,17 @@ public class BankManager implements ATM, Banking, Administration, Bank {
 	    if (!fromAccount.withdraw(amount)) {
 		return false;
 	    }
+
+	    // hide bank account id in transaction (because of quittance)
+	    if (toAccount.getAccountID().equals(this.bankAccount.getAccountID())) {
+		toAccountID = "";
+	    }
+
+	    // hide bank account id in transaction (because of quittance)
+	    if (fromAccount.getAccountID().equals(this.bankAccount.getAccountID())) {
+		fromAccountID = "";
+	    }
+
 	    fromAccount.addTransaction(new Transaction(toAccountID, fromAccountID, -amount, date));
 
 	    toAccount.deposit(amount);

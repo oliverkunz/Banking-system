@@ -57,7 +57,10 @@ public class EBankingControllerOverview extends BaseController implements Initia
 
     Alert alert = new Alert(AlertType.CONFIRMATION, "Bitte Transaktion bestätigen");
     Alert info = new Alert(AlertType.INFORMATION, "Transaktion ausgeführt");
-    Alert error = new Alert(AlertType.ERROR, "Transaktion abgebrochen");
+    Alert errorAborted = new Alert(AlertType.ERROR, "Transaktion abgebrochen");
+    Alert errorNegativeAmount = new Alert(AlertType.ERROR, "Negativen Betrag angegeben. Betrag muss positiv sein.");
+    Alert errorNotAllowed = new Alert(AlertType.ERROR, "Überzugslimite erreicht oder Tages- / Monatslimite erreicht.");
+    Alert errorNotEmpty = new Alert(AlertType.ERROR, "Empfänger darf nicht leer sein.");
 
     private SimpleDoubleProperty amount = new SimpleDoubleProperty();
     private SimpleStringProperty sender = new SimpleStringProperty("");
@@ -91,6 +94,11 @@ public class EBankingControllerOverview extends BaseController implements Initia
 
     @FXML
     public void TransferMoney(final ActionEvent event) throws IOException {
+	if (this.getAmount().getValue() <= 0) {
+	    this.errorNegativeAmount.showAndWait();
+	} else if (this.getReceiver().getValue().length() <= 0) {
+	    this.errorNotEmpty.showAndWait();
+	}
 
 	Optional<ButtonType> result = alert.showAndWait();
 	if (result.get() == ButtonType.OK) {
@@ -99,14 +107,18 @@ public class EBankingControllerOverview extends BaseController implements Initia
 		boolean rmiResult = this.main.getBanking().transfer(this.main.selectedAccount.getAccountID(),
 			this.getReceiver().getValue(), this.getAmount().getValue(), LocalDate.now());
 
+		if (rmiResult) {
+		    info.showAndWait();
+		} else {
+		    errorNotAllowed.showAndWait();
+		}
+
 		this.refreshAccounts();
 	    } catch (NotBoundException e) {
 		e.printStackTrace();
 	    }
-
-	    info.showAndWait();
 	} else {
-	    error.showAndWait();
+	    errorAborted.showAndWait();
 	}
     }
 

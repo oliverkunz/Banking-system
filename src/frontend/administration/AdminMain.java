@@ -3,6 +3,7 @@ package frontend.administration;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.HashMap;
+import java.util.Map;
 
 import backend.api.Account;
 import backend.api.AccountType;
@@ -15,7 +16,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class AdminMain extends Application {
-    HashMap<String, Pair<Scene, AdminBaseController>> scenes = new HashMap<>();
+    Map<String, Pair<Scene, AdminBaseController>> scenes = new HashMap<>();
 
     Stage primaryStage;
     Parent root;

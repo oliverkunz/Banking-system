@@ -5,7 +5,7 @@ import java.rmi.NotBoundException;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.time.LocalDate;
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * RMI interface for the banking client
@@ -31,7 +31,7 @@ public interface Banking extends Remote {
      * @return listofAccounts
      * @throws RemoteException
      */
-    public ArrayList<Account> showAccounts(String customerID) throws RemoteException;
+    public List<Account> showAccounts(String customerID) throws RemoteException;
 
     /**
      * Show account details

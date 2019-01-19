@@ -8,6 +8,8 @@ import java.rmi.registry.Registry;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -21,8 +23,8 @@ class BankManagerIT {
     static Bank stub1;
     static Bank stub2;
 
-    static HashMap<String, ArrayList<String>> customers = new HashMap<String, ArrayList<String>>();
-    static HashMap<String, ArrayList<String>> customers2 = new HashMap<String, ArrayList<String>>();
+    static Map<String, List<String>> customers = new HashMap<String, List<String>>();
+    static Map<String, List<String>> customers2 = new HashMap<String, List<String>>();
 
     @BeforeAll
     static void setUpBeforeClass() throws Exception {

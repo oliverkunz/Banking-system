@@ -5,7 +5,7 @@ import java.net.URL;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.time.LocalDate;
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -162,7 +162,7 @@ public class EBankingControllerOverview extends BaseController implements Initia
 
     public void refreshAccounts() {
 	try {
-	    ArrayList<Account> accounts = this.main.getBanking()
+	    List<Account> accounts = this.main.getBanking()
 		    .showAccounts(this.main.getLoggedInCustomer().getCustomerID());
 
 	    accountsObservableList.setAll(accounts);

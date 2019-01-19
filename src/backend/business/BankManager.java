@@ -8,6 +8,7 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -36,7 +37,7 @@ import util.Utils;
 public class BankManager implements ATM, Banking, Administration, Bank {
     private String bankNumber;
     private String bankName;
-    private ArrayList<Customer> customers;
+    private List<Customer> customers;
     private BankAccount bankAccount;
     private ObjectStore<ArrayList<Customer>> store;
 
@@ -105,8 +106,8 @@ public class BankManager implements ATM, Banking, Administration, Bank {
      * @see backend.api.Banking#showAccounts(java.lang.String)
      */
     @Override
-    public ArrayList<backend.api.Account> showAccounts(String customerID) {
-	ArrayList<backend.api.Account> simpleAccounts = new ArrayList<backend.api.Account>();
+    public List<backend.api.Account> showAccounts(String customerID) {
+	List<backend.api.Account> simpleAccounts = new ArrayList<backend.api.Account>();
 
 	Customer customer = findCustomer(customerID);
 
@@ -116,7 +117,7 @@ public class BankManager implements ATM, Banking, Administration, Bank {
 	    return null;
 	}
 
-	ArrayList<Account> accounts = customer.getAccounts();
+	List<Account> accounts = customer.getAccounts();
 
 	for (Account account : accounts) {
 	    simpleAccounts.add(
@@ -463,9 +464,9 @@ public class BankManager implements ATM, Banking, Administration, Bank {
      * 
      * @param customers
      */
-    public void save(ArrayList<Customer> customers) {
+    public void save(List<Customer> customers) {
 	try {
-	    this.store.save("customers", customers);
+	    this.store.save("customers", (ArrayList<Customer>) customers);
 	} catch (IOException e) {
 	    LOGGER.log(Level.SEVERE, "[{0}] Could not save data to file system.", this.bankNumber);
 	}

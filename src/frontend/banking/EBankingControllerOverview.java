@@ -96,8 +96,10 @@ public class EBankingControllerOverview extends BaseController implements Initia
     public void TransferMoney(final ActionEvent event) throws IOException {
 	if (this.getAmount().getValue() <= 0) {
 	    this.errorNegativeAmount.showAndWait();
+	    return;
 	} else if (this.getReceiver().getValue().length() <= 0) {
 	    this.errorNotEmpty.showAndWait();
+	    return;
 	}
 
 	Optional<ButtonType> result = alert.showAndWait();

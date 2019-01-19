@@ -4,6 +4,7 @@ import java.rmi.AccessException;
 import java.rmi.NotBoundException;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 
 /**
  * RMI Interface for the Admin client
@@ -60,6 +61,15 @@ public interface Administration extends Remote {
      * @throws RemoteException
      */
     public Account showAccount(String accountID) throws RemoteException;
+
+    /**
+     * Show all accounts associated with the customer
+     * 
+     * @param customerID
+     * @return listofAccounts
+     * @throws RemoteException
+     */
+    public ArrayList<Account> showAccounts(String customerID) throws RemoteException;
 
     /**
      * Deposit money to the account

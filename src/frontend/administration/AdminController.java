@@ -3,36 +3,19 @@ package frontend.administration;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-
-import backend.api.Account;
 import backend.api.AccountType;
-import javafx.beans.binding.Bindings;
-import javafx.beans.binding.StringBinding;
-import javafx.beans.property.SimpleDoubleProperty;
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.css.converter.StringConverter;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
-import javafx.scene.control.Toggle;
-import javafx.scene.control.ToggleGroup;
 import javafx.scene.input.Clipboard;
 import javafx.scene.input.ClipboardContent;
-import javafx.util.converter.DoubleStringConverter;
-import javafx.util.converter.IntegerStringConverter;
-import javafx.util.converter.NumberStringConverter;
 
 public class AdminController extends AdminBaseController implements Initializable {
 		
@@ -101,8 +84,9 @@ public class AdminController extends AdminBaseController implements Initializabl
  
 	@FXML
     public void RegisterCustomer(final ActionEvent event) throws IOException  {
-		String regex="[a-zA-Z]";
-    	if (firstName.getValue().matches(regex)) { //&& lastName.getValue().matches(regex) && !(password.getValue().isEmpty())) {
+		
+		String regex="[a-zA-Z]{0,}";
+    	if (firstName.getValue().toString().matches(regex) && lastName.getValue().matches(regex) && !(password.getValue().isEmpty()) && !(firstName.getValue().isEmpty()) && !(lastName.getValue().isEmpty())) {
     		
     		String customerID = this.adminMain.getAdministration().createCustomer(firstName.getValue(), lastName.getValue(), password.getValue());
     		content.putString(customerID);

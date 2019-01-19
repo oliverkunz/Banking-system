@@ -471,4 +471,9 @@ public class BankManager implements ATM, Banking, Administration, Bank {
 	}
     }
 
+    @Override
+    public String getBankname() throws RemoteException {
+	return this.bankName;
+    }
+
 }

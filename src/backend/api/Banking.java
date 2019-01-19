@@ -54,4 +54,10 @@ public interface Banking extends Remote {
      */
     public boolean transfer(String fromAccountID, String toAccountID, double amount, LocalDate date)
 	    throws AccessException, RemoteException, NotBoundException;
+
+    /**
+     * @return bankName
+     * @throws RemoteException
+     */
+    public String getBankname() throws RemoteException;
 }

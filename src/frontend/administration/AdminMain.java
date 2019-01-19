@@ -29,7 +29,10 @@ public class AdminMain extends Application {
     FXMLLoader fxmlLoader = new FXMLLoader();
     AdminController adminController = (AdminController) fxmlLoader.getController();
 
+    static String bankName;
+
     public static void main(String[] args) {
+	AdminMain.bankName = args[0];
 	launch(args);
     }
 
@@ -37,7 +40,7 @@ public class AdminMain extends Application {
 	this.primaryStage = primaryStage;
 
 	Registry registry = LocateRegistry.getRegistry("localhost", 2001);
-	administration = (Administration) registry.lookup("ubs");
+	administration = (Administration) registry.lookup(AdminMain.bankName);
 
 	FXMLLoader loader = new FXMLLoader(getClass().getResource("admin.fxml"));
 	AdminBaseController adminController = new AdminController(this);

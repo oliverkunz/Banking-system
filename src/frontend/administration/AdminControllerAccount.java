@@ -70,6 +70,14 @@ public class AdminControllerAccount extends AdminBaseController implements Initi
     	
     	accountsT.setItems(accountsObservableList);
     	
+    	accountsT.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+    	    if (newSelection != null) {
+    		//this.adminMain.setSelectedAccount(newSelection);
+    	    this.selectedAccount = newSelection;
+    	    }
+    	});
+
+    	
     	colBalanceT.setCellValueFactory(new PropertyValueFactory<Account, Double>("balance"));
     	colAccountT.setCellValueFactory(new PropertyValueFactory<Account, String>("accountID"));
     }
@@ -93,12 +101,11 @@ public class AdminControllerAccount extends AdminBaseController implements Initi
 				if (withdrawRButton.isSelected()) {
 					double amountD = Double.parseDouble(amount.getValue());
 					this.adminMain.getAdministration().withdraw(this.selectedAccount.getAccountID(), amountD);
-					//geld auf angegebenes Konto vom gewählten Konto senden
 				}
+				transaction.showAndWait();
 			} catch (NumberFormatException | NullPointerException e) {
 				wrongInput.showAndWait();
 			}
-			transaction.showAndWait();
 			this.onNavigate("");
 			this.selectedAccount = null;
 		}  	    	

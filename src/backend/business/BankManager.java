@@ -179,12 +179,13 @@ public class BankManager implements ATM, Banking, Administration, Bank {
 		return false;
 	    }
 
-	    // hide bank account id in transaction (because of quittance)
+	    // withdraw, set receiver to current account and hide bankaccount
 	    if (toAccount.getAccountID().equals(this.bankAccount.getAccountID())) {
-		toAccountID = "";
+		toAccountID = fromAccountID;
+		fromAccountID = "";
 	    }
 
-	    // hide bank account id in transaction (because of quittance)
+	    // deposit, bankaccount
 	    if (fromAccount.getAccountID().equals(this.bankAccount.getAccountID())) {
 		fromAccountID = "";
 	    }

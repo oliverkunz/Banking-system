@@ -1,16 +1,14 @@
 package frontend.administration;
 
-import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.HashMap;
 import java.util.Map;
 
-import backend.api.ATM;
 import backend.api.Account;
 import backend.api.AccountType;
 import backend.api.Administration;
-import backend.api.Banking;
+import frontend.common.Customer;
 import frontend.common.Pair;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -28,7 +26,7 @@ public class AdminMain extends Application {
 
     AccountType accountType;
 
-    Account selectedAccount = null;
+    frontend.common.Customer selectedCustomer = null;
 
     FXMLLoader fxmlLoader = new FXMLLoader();
     AdminController adminController = (AdminController) fxmlLoader.getController();
@@ -75,12 +73,12 @@ public class AdminMain extends Application {
 	return this.accountType;
     }
 
-    public Account getSelectedAccount() {
-	return selectedAccount;
+    public Customer getSelectedCustomer() {
+	return selectedCustomer;
     }
 
-    public void setSelectedAccount(Account selectedAccount) {
-	this.selectedAccount = selectedAccount;
+    public void setSelectedCustomer(frontend.common.Customer customer) {
+	this.selectedCustomer = customer;
     }
 
 }

@@ -59,8 +59,10 @@ public class EBankingControllerOverview extends BaseController implements Initia
     Alert info = new Alert(AlertType.INFORMATION, "Transaktion ausgeführt");
     Alert errorAborted = new Alert(AlertType.ERROR, "Transaktion abgebrochen");
     Alert errorNegativeAmount = new Alert(AlertType.ERROR, "Negativen Betrag angegeben. Betrag muss positiv sein.");
-    Alert errorNotAllowed = new Alert(AlertType.ERROR, "Überzugslimite erreicht oder Tages- / Monatslimite erreicht.");
+    Alert errorNotAllowed = new Alert(AlertType.ERROR,
+	    "Es ist ein Fehler aufgetreten. Falscher Empfänger, Überzugslimite erreicht oder Tages- / Monatslimite erreicht.");
     Alert errorNotEmpty = new Alert(AlertType.ERROR, "Empfänger darf nicht leer sein.");
+    Alert errorNoAccount = new Alert(AlertType.ERROR, "Bitte wählen Sie ein Konto aus.");
 
     private SimpleDoubleProperty amount = new SimpleDoubleProperty();
     private SimpleStringProperty sender = new SimpleStringProperty("");
@@ -96,15 +98,20 @@ public class EBankingControllerOverview extends BaseController implements Initia
     public void TransferMoney(final ActionEvent event) throws IOException {
 	if (this.getAmount().getValue() <= 0) {
 	    this.errorNegativeAmount.showAndWait();
+	    return;
 	} else if (this.getReceiver().getValue().length() <= 0) {
 	    this.errorNotEmpty.showAndWait();
+	    return;
+	} else if (this.main.getSelectedAccount() == null) {
+	    this.errorNoAccount.showAndWait();
+	    return;
 	}
 
 	Optional<ButtonType> result = alert.showAndWait();
 	if (result.get() == ButtonType.OK) {
 
 	    try {
-		boolean rmiResult = this.main.getBanking().transfer(this.main.selectedAccount.getAccountID(),
+		boolean rmiResult = this.main.getBanking().transfer(this.main.getSelectedAccount().getAccountID(),
 			this.getReceiver().getValue(), this.getAmount().getValue(), LocalDate.now());
 
 		if (rmiResult) {
@@ -114,6 +121,7 @@ public class EBankingControllerOverview extends BaseController implements Initia
 		}
 
 		this.refreshAccounts();
+		this.main.setSelectedAccount(null);
 	    } catch (NotBoundException e) {
 		e.printStackTrace();
 	    }
@@ -124,6 +132,11 @@ public class EBankingControllerOverview extends BaseController implements Initia
 
     @FXML
     public void GetAccountStatement(final ActionEvent event) throws IOException {
+	if (this.main.getSelectedAccount() == null) {
+	    errorNoAccount.showAndWait();
+	    return;
+	}
+
 	this.main.setScene("statement");
     }
 
@@ -169,6 +182,7 @@ public class EBankingControllerOverview extends BaseController implements Initia
 
     @Override
     public void onNavigate(String route) {
+	this.main.setSelectedAccount(null);
 	this.refreshAccounts();
     }
 

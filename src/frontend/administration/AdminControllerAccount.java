@@ -5,7 +5,6 @@ import java.net.URL;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.util.ResourceBundle;
-
 import backend.api.Account;
 import backend.api.Transaction;
 import frontend.banking.BaseController;
@@ -15,45 +14,51 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 public class AdminControllerAccount extends AdminBaseController implements Initializable {
-	
-	@FXML private Button implementButton;
-	@FXML private Button backButton;
-	
-	@FXML private RadioButton depositRButton;
-	@FXML private RadioButton withdrawRButton;
-	
-	@FXML private TextField accountNumberTF;
-	@FXML private TextField amountTF;
-	
-    @FXML private TableColumn<Account, String> colAccountT;
-  
-    @FXML private TableColumn<Account, Double> colBalanceT;
-    
-    @FXML private TableView<Account> accountsT;
+
+    @FXML
+    private Button implementButton;
+    @FXML
+    private Button backButton;
+
+    @FXML
+    private RadioButton depositRButton;
+    @FXML
+    private RadioButton withdrawRButton;
+
+    @FXML
+    private TextField amountTF;
+
+    @FXML
+    private TableColumn<Account, String> colAccountT;
+
+    @FXML
+    private TableColumn<Account, Double> colBalanceT;
+
+    @FXML
+    private TableView<Account> accountsT;
 
     private final ObservableList<Account> accountsObservableList = FXCollections.observableArrayList();
-    
+
     Alert info = new Alert(AlertType.INFORMATION, "Es kann nur eine Aktion gewählt werden");
     Alert transaction = new Alert(AlertType.INFORMATION, "Transaktion durchgeführt");
     Alert wrongInput = new Alert(AlertType.ERROR, "Bitte alle Felder korrekt ausfüllen");
-	
-	private SimpleStringProperty accountNumber = new SimpleStringProperty("");
+    Alert errorInvalid = new Alert(AlertType.ERROR, "Kundennummer ungltig.");
+    Alert errorNotSelected = new Alert(AlertType.ERROR, "Bitte whlen Sie ein Konto aus.");
+
 	private SimpleStringProperty amount = new SimpleStringProperty("");
+	
+	Account selectedAccount = null;
 	
 	public AdminControllerAccount(AdminMain adminMain) {
 		super(adminMain);
@@ -61,7 +66,6 @@ public class AdminControllerAccount extends AdminBaseController implements Initi
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-    	accountNumberTF.textProperty().bindBidirectional(this.getAccountNumber());
     	amountTF.textProperty().bindBidirectional(this.getAmount());
     	
     	accountsT.setItems(accountsObservableList);
@@ -72,6 +76,11 @@ public class AdminControllerAccount extends AdminBaseController implements Initi
  
 	@FXML
     public void TransferMoney(final ActionEvent event) throws IOException, NotBoundException  {
+		if (this.selectedAccount == null) {
+		    errorNotSelected.showAndWait();
+		    return;
+		}
+		
 		if (depositRButton.isSelected() && withdrawRButton.isSelected()) {
 			info.showAndWait();
 		} else {
@@ -79,55 +88,45 @@ public class AdminControllerAccount extends AdminBaseController implements Initi
 			try {
 				if (depositRButton.isSelected()) {
 					double amountD = Double.parseDouble(amount.getValue());
-					this.adminMain.getAdministration().deposit(this.adminMain.getSelectedAccount().getAccountID(), amountD);
+					this.adminMain.getAdministration().deposit(this.selectedAccount.getAccountID(), amountD);
 				}
 				if (withdrawRButton.isSelected()) {
 					double amountD = Double.parseDouble(amount.getValue());
-					this.adminMain.getAdministration().withdraw(this.adminMain.getSelectedAccount().getAccountID(), amountD);
-					this.adminMain.getAdministration().deposit(accountNumber.getValue(), amountD);
+					this.adminMain.getAdministration().withdraw(this.selectedAccount.getAccountID(), amountD);
 					//geld auf angegebenes Konto vom gewählten Konto senden
 				}
 			} catch (NumberFormatException | NullPointerException e) {
 				wrongInput.showAndWait();
 			}
 			transaction.showAndWait();
-			this.onNavigate("dummy");
+			this.onNavigate("");
+			this.selectedAccount = null;
 		}  	    	
     }
 	
 	@FXML
     public void ShowOverview(final ActionEvent event) throws IOException {	
-    	this.adminMain.setScene("admin");	    	
+    	this.adminMain.setScene("admin");
+	}	
+
+
+    public SimpleStringProperty getAmount() {
+	return amount;
     }
 
-	public SimpleStringProperty getAccountNumber() {
-		return accountNumber;
+
+    public void setAmount(SimpleStringProperty amount) {
+	this.amount = amount;
+    }
+
+    @Override
+    public void onNavigate(String route) {
+	try {
+	    accountsObservableList.setAll(this.adminMain.getAdministration()
+		    .showAccounts(this.adminMain.getSelectedCustomer().getCustomerID()));
+	} catch (RemoteException e) {
+	    this.errorInvalid.showAndWait();
 	}
-
-	public void setAccountNumber(SimpleStringProperty accountNumber) {
-		this.accountNumber = accountNumber;
-	}
-
-	public SimpleStringProperty getAmount() {
-		return amount;
-	}
-
-	public void setAmount(SimpleStringProperty amount) {
-		this.amount = amount;
-	}
-
-	@Override
-	public void onNavigate(String route) {
-		try {
-		    this.accountsObservableList
-			    .setAll(this.adminMain.getAdministration().showAccount(this.adminMain.getSelectedAccount().getAccountID()));
-		    this.accountsT.refresh();
-		} catch (RemoteException e) {
-		    // TODO Auto-generated catch block
-		    e.printStackTrace();
-		}
-
-	    }
-	
+    }
 
 }

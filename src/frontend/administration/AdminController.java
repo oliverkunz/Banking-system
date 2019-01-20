@@ -6,6 +6,7 @@ import java.rmi.RemoteException;
 import java.util.ResourceBundle;
 
 import backend.api.AccountType;
+import frontend.common.Customer;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -60,7 +61,7 @@ public class AdminController extends AdminBaseController implements Initializabl
     @FXML
     private TextField accountIDresolveTF;
     @FXML
-    private TextField accountIDactionsTF;
+    private TextField customerIDactionsTF;
 
     @FXML
     private Label bankNameL;
@@ -85,7 +86,7 @@ public class AdminController extends AdminBaseController implements Initializabl
     private SimpleStringProperty pin = new SimpleStringProperty();
     private SimpleStringProperty customerIDaccount = new SimpleStringProperty("");
     private SimpleStringProperty accountIDresolve = new SimpleStringProperty("");
-    private SimpleStringProperty accountIDactions = new SimpleStringProperty("");
+    private SimpleStringProperty customerIDactions = new SimpleStringProperty("");
 
     public AdminController(AdminMain adminMain) {
 	super(adminMain);
@@ -104,12 +105,11 @@ public class AdminController extends AdminBaseController implements Initializabl
 	pinTF.textProperty().bindBidirectional(this.getPin());
 	customerIDaccountTF.textProperty().bindBidirectional(this.getCustomerIDaccount());
 	accountIDresolveTF.textProperty().bindBidirectional(this.getAccountIDresolve());
-	accountIDactionsTF.textProperty().bindBidirectional(this.getAccountIDactions());
+	customerIDactionsTF.textProperty().bindBidirectional(this.getCustomerIDactions());
 
 	try {
 	    this.bankNameL.setText(this.adminMain.getAdministration().getBankname());
 	} catch (RemoteException e) {
-	    // TODO Auto-generated catch block
 	    e.printStackTrace();
 	}
     }
@@ -178,9 +178,8 @@ public class AdminController extends AdminBaseController implements Initializabl
     }
 
     @FXML
-    public void ShowAccount(final ActionEvent event) throws IOException {
-
-	this.adminMain.setSelectedAccount(this.adminMain.getAdministration().showAccount(accountIDactions.getValue()));
+    public void ShowCustomer(final ActionEvent event) throws IOException {
+	this.adminMain.setSelectedCustomer(new Customer(null, null, this.customerIDactions.getValue()));
 	this.adminMain.setScene("account");
 
     }
@@ -273,12 +272,12 @@ public class AdminController extends AdminBaseController implements Initializabl
 	this.accountIDresolve = accountIDresolve;
     }
 
-    public SimpleStringProperty getAccountIDactions() {
-	return accountIDactions;
+    public SimpleStringProperty getCustomerIDactions() {
+	return customerIDactions;
     }
 
-    public void setAccountIDactions(SimpleStringProperty accountIDactions) {
-	this.accountIDactions = accountIDactions;
+    public void setCustomerIDactions(SimpleStringProperty customerIDactions) {
+	this.customerIDactions = customerIDactions;
     }
 
     @Override

@@ -33,7 +33,7 @@ public class Customer implements Serializable {
      * @return success
      */
     public boolean login(String password) {
-	return true;
+	return this.password.equals(password);
     }
 
     /**

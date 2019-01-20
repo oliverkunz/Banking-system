@@ -15,7 +15,7 @@ import util.Utils;
  * @author fkg
  *
  */
-public abstract class Account implements Serializable {
+public class Account implements Serializable {
     /**
      * 
      */
@@ -74,6 +74,7 @@ public abstract class Account implements Serializable {
      * @return success
      */
     public boolean withdraw(double amount) {
+	// check if withdraw is allowed (limit, overdraw minus)
 	if (isDailyLimitReached(amount) || isMontlyLimitReached(amount) || this.balance - amount <= -this.maxMinus) {
 	    LOGGER.info("Could not withdraw money, limit is reached or negative limit reached");
 	    return false;
@@ -153,6 +154,7 @@ public abstract class Account implements Serializable {
 	    return false;
 	}
 
+	// sum up the amount in the period
 	for (Transaction transaction : this.getTransactions()) {
 	    // transaction date between 1 month or 1 day and now
 	    if (Utils.isBetween(date, LocalDate.now(), transaction.getDueDate())) {

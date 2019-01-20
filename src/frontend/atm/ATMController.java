@@ -2,6 +2,8 @@ package frontend.atm;
 
 import java.io.IOException;
 import java.net.URL;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
 import java.util.ResourceBundle;
 
 import backend.api.Account;
@@ -32,6 +34,7 @@ public class ATMController extends BaseControllerATM implements Initializable {
     private SimpleStringProperty accountID = new SimpleStringProperty("");
 
     Alert error = new Alert(AlertType.ERROR, "Ungültige Kontonummer");
+    Alert wrongInput = new Alert(AlertType.ERROR, "Ungültige Kontonummer");
 
     public ATMController(ATMMain main) {
 	super(main);
@@ -46,23 +49,26 @@ public class ATMController extends BaseControllerATM implements Initializable {
 
     @FXML
     public void PressLoginButton(final ActionEvent event) throws IOException {
-	int pinI = Integer.parseInt(customerPIN.getValue());
+	try {
+    	int pinI = Integer.parseInt(customerPIN.getValue());
 
-	String[] parts = this.accountID.getValue().split("_");
-	if (parts.length != 2) {
-	    error.showAndWait();
-	    return;
-	}
+    	String[] parts = this.accountID.getValue().split("_");
+    	if (parts.length != 2) {
+    		error.showAndWait();
+    		return;
+    	}
+    	this.main.initializeATMForBank(parts[0]);
 
-	this.main.initializeATMForBank(parts[0]);
+    	if (this.main.getATM().login(accountID.getValue(), pinI)) {
+    	    loginMessage.setValue("Login erfolgreich");
 
-	if (this.main.getATM().login(accountID.getValue(), pinI)) {
-	    loginMessage.setValue("Login erfolgreich");
-
-	    this.main.setLoggedInAccount(new Account(accountID.getValue(), 0));
-	    this.main.setScene("atmOverview");
-	} else {
-	    loginMessage.setValue("Falsche Eingabe");
+    	    this.main.setLoggedInAccount(new Account(accountID.getValue(), 0));
+    	    this.main.setScene("atmOverview");
+    	} else {
+    	    loginMessage.setValue("Falsche Eingabe");
+    	}
+	} catch (NumberFormatException e) {	
+		wrongInput.showAndWait();
 	}
 
     }

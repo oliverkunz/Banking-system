@@ -15,7 +15,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -60,14 +59,18 @@ public class ATMControllerOverview extends BaseControllerATM implements Initiali
     @FXML
     public void WithdrawMoney(final ActionEvent event) throws IOException, NotBoundException {
 	
-    		double amountD = Double.parseDouble(amount.getValue());
     		
+    	try {
+    		double amountD = Double.parseDouble(amount.getValue());
     		if (this.main.getATM().withdraw(this.main.getLoggedInAccount().getAccountID(), amountD)) {
     		    info.showAndWait();
     		} else {
     		    error.showAndWait();
     		}
-
+    	} catch (NumberFormatException e) {
+    		wrongInput.showAndWait();
+    	}
+    		
 	// little hack to reload the account, too lazy to execute the same again
 	this.onNavigate("dummy");
     }

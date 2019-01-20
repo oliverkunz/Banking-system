@@ -1,3 +1,4 @@
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -63,12 +64,12 @@ class BankManagerIT {
 	assertNotNull(customerId);
 
 	String accountId = stub1.createAccount(customers.keySet().stream().findFirst().get(), AccountType.PRIVATE, 1000,
-		0.25, 1.25, 200, 1000, 600, 1234);
+		0.25, 1.25, 600, 1000, 600, 1234);
 	customers.values().stream().findFirst().get().add(accountId);
 	assertNotNull(accountId);
 
 	accountId = stub1.createAccount(customers.keySet().stream().skip(1).findFirst().get(), AccountType.SAVINGS,
-		5000, 1.25, 0, 200, 1000, 0, 1234);
+		5000, 1.25, 0, 700, 1000, 0, 1234);
 	customers.values().stream().skip(1).findFirst().get().add(accountId);
 	assertNotNull(accountId);
 
@@ -125,6 +126,11 @@ class BankManagerIT {
 
 	account = stub2.showAccount(customers2.values().stream().skip(1).findFirst().get().get(0));
 	assertTrue(account.getBalance() == 800);
+
+	// limit reached
+	assertFalse(stub1.transfer(customers.values().stream().skip(1).findFirst().get().get(0),
+		customers2.values().stream().skip(1).findFirst().get().get(0), 1400, LocalDate.now()));
+
     }
 
 }

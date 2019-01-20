@@ -111,12 +111,12 @@ Der Server generiert für jeden Kunden eine eindeutige UUID als eindeutige Ident
 ### Persistierung der Daten
 Die Daten werden mit der zur Verfügung gestellten Bibliothek persitiert. Um Datenverluste (Bspw. beim Absturz)  zu vermeiden, wird bei jeder Änderung alles gespeichert. 
 
+## Testing
+Für das Testing wurden JUnit5 Unit-Tests sowie RMI Integrationstests implementiert. Sie befinden sich im Verzeichnis /tests. Es wird jeweils die Applikationslogik des Backends getestet. 
+
 ## Aufbau des Frontends
 Das Frontend wurde mit fxml implementiert. Alle drei Clients wurden jeweils mit JavaFX implementiert, auf eine Konsolenapplikation wurde der Benutzerfreundlichkeit zuliebe verzichtet. 
 Jedes View besitzt zugleich einen Controller, welcher die Logik beinhaltet. 
-
-## Testing
-Für das Testing wurden JUnit5 Unit-Tests sowie RMI Integrationstests implementiert. Sie befinden sich im Verzeichnis /tests. Es wird jeweils die Applikationslogik des Backends getestet. 
 
 ## Bedienung des Frontends
 Nachfolgend eine Übersicht, sowie Kurzanleitung für alle Frontend-Applikationen.

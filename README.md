@@ -1,5 +1,7 @@
-
 # OOP1-Projekt
+    Ein Projekt von Fabian Küng und Oliver Kunz der Klasse I1s. 
+    Im Rahmen des Moduls "BTI7051 - Objektorientierte Programmierung 1" an der Berner Fachhochschule (BFH).
+
 ## Ziel
 Als Beispielanwendung soll ein verteiltes Bankensystem entwickelt werden.
 
@@ -40,13 +42,17 @@ Als Beispielanwendung soll ein verteiltes Bankensystem entwickelt werden.
 ![ClassDiagramm](Ressources/backend.jpg)
 
 ## JavaDoc
-The generated JavaDoc can be accessed under /doc
+Das generierte Javadoc findet sich unter /doc
 
 ## Starten des Projektes
+### Eclipse
 Das Projekt kann entweder über Eclipse gestartet werden oder auch direkt die .jars. Diese befinden sich unter /jars
 
-Falls man das Projekt über Eclipse ausführt, muss man bei den "Run Configurations" für das E-Banking sowie Administration jeweils noch konfigurieren, auf welche Bank zugegriffen werden soll. Dazu kann man bei den "Program Arguments" in den "Run Configurations" die ID der Bank hinterlegen (aus der bank.properties Datei). 
+Falls man das Projekt über Eclipse ausführt, muss man bei den "Run Configurations" für das E-Banking sowie Administration jeweils noch konfigurieren, auf welche Bank zugegriffen werden soll. Dazu kann man bei den "Program Arguments" in den "Run Configurations" die ID der Bank hinterlegen z.B. "ubs" (aus der bank.properties Datei). 
+Danach muss zuerst im Package "Backend" das main.java ausgeführt werden um das Backend zu initialisieren.
+Anschliessend können nach belieben die "Mains" der jeweiligen Applikationen im Frontend gestart werden.
 
+### Kommandozeile
 Beim Ausführen über die Kommandozeile, können die jars wie folgt gestartet werden.
 
 ````
@@ -111,3 +117,12 @@ Jedes View besitzt zugleich einen Controller, welcher die Logik beinhaltet.
 
 ## Testing
 Für das Testing wurden JUnit5 Unit-Tests sowie RMI Integrationstests implementiert. Sie befinden sich im Verzeichnis /tests. Es wird jeweils die Applikationslogik des Backends getestet. 
+
+## Bedienung des Frontends
+Nachfolgend eine Übersicht, sowie Kurzanleitung für alle Frontend-Applikationen.
+Generell gilt, dass alle Felder korrekt ausgefüllt werden müssen um eine Aktion durchzuführen, z.B. dürfen bei Vor- und Nachnamen natürlich nur Buchstaben aber keine Zahlen eingegeben werden.
+
+### Kundenadministration
+Die Administration wird von den Bankangestellten verwendet um Kunden und Konten zu eröffnen und zu verwalten.
+![AdministationOverview](Ressources/AdministrationOverview.jpg)
+

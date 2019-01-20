@@ -117,3 +117,12 @@ Jedes View besitzt zugleich einen Controller, welcher die Logik beinhaltet.
 
 ## Testing
 Für das Testing wurden JUnit5 Unit-Tests sowie RMI Integrationstests implementiert. Sie befinden sich im Verzeichnis /tests. Es wird jeweils die Applikationslogik des Backends getestet. 
+
+## Bedienung des Frontends
+Nachfolgend eine Übersicht, sowie Kurzanleitung für alle Frontend-Applikationen.
+Generell gilt, dass alle Felder korrekt ausgefüllt werden müssen um eine Aktion durchzuführen, z.B. dürfen bei Vor- und Nachnamen natürlich nur Buchstaben aber keine Zahlen eingegeben werden.
+
+### Kundenadministration
+Die Administration wird von den Bankangestellten verwendet um Kunden und Konten zu eröffnen und zu verwalten.
+![AdministationOverview](Ressources/AdministrationOverview.jpg)
+

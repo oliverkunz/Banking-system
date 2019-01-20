@@ -140,3 +140,25 @@ Nach einer erfolgreichen Transaktion wird das Guthaben aktualisiert.
 #### Konten-Übersicht eines Kunden:
 ![AdministationAccounts](Ressources/AdministrationShowAccount.JPG)
 
+### Bankomat (ATM)
+Mit Kontonummer und entsprechender PIN kann man sich am ATM anmelden.
+Es wird der Kontostand des Kontos angezeigt, ausserdem kann man sich Geld auszahlen lassen.
+Der ATM verbindet sich mit der Bank, zu der das beim Login eingegebene Konto gehört.
+
+#### ATM-Bildschirm:
+![ATMOverview](Ressources/ATMOVerview.JPG)
+
+### E-Banking
+Mit Kundennummer und dem dazugehörigen Passwort ist ein Anmelden im bankeigenen E-Banking möglich.
+In der Tabelle werden alle Konten angezeigt, welche der jeweilige Kunde besitzt.
+Nach Auswahl eines Kontos (Klick auf die Kontonummer in der Tabelle) kann ein Auszug aller Transaktionen geneeriert werden.
+Im E-Banking ist es auch möglich Geld auf andere Konten zu Überweisen.
+
+#### E-Banking Übersicht:
+![E-BankingOverview](Ressources/EBankingOverview.JPG)
+
+Der Kontoauszug wird auch tabellarisch dargestellt, mit Sender, Empfänger und dem Betrag der transferiert wurde.
+Ist kein Sender eingetragen, so wurde das Geld vom gleichen Inhaber via Bankangestellter in der Administration eingezahlt (siehe Beispiel unten).
+
+#### E-Banking Kontoauszug:
+![E-BankingeStatement](Ressources/EBankingOverview.JPG)

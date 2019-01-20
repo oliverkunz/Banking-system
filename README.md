@@ -1,5 +1,5 @@
 # OOP1-Projekt
-    Ein Projekt von Fabian Küng und Oliver Kunz. 
+    Ein Projekt von Fabian Küng und Oliver Kunz der Klasse I1s. 
     Im Rahmen des Moduls "BTI7051 - Objektorientierte Programmierung 1" an der Berner Fachhochschule (BFH).
 
 ## Ziel

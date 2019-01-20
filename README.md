@@ -117,7 +117,7 @@ Für das Testing wurden JUnit5 Unit-Tests sowie RMI Integrationstests implementi
 ## Aufbau des Frontends
 Das Frontend wurde mit fxml implementiert. Alle drei Clients wurden jeweils mit JavaFX implementiert, auf eine Konsolenapplikation wurde der Benutzerfreundlichkeit zuliebe verzichtet. 
 Jedes View besitzt zugleich einen Controller, welcher die Logik beinhaltet. 
-Zur Einfachhhit wird das Styling zentral in einem CSS verwaltet, so wurde sichergestellt, dass das Frontend ein homogenes Design ausweist.
+Zur Einfachhhit wird das Styling zentral in einer CSS-Datei verwaltet. So wird sichergestellt, dass das Frontend ein homogenes Design aufweist.
 
 ## Bedienung des Frontends
 Nachfolgend eine Übersicht, sowie Kurzanleitung für alle Frontend-Applikationen.

@@ -120,10 +120,20 @@ Für das Testing wurden JUnit5 Unit-Tests sowie RMI Integrationstests implementi
 
 ## Bedienung des Frontends
 Nachfolgend eine Übersicht, sowie Kurzanleitung für alle Frontend-Applikationen.
-Generell gilt, dass alle Felder korrekt ausgefüllt werden müssen um eine Aktion durchzuführen, z.B. dürfen bei Vor- und Nachnamen natürlich nur Buchstaben aber keine Zahlen eingegeben werden.
+Generell gilt, dass alle Felder korrekt ausgefüllt werden müssen um eine Aktion durchzuführen, z.B. dürfen bei Vor- und Nachnamen natürlich nur Buchstaben aber keine Zahlen eingegeben werden
+Welcher Input im jeweiligen Feld erwartet wird, ist im Feld selber in grau angezeigt.
+
+Nach allen Aktionen wird ein Dialog-Fenster angezeigt, ob die gewünschte Aktion erfolgreich war oder es beim Input noch Fehler gibt.
 
 ### Kundenadministration
 Die Administration wird von den Bankangestellten verwendet um Kunden und Konten zu eröffnen und zu verwalten.
+Speziell zu beachten gilt es, dass beim Registrieren eines Kunden oder Anlegen eines Kontos, jeweils die Kunden- oder Kontonummer in den Zwischenspeicher kopiert wird. 
+So kann die Kunden- oder Kontonummer gleich weiterverwendet werden.
+
+Unten die Übersicht der Administration:
 ![AdministationOverview](Ressources/AdministrationOverview.JPG)
+
+Die Bankangestellten sind in der Lage eine Übersicht über alle Konten eines Kunden anzeigen zu lassen.
+
 
 

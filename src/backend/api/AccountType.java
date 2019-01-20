@@ -7,5 +7,5 @@ package backend.api;
  *
  */
 public enum AccountType {
-    PRIVATE, SAVINGS
+	PRIVATE, SAVINGS
 }

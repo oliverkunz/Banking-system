@@ -23,118 +23,117 @@ import javafx.scene.input.ClipboardContent;
 
 public class AdminController extends AdminBaseController implements Initializable {
 
+	@FXML
+	private Button registerButton;
+	@FXML
+	private Button openButton;
+	@FXML
+	private Button resolveButton;
+	@FXML
+	private Button showButton;
 
-    @FXML
-    private Button registerButton;
-    @FXML
-    private Button openButton;
-    @FXML
-    private Button resolveButton;
-    @FXML
-    private Button showButton;
+	@FXML
+	private RadioButton privateRButton;
+	@FXML
+	private RadioButton savingRButton;
 
-    @FXML
-    private RadioButton privateRButton;
-    @FXML
-    private RadioButton savingRButton;
+	@FXML
+	private TextField lastNameTF;
+	@FXML
+	private TextField firstNameTF;
+	@FXML
+	private PasswordField passwordTF;
+	@FXML
+	private TextField interestTF;
+	@FXML
+	private TextField dailyLimitTF;
+	@FXML
+	private TextField monthlyLimitTF;
+	@FXML
+	private TextField overdraftTF;
+	@FXML
+	private TextField maxMinusTF;
+	@FXML
+	private TextField pinTF;
+	@FXML
+	private TextField customerIDaccountTF;
+	@FXML
+	private TextField accountIDresolveTF;
+	@FXML
+	private TextField customerIDactionsTF;
 
-    @FXML
-    private TextField lastNameTF;
-    @FXML
-    private TextField firstNameTF;
-    @FXML
-    private PasswordField passwordTF;
-    @FXML
-    private TextField interestTF;
-    @FXML
-    private TextField dailyLimitTF;
-    @FXML
-    private TextField monthlyLimitTF;
-    @FXML
-    private TextField overdraftTF;
-    @FXML
-    private TextField maxMinusTF;
-    @FXML
-    private TextField pinTF;
-    @FXML
-    private TextField customerIDaccountTF;
-    @FXML
-    private TextField accountIDresolveTF;
-    @FXML
-    private TextField customerIDactionsTF;
-
-    @FXML
-    private Label bankNameL;
+	@FXML
+	private Label bankNameL;
 
 	Alert info = new Alert(AlertType.ERROR, "Es kann nur ein Kontotyp gewährt werden");
 	Alert wrongInput = new Alert(AlertType.ERROR, "Bitte alle Felder korrekt ausfüllen");
 	Alert wrongID = new Alert(AlertType.ERROR, "Kontonummer ist ungültig");
-	Alert registerAccount = new Alert(AlertType.INFORMATION,"Account erstellt, ID in den Zwischenspeicher kopiert");
+	Alert registerAccount = new Alert(AlertType.INFORMATION, "Account erstellt, ID in den Zwischenspeicher kopiert");
 	Alert registerCustomer = new Alert(AlertType.INFORMATION, "Kunde erstellt, ID in den Zwischenspeicher kopiert");
 
-    final Clipboard clipboard = Clipboard.getSystemClipboard();
-    final ClipboardContent content = new ClipboardContent();
+	final Clipboard clipboard = Clipboard.getSystemClipboard();
+	final ClipboardContent content = new ClipboardContent();
 
-    private SimpleStringProperty lastName = new SimpleStringProperty("");
-    private SimpleStringProperty firstName = new SimpleStringProperty("");
-    private SimpleStringProperty password = new SimpleStringProperty("");
-    private SimpleStringProperty interest = new SimpleStringProperty();
-    private SimpleStringProperty dailyLimit = new SimpleStringProperty();
-    private SimpleStringProperty monthlyLimit = new SimpleStringProperty();
-    private SimpleStringProperty overdraft = new SimpleStringProperty();
-    private SimpleStringProperty maxMinus = new SimpleStringProperty();
-    private SimpleStringProperty pin = new SimpleStringProperty();
-    private SimpleStringProperty customerIDaccount = new SimpleStringProperty("");
-    private SimpleStringProperty accountIDresolve = new SimpleStringProperty("");
-    private SimpleStringProperty customerIDactions = new SimpleStringProperty("");
+	private SimpleStringProperty lastName = new SimpleStringProperty("");
+	private SimpleStringProperty firstName = new SimpleStringProperty("");
+	private SimpleStringProperty password = new SimpleStringProperty("");
+	private SimpleStringProperty interest = new SimpleStringProperty();
+	private SimpleStringProperty dailyLimit = new SimpleStringProperty();
+	private SimpleStringProperty monthlyLimit = new SimpleStringProperty();
+	private SimpleStringProperty overdraft = new SimpleStringProperty();
+	private SimpleStringProperty maxMinus = new SimpleStringProperty();
+	private SimpleStringProperty pin = new SimpleStringProperty();
+	private SimpleStringProperty customerIDaccount = new SimpleStringProperty("");
+	private SimpleStringProperty accountIDresolve = new SimpleStringProperty("");
+	private SimpleStringProperty customerIDactions = new SimpleStringProperty("");
 
-    public AdminController(AdminMain adminMain) {
-	super(adminMain);
-    }
-
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-	lastNameTF.textProperty().bindBidirectional(this.getLastName());
-	firstNameTF.textProperty().bindBidirectional(this.getFirstName());
-	passwordTF.textProperty().bindBidirectional(this.getPassword());
-	interestTF.textProperty().bindBidirectional(this.getInterest());
-	dailyLimitTF.textProperty().bindBidirectional(this.getDailyLimit());
-	monthlyLimitTF.textProperty().bindBidirectional(this.getMonthlyLimit());
-	overdraftTF.textProperty().bindBidirectional(this.getOverdraft());
-	maxMinusTF.textProperty().bindBidirectional(this.getMaxMinus());
-	pinTF.textProperty().bindBidirectional(this.getPin());
-	customerIDaccountTF.textProperty().bindBidirectional(this.getCustomerIDaccount());
-	accountIDresolveTF.textProperty().bindBidirectional(this.getAccountIDresolve());
-	customerIDactionsTF.textProperty().bindBidirectional(this.getCustomerIDactions());
-
-	try {
-	    this.bankNameL.setText(this.adminMain.getAdministration().getBankname());
-	} catch (RemoteException e) {
-	    e.printStackTrace();
+	public AdminController(AdminMain adminMain) {
+		super(adminMain);
 	}
-    }
 
-    @FXML
-    public void RegisterCustomer(final ActionEvent event) throws IOException {
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+		lastNameTF.textProperty().bindBidirectional(this.getLastName());
+		firstNameTF.textProperty().bindBidirectional(this.getFirstName());
+		passwordTF.textProperty().bindBidirectional(this.getPassword());
+		interestTF.textProperty().bindBidirectional(this.getInterest());
+		dailyLimitTF.textProperty().bindBidirectional(this.getDailyLimit());
+		monthlyLimitTF.textProperty().bindBidirectional(this.getMonthlyLimit());
+		overdraftTF.textProperty().bindBidirectional(this.getOverdraft());
+		maxMinusTF.textProperty().bindBidirectional(this.getMaxMinus());
+		pinTF.textProperty().bindBidirectional(this.getPin());
+		customerIDaccountTF.textProperty().bindBidirectional(this.getCustomerIDaccount());
+		accountIDresolveTF.textProperty().bindBidirectional(this.getAccountIDresolve());
+		customerIDactionsTF.textProperty().bindBidirectional(this.getCustomerIDactions());
 
-	String regex = "[a-zA-Z]{0,}";
-	if (firstName.getValue().toString().matches(regex) && lastName.getValue().matches(regex)
-		&& !(password.getValue().isEmpty()) && !(firstName.getValue().isEmpty())
-		&& !(lastName.getValue().isEmpty())) {
-
-	    String customerID = this.adminMain.getAdministration().createCustomer(firstName.getValue(),
-		    lastName.getValue(), password.getValue());
-	    content.putString(customerID);
-	    clipboard.setContent(content);
-	    registerCustomer.showAndWait();
-
-	} else {
-		wrongInput.showAndWait();
+		try {
+			this.bankNameL.setText(this.adminMain.getAdministration().getBankname());
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
 	}
-    }
 
 	@FXML
-    public void OpenAccount(final ActionEvent event) throws IOException  {
+	public void RegisterCustomer(final ActionEvent event) throws IOException {
+
+		String regex = "[a-zA-Z]{0,}";
+		if (firstName.getValue().toString().matches(regex) && lastName.getValue().matches(regex)
+				&& !(password.getValue().isEmpty()) && !(firstName.getValue().isEmpty())
+				&& !(lastName.getValue().isEmpty())) {
+
+			String customerID = this.adminMain.getAdministration().createCustomer(firstName.getValue(),
+					lastName.getValue(), password.getValue());
+			content.putString(customerID);
+			clipboard.setContent(content);
+			registerCustomer.showAndWait();
+
+		} else {
+			wrongInput.showAndWait();
+		}
+	}
+
+	@FXML
+	public void OpenAccount(final ActionEvent event) throws IOException {
 		if (privateRButton.isSelected() && (savingRButton.isSelected())) {
 			info.showAndWait();
 		} else {
@@ -146,143 +145,145 @@ public class AdminController extends AdminBaseController implements Initializabl
 				double monthlyLimitD = Double.parseDouble(monthlyLimit.getValue());
 				double maxMinusD = Double.parseDouble(maxMinus.getValue());
 				int pinI = Integer.parseInt(pin.getValue());
-				String accountID = this.adminMain.getAdministration().createAccount(customerIDaccount.getValue(), GetAccountType(), accountBalance, interestD, overdraftD, dailyLimitD, monthlyLimitD, maxMinusD, pinI);
-	    		content.putString(accountID);
-	    		clipboard.setContent(content);
+				String accountID = this.adminMain.getAdministration().createAccount(customerIDaccount.getValue(),
+						GetAccountType(), accountBalance, interestD, overdraftD, dailyLimitD, monthlyLimitD, maxMinusD,
+						pinI);
+				content.putString(accountID);
+				clipboard.setContent(content);
 				registerAccount.showAndWait();
-			} catch(NumberFormatException | NullPointerException e) {
+			} catch (NumberFormatException | NullPointerException e) {
 				wrongInput.showAndWait();
-			}			
-		} 	    	
-    }
-
-    public AccountType GetAccountType() {
-	AccountType accountType = null;
-	if (privateRButton.isSelected()) {
-	    accountType = accountType.PRIVATE;
+			}
+		}
 	}
-	if (savingRButton.isSelected()) {
-	    accountType = accountType.SAVINGS;
+
+	public AccountType GetAccountType() {
+		AccountType accountType = null;
+		if (privateRButton.isSelected()) {
+			accountType = accountType.PRIVATE;
+		}
+		if (savingRButton.isSelected()) {
+			accountType = accountType.SAVINGS;
+		}
+		return accountType;
 	}
-	return accountType;
-    }
 
-    @FXML
-    public void ResolveAccount(final ActionEvent event) throws IOException {
-    	try {
-    		this.adminMain.getAdministration().closeAccount(accountIDresolve.getValue());
-    	} catch (NumberFormatException | NullPointerException e) {
-    		
-    	} 
+	@FXML
+	public void ResolveAccount(final ActionEvent event) throws IOException {
+		try {
+			this.adminMain.getAdministration().closeAccount(accountIDresolve.getValue());
+		} catch (NumberFormatException | NullPointerException e) {
 
-    }
+		}
 
-    @FXML
-    public void ShowCustomer(final ActionEvent event) throws IOException {
-	this.adminMain.setSelectedCustomer(new Customer(null, null, this.customerIDactions.getValue()));
-	this.adminMain.setScene("account");
+	}
 
-    }
+	@FXML
+	public void ShowCustomer(final ActionEvent event) throws IOException {
+		this.adminMain.setSelectedCustomer(new Customer(null, null, this.customerIDactions.getValue()));
+		this.adminMain.setScene("account");
 
-    public SimpleStringProperty getLastName() {
-	return lastName;
-    }
+	}
 
-    public void setLastName(SimpleStringProperty lastName) {
-	this.lastName = lastName;
-    }
+	public SimpleStringProperty getLastName() {
+		return lastName;
+	}
 
-    public SimpleStringProperty getFirstName() {
-	return firstName;
-    }
+	public void setLastName(SimpleStringProperty lastName) {
+		this.lastName = lastName;
+	}
 
-    public void setFirstName(SimpleStringProperty firstName) {
-	this.firstName = firstName;
-    }
+	public SimpleStringProperty getFirstName() {
+		return firstName;
+	}
 
-    public SimpleStringProperty getPassword() {
-	return password;
-    }
+	public void setFirstName(SimpleStringProperty firstName) {
+		this.firstName = firstName;
+	}
 
-    public void setPassword(SimpleStringProperty password) {
-	this.password = password;
-    }
+	public SimpleStringProperty getPassword() {
+		return password;
+	}
 
-    public SimpleStringProperty getInterest() {
-	return interest;
-    }
+	public void setPassword(SimpleStringProperty password) {
+		this.password = password;
+	}
 
-    public void setInterest(SimpleStringProperty interest) {
-	this.interest = interest;
-    }
+	public SimpleStringProperty getInterest() {
+		return interest;
+	}
 
-    public SimpleStringProperty getDailyLimit() {
-	return dailyLimit;
-    }
+	public void setInterest(SimpleStringProperty interest) {
+		this.interest = interest;
+	}
 
-    public void setDailyLimit(SimpleStringProperty dailyLimit) {
-	this.dailyLimit = dailyLimit;
-    }
+	public SimpleStringProperty getDailyLimit() {
+		return dailyLimit;
+	}
 
-    public SimpleStringProperty getMonthlyLimit() {
-	return monthlyLimit;
-    }
+	public void setDailyLimit(SimpleStringProperty dailyLimit) {
+		this.dailyLimit = dailyLimit;
+	}
 
-    public void setMonthlyLimit(SimpleStringProperty monthlyLimit) {
-	this.monthlyLimit = monthlyLimit;
-    }
+	public SimpleStringProperty getMonthlyLimit() {
+		return monthlyLimit;
+	}
 
-    public SimpleStringProperty getOverdraft() {
-	return overdraft;
-    }
+	public void setMonthlyLimit(SimpleStringProperty monthlyLimit) {
+		this.monthlyLimit = monthlyLimit;
+	}
 
-    public void setOverdraft(SimpleStringProperty overdraft) {
-	this.overdraft = overdraft;
-    }
+	public SimpleStringProperty getOverdraft() {
+		return overdraft;
+	}
 
-    public SimpleStringProperty getMaxMinus() {
-	return maxMinus;
-    }
+	public void setOverdraft(SimpleStringProperty overdraft) {
+		this.overdraft = overdraft;
+	}
 
-    public void setMaxMinus(SimpleStringProperty maxMinus) {
-	this.maxMinus = maxMinus;
-    }
+	public SimpleStringProperty getMaxMinus() {
+		return maxMinus;
+	}
 
-    public SimpleStringProperty getPin() {
-	return pin;
-    }
+	public void setMaxMinus(SimpleStringProperty maxMinus) {
+		this.maxMinus = maxMinus;
+	}
 
-    public void setPin(SimpleStringProperty pin) {
-	this.pin = pin;
-    }
+	public SimpleStringProperty getPin() {
+		return pin;
+	}
 
-    public SimpleStringProperty getCustomerIDaccount() {
-	return customerIDaccount;
-    }
+	public void setPin(SimpleStringProperty pin) {
+		this.pin = pin;
+	}
 
-    public void setCustomerIDaccount(SimpleStringProperty customerIDaccount) {
-	this.customerIDaccount = customerIDaccount;
-    }
+	public SimpleStringProperty getCustomerIDaccount() {
+		return customerIDaccount;
+	}
 
-    public SimpleStringProperty getAccountIDresolve() {
-	return accountIDresolve;
-    }
+	public void setCustomerIDaccount(SimpleStringProperty customerIDaccount) {
+		this.customerIDaccount = customerIDaccount;
+	}
 
-    public void setAccountIDresolve(SimpleStringProperty accountIDresolve) {
-	this.accountIDresolve = accountIDresolve;
-    }
+	public SimpleStringProperty getAccountIDresolve() {
+		return accountIDresolve;
+	}
 
-    public SimpleStringProperty getCustomerIDactions() {
-	return customerIDactions;
-    }
+	public void setAccountIDresolve(SimpleStringProperty accountIDresolve) {
+		this.accountIDresolve = accountIDresolve;
+	}
 
-    public void setCustomerIDactions(SimpleStringProperty customerIDactions) {
-	this.customerIDactions = customerIDactions;
-    }
+	public SimpleStringProperty getCustomerIDactions() {
+		return customerIDactions;
+	}
 
-    @Override
-    public void onNavigate(String route) {
+	public void setCustomerIDactions(SimpleStringProperty customerIDactions) {
+		this.customerIDactions = customerIDactions;
+	}
 
-    }
+	@Override
+	public void onNavigate(String route) {
+
+	}
 
 }

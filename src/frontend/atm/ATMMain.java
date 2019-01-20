@@ -17,69 +17,69 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class ATMMain extends Application {
-    Map<String, Pair<Scene, BaseControllerATM>> scenes = new HashMap<>();
+	Map<String, Pair<Scene, BaseControllerATM>> scenes = new HashMap<>();
 
-    Stage primaryStage;
-    Parent root;
+	Stage primaryStage;
+	Parent root;
 
-    Account loggedInAccount = null;
+	Account loggedInAccount = null;
 
-    ATM atm;
+	ATM atm;
 
-    FXMLLoader fxmlLoader = new FXMLLoader();
-    ATMController controller = (ATMController) fxmlLoader.getController();
+	FXMLLoader fxmlLoader = new FXMLLoader();
+	ATMController controller = (ATMController) fxmlLoader.getController();
 
-    Registry registry;
+	Registry registry;
 
-    public static void main(String[] args) {
-	launch(args);
-    }
-
-    public void start(Stage primaryStage) throws Exception {
-	this.primaryStage = primaryStage;
-
-	registry = LocateRegistry.getRegistry("localhost", 2001);
-
-	FXMLLoader loader = new FXMLLoader(getClass().getResource("atm.fxml"));
-	BaseControllerATM controller = new ATMController(this);
-	loader.setController(controller);
-	scenes.put("atmLogin", Pair.of(new Scene(loader.load(), 900, 600), controller));
-
-	loader = new FXMLLoader(getClass().getResource("atmOverview.fxml"));
-	controller = new ATMControllerOverview(this);
-	loader.setController(controller);
-	scenes.put("atmOverview", Pair.of(new Scene(loader.load(), 900, 600), controller));
-
-	primaryStage.setTitle("ATM");
-	primaryStage.setScene(scenes.get("atmLogin").getFirstValue());
-	primaryStage.show();
-
-    }
-
-    public void setScene(String name) {
-	primaryStage.setScene(this.scenes.get(name).getFirstValue());
-	this.scenes.get(name).getSecondValue().onNavigate(name);
-    }
-
-    public ATM getATM() {
-	return this.atm;
-    }
-
-    public Account getLoggedInAccount() {
-	return loggedInAccount;
-    }
-
-    public void setLoggedInAccount(Account loggedInAccount) {
-	this.loggedInAccount = loggedInAccount;
-    }
-
-    public void initializeATMForBank(String bankId) {
-	try {
-	    atm = (ATM) this.registry.lookup(bankId);
-	} catch (RemoteException | NotBoundException e) {
-	    // TODO Auto-generated catch block
-	    e.printStackTrace();
+	public static void main(String[] args) {
+		launch(args);
 	}
-    }
+
+	public void start(Stage primaryStage) throws Exception {
+		this.primaryStage = primaryStage;
+
+		registry = LocateRegistry.getRegistry("localhost", 2001);
+
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("atm.fxml"));
+		BaseControllerATM controller = new ATMController(this);
+		loader.setController(controller);
+		scenes.put("atmLogin", Pair.of(new Scene(loader.load(), 900, 600), controller));
+
+		loader = new FXMLLoader(getClass().getResource("atmOverview.fxml"));
+		controller = new ATMControllerOverview(this);
+		loader.setController(controller);
+		scenes.put("atmOverview", Pair.of(new Scene(loader.load(), 900, 600), controller));
+
+		primaryStage.setTitle("ATM");
+		primaryStage.setScene(scenes.get("atmLogin").getFirstValue());
+		primaryStage.show();
+
+	}
+
+	public void setScene(String name) {
+		primaryStage.setScene(this.scenes.get(name).getFirstValue());
+		this.scenes.get(name).getSecondValue().onNavigate(name);
+	}
+
+	public ATM getATM() {
+		return this.atm;
+	}
+
+	public Account getLoggedInAccount() {
+		return loggedInAccount;
+	}
+
+	public void setLoggedInAccount(Account loggedInAccount) {
+		this.loggedInAccount = loggedInAccount;
+	}
+
+	public void initializeATMForBank(String bankId) {
+		try {
+			atm = (ATM) this.registry.lookup(bankId);
+		} catch (RemoteException | NotBoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 
 }

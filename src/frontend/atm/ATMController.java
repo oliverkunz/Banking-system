@@ -65,7 +65,7 @@ public class ATMController extends BaseControllerATM implements Initializable {
 			} else {
 				loginMessage.setValue("Falsche Eingabe");
 			}
-		} catch (NumberFormatException e) {
+		} catch (NumberFormatException | NullPointerException e) {
 			wrongInput.showAndWait();
 		}
 

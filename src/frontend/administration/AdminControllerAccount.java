@@ -70,7 +70,6 @@ public class AdminControllerAccount extends AdminBaseController implements Initi
 
 		accountsT.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
 			if (newSelection != null) {
-				// this.adminMain.setSelectedAccount(newSelection);
 				this.selectedAccount = newSelection;
 			}
 		});

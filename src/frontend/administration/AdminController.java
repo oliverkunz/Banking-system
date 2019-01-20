@@ -54,7 +54,7 @@ public class AdminController extends AdminBaseController implements Initializabl
 	@FXML
 	private TextField maxMinusTF;
 	@FXML
-	private TextField pinTF;
+	private PasswordField pinTF;
 	@FXML
 	private TextField customerIDaccountTF;
 	@FXML

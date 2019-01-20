@@ -130,13 +130,13 @@ Die Administration wird von den Bankangestellten verwendet um Kunden und Konten 
 Speziell zu beachten gilt es, dass beim Registrieren eines Kunden oder Anlegen eines Kontos, jeweils die Kunden- oder Kontonummer in den Zwischenspeicher kopiert wird. 
 So kann die Kunden- oder Kontonummer gleich weiterverwendet werden.
 
-Unten die Übersicht der Administration:
+#### Übersicht der Administration:
 ![AdministationOverview](Ressources/AdministrationOverview.JPG)
 
 Die Bankangestellten sind in der Lage eine Übersicht über alle Konten eines Kunden anzeigen zu lassen.
 Um Geld ein- oder auszahlen zu können muss das gewünschte Konto in der Tabelle ausgewählt werden.
 Nach einer erfolgreichen Transaktion wird das Guthaben aktualisiert.
 
-So sieht die Konten-Übersicht eines Kunden aus:
+#### Konten-Übersicht eines Kunden:
 ![AdministationAccounts](Ressources/AdministrationShowAccount.JPG)
 

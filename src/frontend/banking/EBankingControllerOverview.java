@@ -59,8 +59,7 @@ public class EBankingControllerOverview extends BaseController implements Initia
     Alert info = new Alert(AlertType.INFORMATION, "Transaktion ausgeführt");
     Alert errorAborted = new Alert(AlertType.ERROR, "Transaktion abgebrochen");
     Alert errorNegativeAmount = new Alert(AlertType.ERROR, "Negativen Betrag angegeben. Betrag muss positiv sein.");
-    Alert errorNotAllowed = new Alert(AlertType.ERROR,
-	    "Es ist ein Fehler aufgetreten. Falscher Empfänger, Überzugslimite erreicht oder Tages- / Monatslimite erreicht.");
+    Alert errorNotAllowed = new Alert(AlertType.ERROR, "Es ist ein Fehler aufgetreten. Falscher Empfänger, Überzugslimite erreicht oder Tages- / Monatslimite erreicht.");
     Alert errorNotEmpty = new Alert(AlertType.ERROR, "Empfänger darf nicht leer sein.");
     Alert errorNoAccount = new Alert(AlertType.ERROR, "Bitte wählen Sie ein Konto aus.");
 

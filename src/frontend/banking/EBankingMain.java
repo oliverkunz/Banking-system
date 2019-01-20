@@ -58,7 +58,7 @@ public class EBankingMain extends Application {
 	loader = new FXMLLoader(getClass().getResource("ebankingStatement.fxml"));
 	controller = new EBankingControllerStatement(this);
 	loader.setController(controller);
-	scenes.put("statement", Pair.of(new Scene(loader.load(), 900, 600), controller));
+	scenes.put("statement", Pair.of(new Scene(loader.load(), 1280, 800), controller));
 
 	primaryStage.setTitle("E-Banking");
 	primaryStage.setScene(scenes.get("login").getFirstValue());

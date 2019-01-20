@@ -16,84 +16,96 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 
+//Frontend: ATM login
 public class ATMController extends BaseControllerATM implements Initializable {
 
-    @FXML
-    private Button loginButton;
-    @FXML
-    private TextField accountIDTF;
-    @FXML
-    private PasswordField customerPINPF;
-    @FXML
-    private Label loginMessageL;
+	@FXML
+	private Button loginButton;
+	@FXML
+	private TextField accountIDTF;
+	@FXML
+	private PasswordField customerPINPF;
+	@FXML
+	private Label loginMessageL;
 
-    private SimpleStringProperty loginMessage = new SimpleStringProperty("");
-    private SimpleStringProperty customerPIN = new SimpleStringProperty("");
-    private SimpleStringProperty accountID = new SimpleStringProperty("");
+	private SimpleStringProperty loginMessage = new SimpleStringProperty("");
+	private SimpleStringProperty customerPIN = new SimpleStringProperty("");
+	private SimpleStringProperty accountID = new SimpleStringProperty("");
 
-    Alert error = new Alert(AlertType.ERROR, "Ungültige Kontonummer");
+	// pop-up dialog fields for simple user communication (confirm actions & input
+	// errors)
+	Alert error = new Alert(AlertType.ERROR, "Ungültige Kontonummer");
+	Alert wrongInput = new Alert(AlertType.ERROR, "Ungültige Kontonummer");
 
-    public ATMController(ATMMain main) {
-	super(main);
-    }
-
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-	accountIDTF.textProperty().bindBidirectional(this.getAccountID());
-	customerPINPF.textProperty().bindBidirectional(this.getCustomerPIN());
-	loginMessageL.textProperty().bindBidirectional(this.getLoginMessage());
-    }
-
-    @FXML
-    public void PressLoginButton(final ActionEvent event) throws IOException {
-	int pinI = Integer.parseInt(customerPIN.getValue());
-
-	String[] parts = this.accountID.getValue().split("_");
-	if (parts.length != 2) {
-	    error.showAndWait();
-	    return;
+	public ATMController(ATMMain main) {
+		super(main);
 	}
 
-	this.main.initializeATMForBank(parts[0]);
-
-	if (this.main.getATM().login(accountID.getValue(), pinI)) {
-	    loginMessage.setValue("Login erfolgreich");
-
-	    this.main.setLoggedInAccount(new Account(accountID.getValue(), 0));
-	    this.main.setScene("atmOverview");
-	} else {
-	    loginMessage.setValue("Falsche Eingabe");
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+		// binding the input-fields
+		accountIDTF.textProperty().bindBidirectional(this.getAccountID());
+		customerPINPF.textProperty().bindBidirectional(this.getCustomerPIN());
+		loginMessageL.textProperty().bindBidirectional(this.getLoginMessage());
 	}
 
-    }
+	// function for handling the login
+	@FXML
+	public void PressLoginButton(final ActionEvent event) throws IOException {
+		// checking if the accountID is correct
+		try {
+			int pinI = Integer.parseInt(customerPIN.getValue());
 
-    public SimpleStringProperty getLoginMessage() {
-	return loginMessage;
-    }
+			String[] parts = this.accountID.getValue().split("_");
+			if (parts.length != 2) {
+				error.showAndWait();
+				return;
+			}
+			// loading the right bank according to the provided accountID
+			this.main.initializeATMForBank(parts[0]);
 
-    public void setLoginMessage(SimpleStringProperty loginMessage) {
-	this.loginMessage = loginMessage;
-    }
+			// login and switching scene
+			if (this.main.getATM().login(accountID.getValue(), pinI)) {
+				loginMessage.setValue("Login erfolgreich");
 
-    public SimpleStringProperty getAccountID() {
-	return accountID;
-    }
+				this.main.setLoggedInAccount(new Account(accountID.getValue(), 0));
+				this.main.setScene("atmOverview");
+			} else {
+				loginMessage.setValue("Falsche Eingabe");
+			}
+		} catch (NumberFormatException | NullPointerException e) {
+			wrongInput.showAndWait();
+		}
 
-    public void setEmail(SimpleStringProperty accountID) {
-	this.accountID = accountID;
-    }
+	}
 
-    public SimpleStringProperty getCustomerPIN() {
-	return customerPIN;
-    }
+	public SimpleStringProperty getLoginMessage() {
+		return loginMessage;
+	}
 
-    public void setPassword(SimpleStringProperty customerPIN) {
-	this.customerPIN = customerPIN;
-    }
+	public void setLoginMessage(SimpleStringProperty loginMessage) {
+		this.loginMessage = loginMessage;
+	}
 
-    @Override
-    public void onNavigate(String route) {
+	public SimpleStringProperty getAccountID() {
+		return accountID;
+	}
 
-    }
+	public void setEmail(SimpleStringProperty accountID) {
+		this.accountID = accountID;
+	}
+
+	public SimpleStringProperty getCustomerPIN() {
+		return customerPIN;
+	}
+
+	public void setPassword(SimpleStringProperty customerPIN) {
+		this.customerPIN = customerPIN;
+	}
+
+	@Override
+	public void onNavigate(String route) {
+
+	}
 
 }

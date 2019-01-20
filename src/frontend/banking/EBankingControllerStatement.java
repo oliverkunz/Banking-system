@@ -17,61 +17,65 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 
+//Frontend: ebanking accoutn statement
 public class EBankingControllerStatement extends BaseController implements Initializable {
 
-    // TAbleview
-    @FXML
-    private Button statementB;
-    @FXML
-    private Label accountL;
-    @FXML
-    private TableColumn<Transaction, String> colReceiverT;
-    @FXML
-    private TableColumn<Transaction, String> colSenderT;
-    @FXML
-    private TableColumn<Transaction, Double> colAmountT;
-    @FXML
-    private TableView<Transaction> transactionsT;
+	// TAbleview
+	@FXML
+	private Button statementB;
+	@FXML
+	private Label accountL;
+	@FXML
+	private TableColumn<Transaction, String> colReceiverT;
+	@FXML
+	private TableColumn<Transaction, String> colSenderT;
+	@FXML
+	private TableColumn<Transaction, Double> colAmountT;
+	@FXML
+	private TableView<Transaction> transactionsT;
 
-    private final ObservableList<Transaction> transactionsObservableList = FXCollections.observableArrayList();
+	private final ObservableList<Transaction> transactionsObservableList = FXCollections.observableArrayList();
 
-    private SimpleStringProperty account = new SimpleStringProperty("");
+	private SimpleStringProperty account = new SimpleStringProperty("");
 
-    public EBankingControllerStatement(EBankingMain main) {
-	super(main);
-	// TODO Auto-generated constructor stub
-    }
+	public EBankingControllerStatement(EBankingMain main) {
+		super(main);
+	}
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-	accountL.textProperty().bindBidirectional(this.getAccount());
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+		// binding the input-fields
+		accountL.textProperty().bindBidirectional(this.getAccount());
 
-	transactionsT.setItems(transactionsObservableList);
+		// setting the values for the tableview
+		transactionsT.setItems(transactionsObservableList);
 
-	colAmountT.setCellValueFactory(new PropertyValueFactory<Transaction, Double>("amount"));
-	colReceiverT.setCellValueFactory(new PropertyValueFactory<Transaction, String>("receiverID"));
-	colSenderT.setCellValueFactory(new PropertyValueFactory<Transaction, String>("senderID"));
-    }
+		colAmountT.setCellValueFactory(new PropertyValueFactory<Transaction, Double>("amount"));
+		colReceiverT.setCellValueFactory(new PropertyValueFactory<Transaction, String>("receiverID"));
+		colSenderT.setCellValueFactory(new PropertyValueFactory<Transaction, String>("senderID"));
+	}
 
-    @FXML
-    public void BackToOverview(final ActionEvent event) throws IOException {
-	this.main.setScene("overview");
-    }
+	// function brings the user back to the overview
+	@FXML
+	public void BackToOverview(final ActionEvent event) throws IOException {
+		this.main.setScene("overview");
+	}
 
-    public SimpleStringProperty getAccount() {
-	return account;
-    }
+	public SimpleStringProperty getAccount() {
+		return account;
+	}
 
-    public void setAmount(SimpleStringProperty account) {
-	this.account = account;
-    }
+	public void setAmount(SimpleStringProperty account) {
+		this.account = account;
+	}
 
-    @Override
-    public void onNavigate(String route) {
-	this.getMain().refreshData();
+	// refresh values in the tableview
+	@Override
+	public void onNavigate(String route) {
+		this.getMain().refreshData();
 
-	this.transactionsObservableList.setAll(this.main.getSelectedAccount().getTransactions());
-	this.transactionsT.refresh();
-    }
+		this.transactionsObservableList.setAll(this.main.getSelectedAccount().getTransactions());
+		this.transactionsT.refresh();
+	}
 
 }

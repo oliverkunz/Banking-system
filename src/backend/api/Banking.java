@@ -14,50 +14,50 @@ import java.util.ArrayList;
  *
  */
 public interface Banking extends Remote {
-    /**
-     * Handles the login
-     * 
-     * @param customerID
-     * @param password
-     * @return success
-     * @throws RemoteException
-     */
-    public boolean login(String customerID, String password) throws RemoteException;
+	/**
+	 * Handles the login
+	 * 
+	 * @param customerID
+	 * @param password
+	 * @return success
+	 * @throws RemoteException
+	 */
+	public boolean login(String customerID, String password) throws RemoteException;
 
-    /**
-     * Show all accounts associated with the customer
-     * 
-     * @param customerID
-     * @return listofAccounts
-     * @throws RemoteException
-     */
-    public ArrayList<Account> showAccounts(String customerID) throws RemoteException;
+	/**
+	 * Show all accounts associated with the customer
+	 * 
+	 * @param customerID
+	 * @return listofAccounts
+	 * @throws RemoteException
+	 */
+	public ArrayList<Account> showAccounts(String customerID) throws RemoteException;
 
-    /**
-     * Show account details
-     * 
-     * @param accountID
-     * @return account
-     * @throws RemoteException
-     */
-    public Account showAccount(String accountID) throws RemoteException;
+	/**
+	 * Show account details
+	 * 
+	 * @param accountID
+	 * @return account
+	 * @throws RemoteException
+	 */
+	public Account showAccount(String accountID) throws RemoteException;
 
-    /**
-     * @param fromAccountID
-     * @param toAccountID
-     * @param amount
-     * @param date
-     * @return success
-     * @throws AccessException
-     * @throws RemoteException
-     * @throws NotBoundException
-     */
-    public boolean transfer(String fromAccountID, String toAccountID, double amount, LocalDate date)
-	    throws AccessException, RemoteException, NotBoundException;
+	/**
+	 * @param fromAccountID
+	 * @param toAccountID
+	 * @param amount
+	 * @param date
+	 * @return success
+	 * @throws AccessException
+	 * @throws RemoteException
+	 * @throws NotBoundException
+	 */
+	public boolean transfer(String fromAccountID, String toAccountID, double amount, LocalDate date)
+			throws AccessException, RemoteException, NotBoundException;
 
-    /**
-     * @return bankName
-     * @throws RemoteException
-     */
-    public String getBankname() throws RemoteException;
+	/**
+	 * @return bankName
+	 * @throws RemoteException
+	 */
+	public String getBankname() throws RemoteException;
 }

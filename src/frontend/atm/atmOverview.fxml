@@ -14,7 +14,7 @@
    <bottom>
       <HBox alignment="CENTER_LEFT" prefHeight="239.0" prefWidth="900.0" BorderPane.alignment="CENTER">
          <children>
-            <Label fx:id="withdrawMoneyL" stylesheets="@../../res/style.css" text="Withdraw money">
+            <Label fx:id="withdrawMoneyL" stylesheets="@../../res/style.css" text="Auszahlen">
                <HBox.margin>
                   <Insets bottom="50.0" left="5.0" right="5.0" top="5.0" />
                </HBox.margin>

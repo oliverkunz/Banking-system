@@ -12,34 +12,34 @@ import java.rmi.RemoteException;
  *
  */
 public interface ATM extends Remote {
-    /**
-     * Handles the login from the atm
-     * 
-     * @param accountID
-     * @param pin
-     * @return success
-     * @throws RemoteException
-     */
-    public boolean login(String accountID, int pin) throws RemoteException;
+	/**
+	 * Handles the login from the atm
+	 * 
+	 * @param accountID
+	 * @param pin
+	 * @return success
+	 * @throws RemoteException
+	 */
+	public boolean login(String accountID, int pin) throws RemoteException;
 
-    /**
-     * Shows the accoutn details
-     * 
-     * @param accountID
-     * @return account
-     * @throws RemoteException
-     */
-    public Account showAccount(String accountID) throws RemoteException;
+	/**
+	 * Shows the accoutn details
+	 * 
+	 * @param accountID
+	 * @return account
+	 * @throws RemoteException
+	 */
+	public Account showAccount(String accountID) throws RemoteException;
 
-    /**
-     * Withdraw money from the account
-     * 
-     * @param accountID
-     * @param amount
-     * @return success
-     * @throws AccessException
-     * @throws RemoteException
-     * @throws NotBoundException
-     */
-    public boolean withdraw(String accountID, double amount) throws AccessException, RemoteException, NotBoundException;
+	/**
+	 * Withdraw money from the account
+	 * 
+	 * @param accountID
+	 * @param amount
+	 * @return success
+	 * @throws AccessException
+	 * @throws RemoteException
+	 * @throws NotBoundException
+	 */
+	public boolean withdraw(String accountID, double amount) throws AccessException, RemoteException, NotBoundException;
 }

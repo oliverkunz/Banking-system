@@ -16,68 +16,75 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class AdminMain extends Application {
-    Map<String, Pair<Scene, AdminBaseController>> scenes = new HashMap<>();
+	// manage chaning scenes
+	Map<String, Pair<Scene, AdminBaseController>> scenes = new HashMap<>();
 
-    Stage primaryStage;
-    Parent root;
+	Stage primaryStage;
+	Parent root;
 
-    Administration administration;
+	Administration administration;
 
-    AccountType accountType;
+	AccountType accountType;
 
-    frontend.common.Customer selectedCustomer = null;
+	// used to hand over the customerID from the overview to the account statement
+	frontend.common.Customer selectedCustomer = null;
 
-    FXMLLoader fxmlLoader = new FXMLLoader();
-    AdminController adminController = (AdminController) fxmlLoader.getController();
+	// initialize fxml
+	FXMLLoader fxmlLoader = new FXMLLoader();
+	AdminController adminController = (AdminController) fxmlLoader.getController();
 
-    static String bankName;
+	// evaluate bankname from property file
+	static String bankName;
 
-    public static void main(String[] args) {
-	AdminMain.bankName = args[0];
-	launch(args);
-    }
+	public static void main(String[] args) {
+		AdminMain.bankName = args[0];
+		launch(args);
+	}
 
-    public void start(Stage primaryStage) throws Exception {
-	this.primaryStage = primaryStage;
+	// loading the registry and all used fxml screens
+	public void start(Stage primaryStage) throws Exception {
+		this.primaryStage = primaryStage;
 
-	Registry registry = LocateRegistry.getRegistry("localhost", 2001);
-	administration = (Administration) registry.lookup(AdminMain.bankName);
+		Registry registry = LocateRegistry.getRegistry("localhost", 2001);
+		administration = (Administration) registry.lookup(AdminMain.bankName);
 
-	FXMLLoader loader = new FXMLLoader(getClass().getResource("admin.fxml"));
-	AdminBaseController adminController = new AdminController(this);
-	loader.setController(adminController);
-	scenes.put("admin", Pair.of(new Scene(loader.load(), 1280, 800), adminController));
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("admin.fxml"));
+		AdminBaseController adminController = new AdminController(this);
+		loader.setController(adminController);
+		scenes.put("admin", Pair.of(new Scene(loader.load(), 1280, 800), adminController));
 
-	loader = new FXMLLoader(getClass().getResource("adminAccount.fxml"));
-	adminController = new AdminControllerAccount(this);
-	loader.setController(adminController);
-	scenes.put("account", Pair.of(new Scene(loader.load(), 900, 600), adminController));
+		loader = new FXMLLoader(getClass().getResource("adminAccount.fxml"));
+		adminController = new AdminControllerAccount(this);
+		loader.setController(adminController);
+		scenes.put("account", Pair.of(new Scene(loader.load(), 900, 600), adminController));
 
-	primaryStage.setTitle("Administration");
-	primaryStage.setScene(scenes.get("admin").getFirstValue());
-	primaryStage.show();
+		primaryStage.setTitle("Administration");
+		primaryStage.setScene(scenes.get("admin").getFirstValue());
+		primaryStage.show();
 
-    }
+	}
 
-    public void setScene(String name) {
-	primaryStage.setScene(this.scenes.get(name).getFirstValue());
-	this.scenes.get(name).getSecondValue().onNavigate(name);
-    }
+	// function for changeing the scene
+	public void setScene(String name) {
+		primaryStage.setScene(this.scenes.get(name).getFirstValue());
+		this.scenes.get(name).getSecondValue().onNavigate(name);
+	}
 
-    public Administration getAdministration() {
-	return this.administration;
-    }
+	// getters and setters to hand over important information between the scenes
+	public Administration getAdministration() {
+		return this.administration;
+	}
 
-    public AccountType getAccountType() {
-	return this.accountType;
-    }
+	public AccountType getAccountType() {
+		return this.accountType;
+	}
 
-    public Customer getSelectedCustomer() {
-	return selectedCustomer;
-    }
+	public Customer getSelectedCustomer() {
+		return selectedCustomer;
+	}
 
-    public void setSelectedCustomer(frontend.common.Customer customer) {
-	this.selectedCustomer = customer;
-    }
+	public void setSelectedCustomer(frontend.common.Customer customer) {
+		this.selectedCustomer = customer;
+	}
 
 }

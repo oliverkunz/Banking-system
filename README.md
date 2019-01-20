@@ -1,5 +1,7 @@
-
 # OOP1-Projekt
+    Ein Projekt von Fabian Küng und Oliver Kunz der Klasse I1s. 
+    Im Rahmen des Moduls "BTI7051 - Objektorientierte Programmierung 1" an der Berner Fachhochschule (BFH).
+
 ## Ziel
 Als Beispielanwendung soll ein verteiltes Bankensystem entwickelt werden.
 
@@ -40,13 +42,17 @@ Als Beispielanwendung soll ein verteiltes Bankensystem entwickelt werden.
 ![ClassDiagramm](Ressources/backend.jpg)
 
 ## JavaDoc
-The generated JavaDoc can be accessed under /doc
+Das generierte Javadoc findet sich unter /doc
 
 ## Starten des Projektes
+### Eclipse
 Das Projekt kann entweder über Eclipse gestartet werden oder auch direkt die .jars. Diese befinden sich unter /jars
 
-Falls man das Projekt über Eclipse ausführt, muss man bei den "Run Configurations" für das E-Banking sowie Administration jeweils noch konfigurieren, auf welche Bank zugegriffen werden soll. Dazu kann man bei den "Program Arguments" in den "Run Configurations" die ID der Bank hinterlegen (aus der bank.properties Datei). 
+Falls man das Projekt über Eclipse ausführt, muss man bei den "Run Configurations" für das E-Banking sowie Administration jeweils noch konfigurieren, auf welche Bank zugegriffen werden soll. Dazu kann man bei den "Program Arguments" in den "Run Configurations" die ID der Bank hinterlegen z.B. "ubs" (aus der bank.properties Datei). 
+Danach muss zuerst im Package "Backend" das main.java ausgeführt werden um das Backend zu initialisieren.
+Anschliessend können nach belieben die "Mains" der jeweiligen Applikationen im Frontend gestart werden.
 
+### Kommandozeile
 Beim Ausführen über die Kommandozeile, können die jars wie folgt gestartet werden.
 
 ````
@@ -105,9 +111,56 @@ Der Server generiert für jeden Kunden eine eindeutige UUID als eindeutige Ident
 ### Persistierung der Daten
 Die Daten werden mit der zur Verfügung gestellten Bibliothek persitiert. Um Datenverluste (Bspw. beim Absturz)  zu vermeiden, wird bei jeder Änderung alles gespeichert. 
 
+## Testing
+Für das Testing wurden JUnit5 Unit-Tests sowie RMI Integrationstests implementiert. Sie befinden sich im Verzeichnis /tests. Es wird jeweils die Applikationslogik des Backends getestet. 
+
 ## Aufbau des Frontends
 Das Frontend wurde mit fxml implementiert. Alle drei Clients wurden jeweils mit JavaFX implementiert, auf eine Konsolenapplikation wurde der Benutzerfreundlichkeit zuliebe verzichtet. 
 Jedes View besitzt zugleich einen Controller, welcher die Logik beinhaltet. 
+Zur Einfachhhit wird das Styling zentral in einer CSS-Datei verwaltet. So wird sichergestellt, dass das Frontend ein homogenes Design aufweist.
 
-## Testing
-Für das Testing wurden JUnit5 Unit-Tests sowie RMI Integrationstests implementiert. Sie befinden sich im Verzeichnis /tests. Es wird jeweils die Applikationslogik des Backends getestet. 
+## Bedienung des Frontends
+Nachfolgend eine Übersicht, sowie Kurzanleitung für alle Frontend-Applikationen.
+Generell gilt, dass alle Felder korrekt ausgefüllt werden müssen um eine Aktion durchzuführen, z.B. dürfen bei Vor- und Nachnamen natürlich nur Buchstaben aber keine Zahlen eingegeben werden
+Welcher Input im jeweiligen Feld erwartet wird, ist im Feld selber in grau angezeigt.
+
+Nach allen Aktionen wird ein Dialog-Fenster angezeigt, ob die gewünschte Aktion erfolgreich war oder es beim Input noch Fehler gibt.
+
+### Kundenadministration
+Die Administration wird von den Bankangestellten verwendet um Kunden und Konten zu eröffnen und zu verwalten.
+Speziell zu beachten gilt es, dass beim Registrieren eines Kunden oder Anlegen eines Kontos, jeweils die Kunden- oder Kontonummer in den Zwischenspeicher kopiert wird. 
+So kann die Kunden- oder Kontonummer gleich weiterverwendet werden.
+
+#### Übersicht der Administration:
+![AdministationOverview](Ressources/AdministrationOverview.JPG)
+
+Die Bankangestellten sind in der Lage eine Übersicht über alle Konten eines Kunden anzeigen zu lassen.
+Um Geld ein- oder auszahlen zu können muss das gewünschte Konto in der Tabelle ausgewählt werden.
+Nach einer erfolgreichen Transaktion wird das Guthaben aktualisiert.
+
+#### Konten-Übersicht eines Kunden:
+![AdministationAccounts](Ressources/AdministrationShowAccount.JPG)
+
+### Bankomat (ATM)
+Mit Kontonummer und entsprechender PIN kann man sich am ATM anmelden.
+Es wird der Kontostand des Kontos angezeigt, ausserdem kann man sich Geld auszahlen lassen.
+Der ATM verbindet sich mit der Bank, zu der das beim Login eingegebene Konto gehört.
+
+#### ATM-Bildschirm:
+![ATMOverview](Ressources/ATMOVerview.JPG)
+
+### E-Banking
+Mit Kundennummer und dem dazugehörigen Passwort ist ein Anmelden im bankeigenen E-Banking möglich.
+In der Tabelle werden alle Konten angezeigt, welche der jeweilige Kunde besitzt.
+Nach Auswahl eines Kontos (Klick auf die Kontonummer in der Tabelle) kann ein Auszug aller Transaktionen geneeriert werden.
+Im E-Banking ist es auch möglich Geld auf andere Konten zu Überweisen.
+
+#### E-Banking Übersicht:
+![E-BankingOverview](Ressources/EBankingOverview.JPG)
+
+Der Kontoauszug wird auch tabellarisch dargestellt, mit Sender, Empfänger und dem Betrag der transferiert wurde.
+Ist kein Sender eingetragen, so wurde das Geld vom gleichen Inhaber via Bankangestellter in der Administration eingezahlt (siehe Beispiel unten).
+
+#### E-Banking Kontoauszug:
+![E-BankingeStatement](Ressources/EBankingOverview.JPG)
+

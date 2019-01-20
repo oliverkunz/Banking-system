@@ -28,6 +28,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.util.converter.NumberStringConverter;
 
+// Frontend: ebanking overview
 public class EBankingControllerOverview extends BaseController implements Initializable {
 
 	@FXML
@@ -53,14 +54,13 @@ public class EBankingControllerOverview extends BaseController implements Initia
 
 	private final ObservableList<Account> accountsObservableList = FXCollections.observableArrayList();
 
-	// Tableview -----todo
-
+	// pop-up dialog fields for simple user communication (confirm actions & input
+	// errors)
 	Alert alert = new Alert(AlertType.CONFIRMATION, "Bitte Transaktion bestätigen");
 	Alert info = new Alert(AlertType.INFORMATION, "Transaktion ausgeführt");
 	Alert errorAborted = new Alert(AlertType.ERROR, "Transaktion abgebrochen");
 	Alert errorNegativeAmount = new Alert(AlertType.ERROR, "Negativen Betrag angegeben. Betrag muss positiv sein.");
-	Alert errorNotAllowed = new Alert(AlertType.ERROR,
-			"Es ist ein Fehler aufgetreten. Falscher Empfänger, Überzugslimite erreicht oder Tages- / Monatslimite erreicht.");
+	Alert errorNotAllowed = new Alert(AlertType.ERROR, "Falscher Empfänger oder Limite erreicht");
 	Alert errorNotEmpty = new Alert(AlertType.ERROR, "Empfänger darf nicht leer sein.");
 	Alert errorNoAccount = new Alert(AlertType.ERROR, "Bitte wählen Sie ein Konto aus.");
 
@@ -76,14 +76,17 @@ public class EBankingControllerOverview extends BaseController implements Initia
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		// binding the input-fields
 		amountTF.textProperty().bindBidirectional(this.getAmount(), new NumberStringConverter());
 
 		receiverTF.textProperty().bindBidirectional(this.getReceiver());
 		bankNameL.textProperty().bindBidirectional(this.getBankName());
 		customerNameL.textProperty().bindBidirectional(this.getCustomerName());
 
+		// setting the values for the tableview
 		accountsT.setItems(accountsObservableList);
 
+		// implementing the listener for the tableview, so the user select accounts
 		accountsT.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
 			if (newSelection != null) {
 				this.main.setSelectedAccount(newSelection);
@@ -94,8 +97,10 @@ public class EBankingControllerOverview extends BaseController implements Initia
 		colAccountT.setCellValueFactory(new PropertyValueFactory<Account, String>("accountID"));
 	}
 
+	// function to transfer money between accounts
 	@FXML
 	public void TransferMoney(final ActionEvent event) throws IOException {
+		// checking if input is correct
 		if (this.getAmount().getValue() <= 0) {
 			this.errorNegativeAmount.showAndWait();
 			return;
@@ -107,9 +112,11 @@ public class EBankingControllerOverview extends BaseController implements Initia
 			return;
 		}
 
+		// confirmation the action
 		Optional<ButtonType> result = alert.showAndWait();
 		if (result.get() == ButtonType.OK) {
 
+			// transfer the money to specified account of own or other bank
 			try {
 				boolean rmiResult = this.main.getBanking().transfer(this.main.getSelectedAccount().getAccountID(),
 						this.getReceiver().getValue(), this.getAmount().getValue(), LocalDate.now());
@@ -120,6 +127,7 @@ public class EBankingControllerOverview extends BaseController implements Initia
 					errorNotAllowed.showAndWait();
 				}
 
+				// refresh the tableview
 				this.refreshAccounts();
 				this.main.setSelectedAccount(null);
 			} catch (NotBoundException e) {
@@ -130,6 +138,7 @@ public class EBankingControllerOverview extends BaseController implements Initia
 		}
 	}
 
+	// function for switching to the account statement
 	@FXML
 	public void GetAccountStatement(final ActionEvent event) throws IOException {
 		if (this.main.getSelectedAccount() == null) {
@@ -180,6 +189,7 @@ public class EBankingControllerOverview extends BaseController implements Initia
 		this.customerName = customerName;
 	}
 
+	// function used to refresh accounts
 	@Override
 	public void onNavigate(String route) {
 		this.main.setSelectedAccount(null);
@@ -194,7 +204,6 @@ public class EBankingControllerOverview extends BaseController implements Initia
 			accountsObservableList.setAll(accounts);
 			accountsT.refresh();
 		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

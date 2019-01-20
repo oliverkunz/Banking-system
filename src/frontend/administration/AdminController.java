@@ -21,6 +21,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.Clipboard;
 import javafx.scene.input.ClipboardContent;
 
+//Frontend: overview of the administration application
 public class AdminController extends AdminBaseController implements Initializable {
 
 	@FXML
@@ -65,12 +66,16 @@ public class AdminController extends AdminBaseController implements Initializabl
 	@FXML
 	private Label bankNameL;
 
+	// pop-up dialog fields for simple user communication (confirm actions & input
+	// errors)
 	Alert info = new Alert(AlertType.ERROR, "Es kann nur ein Kontotyp gewährt werden");
 	Alert wrongInput = new Alert(AlertType.ERROR, "Bitte alle Felder korrekt ausfüllen");
 	Alert wrongID = new Alert(AlertType.ERROR, "Kontonummer ist ungültig");
 	Alert registerAccount = new Alert(AlertType.INFORMATION, "Account erstellt, ID in den Zwischenspeicher kopiert");
 	Alert registerCustomer = new Alert(AlertType.INFORMATION, "Kunde erstellt, ID in den Zwischenspeicher kopiert");
 
+	// the clipboard is used to temporarly store the values of the customerID &
+	// accountIDs
 	final Clipboard clipboard = Clipboard.getSystemClipboard();
 	final ClipboardContent content = new ClipboardContent();
 
@@ -93,6 +98,7 @@ public class AdminController extends AdminBaseController implements Initializabl
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		// binding the input-fields
 		lastNameTF.textProperty().bindBidirectional(this.getLastName());
 		firstNameTF.textProperty().bindBidirectional(this.getFirstName());
 		passwordTF.textProperty().bindBidirectional(this.getPassword());
@@ -106,6 +112,7 @@ public class AdminController extends AdminBaseController implements Initializabl
 		accountIDresolveTF.textProperty().bindBidirectional(this.getAccountIDresolve());
 		customerIDactionsTF.textProperty().bindBidirectional(this.getCustomerIDactions());
 
+		// set correct bankname
 		try {
 			this.bankNameL.setText(this.adminMain.getAdministration().getBankname());
 		} catch (RemoteException e) {
@@ -113,14 +120,17 @@ public class AdminController extends AdminBaseController implements Initializabl
 		}
 	}
 
+	// function for customer registration
 	@FXML
 	public void RegisterCustomer(final ActionEvent event) throws IOException {
-
+		// regex is used for input validation purposes
 		String regex = "[a-zA-Z]{0,}";
+		// checking if all input-fields are used correctly
 		if (firstName.getValue().toString().matches(regex) && lastName.getValue().matches(regex)
 				&& !(password.getValue().isEmpty()) && !(firstName.getValue().isEmpty())
 				&& !(lastName.getValue().isEmpty())) {
 
+			// customerID as return if the registration was successful
 			String customerID = this.adminMain.getAdministration().createCustomer(firstName.getValue(),
 					lastName.getValue(), password.getValue());
 			content.putString(customerID);
@@ -132,19 +142,24 @@ public class AdminController extends AdminBaseController implements Initializabl
 		}
 	}
 
+	// function for opening an account
 	@FXML
 	public void OpenAccount(final ActionEvent event) throws IOException {
+
+		// check that only one account type is specified
 		if (privateRButton.isSelected() && (savingRButton.isSelected())) {
 			info.showAndWait();
 		} else {
 			double accountBalance = 0;
 			try {
+				// converting and also checking if the input is correct -> numbers only
 				double interestD = Double.parseDouble(interest.getValue());
 				double overdraftD = Double.parseDouble(overdraft.getValue());
 				double dailyLimitD = Double.parseDouble(dailyLimit.getValue());
 				double monthlyLimitD = Double.parseDouble(monthlyLimit.getValue());
 				double maxMinusD = Double.parseDouble(maxMinus.getValue());
 				int pinI = Integer.parseInt(pin.getValue());
+				// getting the accountID of the newly created account as return value
 				String accountID = this.adminMain.getAdministration().createAccount(customerIDaccount.getValue(),
 						GetAccountType(), accountBalance, interestD, overdraftD, dailyLimitD, monthlyLimitD, maxMinusD,
 						pinI);
@@ -157,6 +172,8 @@ public class AdminController extends AdminBaseController implements Initializabl
 		}
 	}
 
+	// short function to evaluate the account type according to which RadioButton
+	// was selected
 	public AccountType GetAccountType() {
 		AccountType accountType = null;
 		if (privateRButton.isSelected()) {
@@ -168,6 +185,7 @@ public class AdminController extends AdminBaseController implements Initializabl
 		return accountType;
 	}
 
+	// function to resolve an previous created account
 	@FXML
 	public void ResolveAccount(final ActionEvent event) throws IOException {
 		try {
@@ -178,6 +196,7 @@ public class AdminController extends AdminBaseController implements Initializabl
 
 	}
 
+	// function to give the customer an overview over all his accounts
 	@FXML
 	public void ShowCustomer(final ActionEvent event) throws IOException {
 		this.adminMain.setSelectedCustomer(new Customer(null, null, this.customerIDactions.getValue()));

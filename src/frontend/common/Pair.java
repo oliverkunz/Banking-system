@@ -1,5 +1,6 @@
 package frontend.common;
 
+// class for changing scenes forth and back
 public class Pair<T, K> {
 	private T value1;
 	private K value2;

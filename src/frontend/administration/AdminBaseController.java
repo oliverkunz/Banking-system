@@ -1,5 +1,6 @@
 package frontend.administration;
 
+//basic controller structure that will be inherited to all administration controllers
 public abstract class AdminBaseController {
 	AdminMain adminMain = null;
 

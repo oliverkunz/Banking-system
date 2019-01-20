@@ -16,6 +16,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class AdminMain extends Application {
+	// manage chaning scenes
 	Map<String, Pair<Scene, AdminBaseController>> scenes = new HashMap<>();
 
 	Stage primaryStage;
@@ -25,11 +26,14 @@ public class AdminMain extends Application {
 
 	AccountType accountType;
 
+	// used to hand over the customerID from the overview to the account statement
 	frontend.common.Customer selectedCustomer = null;
 
+	// initialize fxml
 	FXMLLoader fxmlLoader = new FXMLLoader();
 	AdminController adminController = (AdminController) fxmlLoader.getController();
 
+	// evaluate bankname from property file
 	static String bankName;
 
 	public static void main(String[] args) {
@@ -37,6 +41,7 @@ public class AdminMain extends Application {
 		launch(args);
 	}
 
+	// loading the registry and all used fxml screens
 	public void start(Stage primaryStage) throws Exception {
 		this.primaryStage = primaryStage;
 
@@ -59,11 +64,13 @@ public class AdminMain extends Application {
 
 	}
 
+	// function for changeing the scene
 	public void setScene(String name) {
 		primaryStage.setScene(this.scenes.get(name).getFirstValue());
 		this.scenes.get(name).getSecondValue().onNavigate(name);
 	}
 
+	// getters and setters to hand over important information between the scenes
 	public Administration getAdministration() {
 		return this.administration;
 	}

@@ -17,15 +17,18 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class ATMMain extends Application {
+	// manage chaning scenes
 	Map<String, Pair<Scene, BaseControllerATM>> scenes = new HashMap<>();
 
 	Stage primaryStage;
 	Parent root;
 
+	// used to hand over the accountID from the login to the account overview
 	Account loggedInAccount = null;
 
 	ATM atm;
 
+	// initialize fxml
 	FXMLLoader fxmlLoader = new FXMLLoader();
 	ATMController controller = (ATMController) fxmlLoader.getController();
 
@@ -35,6 +38,7 @@ public class ATMMain extends Application {
 		launch(args);
 	}
 
+	// loading the registry and all used fxml screens
 	public void start(Stage primaryStage) throws Exception {
 		this.primaryStage = primaryStage;
 
@@ -56,11 +60,13 @@ public class ATMMain extends Application {
 
 	}
 
+	// function for changeing the scene
 	public void setScene(String name) {
 		primaryStage.setScene(this.scenes.get(name).getFirstValue());
 		this.scenes.get(name).getSecondValue().onNavigate(name);
 	}
 
+	// getters and setters to hand over important information between the scenes
 	public ATM getATM() {
 		return this.atm;
 	}
@@ -73,11 +79,12 @@ public class ATMMain extends Application {
 		this.loggedInAccount = loggedInAccount;
 	}
 
+	// function to evaluate which bank should be loaded according to provided
+	// accountID
 	public void initializeATMForBank(String bankId) {
 		try {
 			atm = (ATM) this.registry.lookup(bankId);
 		} catch (RemoteException | NotBoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

@@ -21,6 +21,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 
+//Frontend: atm overview
 public class ATMControllerOverview extends BaseControllerATM implements Initializable {
 
 	@FXML
@@ -39,6 +40,8 @@ public class ATMControllerOverview extends BaseControllerATM implements Initiali
 	private SimpleStringProperty amount = new SimpleStringProperty("");
 	private SimpleStringProperty bankName = new SimpleStringProperty("");
 
+	// pop-up dialog fields for simple user communication (confirm actions & input
+	// errors)
 	Alert info = new Alert(AlertType.INFORMATION, "Transaktion ausgefhrt");
 	Alert error = new Alert(AlertType.ERROR, "Fehler");
 	Alert wrongInput = new Alert(AlertType.ERROR, "Bitte alle Felder korrekt ausfüllen");
@@ -49,19 +52,24 @@ public class ATMControllerOverview extends BaseControllerATM implements Initiali
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		// binding the input-fields
 		amountTF.textProperty().bindBidirectional(this.getAmount());
 
+		// setting the values for the tableview
 		accountsT.setItems(accountsObservableList);
 
 		colBalanceT.setCellValueFactory(new PropertyValueFactory<Account, Double>("balance"));
 		colAccountT.setCellValueFactory(new PropertyValueFactory<Account, String>("accountID"));
 	}
 
+	// function to withdraw money from an account
 	@FXML
 	public void WithdrawMoney(final ActionEvent event) throws IOException, NotBoundException {
 
+		// checking if the input is correct
 		try {
 			double amountD = Double.parseDouble(amount.getValue());
+			// withdraw money from logged in account
 			if (this.main.getATM().withdraw(this.main.getLoggedInAccount().getAccountID(), amountD)) {
 				info.showAndWait();
 			} else {
@@ -87,6 +95,7 @@ public class ATMControllerOverview extends BaseControllerATM implements Initiali
 		return bankName;
 	}
 
+	// function to reload the tableview with account data
 	@Override
 	public void onNavigate(String route) {
 		try {
@@ -94,7 +103,6 @@ public class ATMControllerOverview extends BaseControllerATM implements Initiali
 					.setAll(this.main.getATM().showAccount(this.main.getLoggedInAccount().getAccountID()));
 			this.accountsT.refresh();
 		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 

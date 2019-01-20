@@ -1,5 +1,6 @@
 package frontend.banking;
 
+//basic controller structure that will be inherited to all administration controllers
 public abstract class BaseController {
 	EBankingMain main = null;
 

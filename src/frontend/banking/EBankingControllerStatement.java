@@ -17,6 +17,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 
+//Frontend: ebanking accoutn statement
 public class EBankingControllerStatement extends BaseController implements Initializable {
 
 	// TAbleview
@@ -43,8 +44,10 @@ public class EBankingControllerStatement extends BaseController implements Initi
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		// binding the input-fields
 		accountL.textProperty().bindBidirectional(this.getAccount());
 
+		// setting the values for the tableview
 		transactionsT.setItems(transactionsObservableList);
 
 		colAmountT.setCellValueFactory(new PropertyValueFactory<Transaction, Double>("amount"));
@@ -52,6 +55,7 @@ public class EBankingControllerStatement extends BaseController implements Initi
 		colSenderT.setCellValueFactory(new PropertyValueFactory<Transaction, String>("senderID"));
 	}
 
+	// function brings the user back to the overview
 	@FXML
 	public void BackToOverview(final ActionEvent event) throws IOException {
 		this.main.setScene("overview");
@@ -65,6 +69,7 @@ public class EBankingControllerStatement extends BaseController implements Initi
 		this.account = account;
 	}
 
+	// refresh values in the tableview
 	@Override
 	public void onNavigate(String route) {
 		this.getMain().refreshData();

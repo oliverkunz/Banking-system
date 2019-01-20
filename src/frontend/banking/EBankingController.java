@@ -15,7 +15,9 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 
+//Frontend: overview of the ebanking application
 public class EBankingController extends BaseController implements Initializable {
+
 	@FXML
 	private Button loginButton;
 	@FXML
@@ -37,17 +39,21 @@ public class EBankingController extends BaseController implements Initializable 
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		// binding the input-fields
 		customerIDTF.textProperty().bindBidirectional(this.getCustomerID());
 		passwordPF.textProperty().bindBidirectional(this.getPassword());
 		loginMessageL.textProperty().bindBidirectional(this.getLoginMessage());
+		// Setting the right bankname according to property file
 		try {
 			bankNameL.setText(this.main.getBanking().getBankname());
 		} catch (RemoteException e) {
 		}
 	}
 
+	// function for login to th ebanking
 	@FXML
 	public void PressLoginButton(final ActionEvent event) throws IOException {
+		// checking user input ang login to the right account
 		if (this.main.getBanking().login(customerID.getValue(), password.getValue())) {
 			loginMessage.setValue("Login erfolgreich");
 

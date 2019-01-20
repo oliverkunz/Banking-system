@@ -17,6 +17,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class EBankingMain extends Application {
+	// manage changing scenes
 	Map<String, Pair<Scene, BaseController>> scenes = new HashMap<>();
 
 	Stage primaryStage;
@@ -24,14 +25,17 @@ public class EBankingMain extends Application {
 
 	Banking banking;
 
+	// used to hand over the customerID from the overview to the account statement
 	Customer loggedInCustomer = null;
 	Account selectedAccount = null;
 
+	// initialize fxml
 	FXMLLoader fxmlLoader = new FXMLLoader();
 	EBankingController eBankingController = (EBankingController) fxmlLoader.getController();
 
 	Registry registry;
 
+	// evaluate bankname from property file
 	static String bankName;
 
 	public static void main(String[] args) {
@@ -39,6 +43,7 @@ public class EBankingMain extends Application {
 		launch(args);
 	}
 
+	// loading the registry and all used fxml screens
 	public void start(Stage primaryStage) throws Exception {
 		this.primaryStage = primaryStage;
 
@@ -65,6 +70,7 @@ public class EBankingMain extends Application {
 		primaryStage.show();
 	}
 
+	// function for changeing the scene
 	public void setScene(String name) {
 		primaryStage.setScene(this.scenes.get(name).getFirstValue());
 		this.scenes.get(name).getSecondValue().onNavigate(name);
@@ -94,12 +100,12 @@ public class EBankingMain extends Application {
 		return bankName;
 	}
 
+	// function for refreshing account data
 	public void refreshData() {
 		if (selectedAccount != null) {
 			try {
 				this.setSelectedAccount(this.banking.showAccount(this.selectedAccount.getAccountID()));
 			} catch (RemoteException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}

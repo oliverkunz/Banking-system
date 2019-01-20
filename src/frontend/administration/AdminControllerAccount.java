@@ -48,9 +48,12 @@ public class AdminControllerAccount extends AdminBaseController implements Initi
 
 	private final ObservableList<Account> accountsObservableList = FXCollections.observableArrayList();
 
+	// pop-up dialog fields for simple user communication (confirm actions & input
+	// errors)
 	Alert info = new Alert(AlertType.INFORMATION, "Es kann nur eine Aktion gewählt werden");
 	Alert transaction = new Alert(AlertType.INFORMATION, "Transaktion durchgeführt");
 	Alert wrongInput = new Alert(AlertType.ERROR, "Bitte alle Felder korrekt ausfüllen");
+	Alert negativeInput = new Alert(AlertType.ERROR, "Betrag muss positiv sein");
 	Alert errorInvalid = new Alert(AlertType.ERROR, "Kundennummer ungltig.");
 	Alert errorNotSelected = new Alert(AlertType.ERROR, "Bitte whlen Sie ein Konto aus.");
 
@@ -64,10 +67,14 @@ public class AdminControllerAccount extends AdminBaseController implements Initi
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+
+		// binding the input-fields
 		amountTF.textProperty().bindBidirectional(this.getAmount());
 
+		// setting the values for the tableview
 		accountsT.setItems(accountsObservableList);
 
+		// implementing the listener for the tableview, so the user select accounts
 		accountsT.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
 			if (newSelection != null) {
 				this.selectedAccount = newSelection;
@@ -78,8 +85,10 @@ public class AdminControllerAccount extends AdminBaseController implements Initi
 		colAccountT.setCellValueFactory(new PropertyValueFactory<Account, String>("accountID"));
 	}
 
+	// function to transfer deposit or withdraw money to the customers accounts
 	@FXML
 	public void TransferMoney(final ActionEvent event) throws IOException, NotBoundException {
+		// checks for the radiobuttons
 		if (this.selectedAccount == null) {
 			errorNotSelected.showAndWait();
 			return;
@@ -90,23 +99,33 @@ public class AdminControllerAccount extends AdminBaseController implements Initi
 		} else {
 
 			try {
-				if (depositRButton.isSelected()) {
-					double amountD = Double.parseDouble(amount.getValue());
-					this.adminMain.getAdministration().deposit(this.selectedAccount.getAccountID(), amountD);
+				double amountCheck = Double.parseDouble(amount.getValue());
+				if (amountCheck <= 0 && amount.getValue() != null) {
+					negativeInput.showAndWait();
+				} else {
+					// Either deposit or withdraw money
+					if (depositRButton.isSelected()) {
+						double amountD = Double.parseDouble(amount.getValue());
+						this.adminMain.getAdministration().deposit(this.selectedAccount.getAccountID(), amountD);
+					}
+					if (withdrawRButton.isSelected()) {
+						double amountD = Double.parseDouble(amount.getValue());
+						this.adminMain.getAdministration().withdraw(this.selectedAccount.getAccountID(), amountD);
+					}
+					transaction.showAndWait();
 				}
-				if (withdrawRButton.isSelected()) {
-					double amountD = Double.parseDouble(amount.getValue());
-					this.adminMain.getAdministration().withdraw(this.selectedAccount.getAccountID(), amountD);
-				}
-				transaction.showAndWait();
 			} catch (NumberFormatException | NullPointerException e) {
 				wrongInput.showAndWait();
 			}
+
+			// little hack to refresh the tableview after each transaction,
 			this.onNavigate("");
 			this.selectedAccount = null;
 		}
+
 	}
 
+	// function for going back to the main overview of the administration
 	@FXML
 	public void ShowOverview(final ActionEvent event) throws IOException {
 		this.adminMain.setScene("admin");
@@ -120,6 +139,7 @@ public class AdminControllerAccount extends AdminBaseController implements Initi
 		this.amount = amount;
 	}
 
+	// function to evaluate which account was selected in the tableview
 	@Override
 	public void onNavigate(String route) {
 		try {

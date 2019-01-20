@@ -1,5 +1,6 @@
 package frontend.atm;
 
+//basic controller structure that will be inherited to all administration controllers
 public abstract class BaseControllerATM {
 	ATMMain main = null;
 

@@ -16,6 +16,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 
+//Frontend: ATM login
 public class ATMController extends BaseControllerATM implements Initializable {
 
 	@FXML
@@ -31,6 +32,8 @@ public class ATMController extends BaseControllerATM implements Initializable {
 	private SimpleStringProperty customerPIN = new SimpleStringProperty("");
 	private SimpleStringProperty accountID = new SimpleStringProperty("");
 
+	// pop-up dialog fields for simple user communication (confirm actions & input
+	// errors)
 	Alert error = new Alert(AlertType.ERROR, "Ungültige Kontonummer");
 	Alert wrongInput = new Alert(AlertType.ERROR, "Ungültige Kontonummer");
 
@@ -40,13 +43,16 @@ public class ATMController extends BaseControllerATM implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		// binding the input-fields
 		accountIDTF.textProperty().bindBidirectional(this.getAccountID());
 		customerPINPF.textProperty().bindBidirectional(this.getCustomerPIN());
 		loginMessageL.textProperty().bindBidirectional(this.getLoginMessage());
 	}
 
+	// function for handling the login
 	@FXML
 	public void PressLoginButton(final ActionEvent event) throws IOException {
+		// checking if the accountID is correct
 		try {
 			int pinI = Integer.parseInt(customerPIN.getValue());
 
@@ -55,8 +61,10 @@ public class ATMController extends BaseControllerATM implements Initializable {
 				error.showAndWait();
 				return;
 			}
+			// loading the right bank according to the provided accountID
 			this.main.initializeATMForBank(parts[0]);
 
+			// login and switching scene
 			if (this.main.getATM().login(accountID.getValue(), pinI)) {
 				loginMessage.setValue("Login erfolgreich");
 

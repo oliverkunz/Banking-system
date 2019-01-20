@@ -124,6 +124,6 @@ Generell gilt, dass alle Felder korrekt ausgefüllt werden müssen um eine Aktio
 
 ### Kundenadministration
 Die Administration wird von den Bankangestellten verwendet um Kunden und Konten zu eröffnen und zu verwalten.
-![AdministationOverview](Ressources/AdministrationOverview.jpg)
+![AdministationOverview](Ressources/AdministrationOverview.JPG)
 
 

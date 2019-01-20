@@ -11,16 +11,23 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" stylesheets="@../../res/style.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <top>
       <VBox prefHeight="241.0" prefWidth="1280.0" BorderPane.alignment="CENTER">
          <children>
-            <Label text="Administration">
+         	<HBox alignment="CENTER_LEFT" prefWidth="900.0" BorderPane.alignment="CENTER">
+	            <Label text="Administration">
+	               <font>
+	                  <Font size="30.0" />
+	               </font></Label>
+               <Label fx:id="bankNameL" text="">
                <font>
                   <Font size="30.0" />
                </font></Label>
+           </HBox>
             <GridPane alignment="CENTER_LEFT" prefHeight="164.0" prefWidth="1280.0" style="-fx-border-style: solid inside; -fx-border-width: 3 0 3 0; -fx-border-color: white;">
               <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" maxWidth="300.0" minWidth="10.0" prefWidth="300.0" />

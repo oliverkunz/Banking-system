@@ -2,6 +2,7 @@ package frontend.banking;
 
 import java.io.IOException;
 import java.net.URL;
+import java.rmi.RemoteException;
 import java.util.ResourceBundle;
 
 import frontend.common.Customer;
@@ -23,6 +24,8 @@ public class EBankingController extends BaseController implements Initializable 
     private PasswordField passwordPF;
     @FXML
     private Label loginMessageL;
+    @FXML
+    private Label bankNameL;
 
     private SimpleStringProperty loginMessage = new SimpleStringProperty("");
     private SimpleStringProperty password = new SimpleStringProperty("");
@@ -37,6 +40,10 @@ public class EBankingController extends BaseController implements Initializable 
 	customerIDTF.textProperty().bindBidirectional(this.getCustomerID());
 	passwordPF.textProperty().bindBidirectional(this.getPassword());
 	loginMessageL.textProperty().bindBidirectional(this.getLoginMessage());
+	try {
+	    bankNameL.setText(this.main.getBanking().getBankname());
+	} catch (RemoteException e) {
+	}
     }
 
     @FXML

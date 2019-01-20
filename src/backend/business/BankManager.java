@@ -8,6 +8,7 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -36,7 +37,7 @@ import util.Utils;
 public class BankManager implements ATM, Banking, Administration, Bank {
     private String bankNumber;
     private String bankName;
-    private ArrayList<Customer> customers;
+    private List<Customer> customers;
     private BankAccount bankAccount;
     private ObjectStore<ArrayList<Customer>> store;
 
@@ -116,7 +117,7 @@ public class BankManager implements ATM, Banking, Administration, Bank {
 	    return null;
 	}
 
-	ArrayList<Account> accounts = customer.getAccounts();
+	List<Account> accounts = customer.getAccounts();
 
 	for (Account account : accounts) {
 	    simpleAccounts.add(
@@ -137,6 +138,10 @@ public class BankManager implements ATM, Banking, Administration, Bank {
 	    throws AccessException, RemoteException, NotBoundException {
 	String[] toParts = toAccountID.split("_");
 	String[] fromParts = fromAccountID.split("_");
+
+	if (amount <= 0) {
+	    return false;
+	}
 
 	LOGGER.log(Level.INFO, "[{0}] Transfering money from {1} to {2}, amount: {3}, date: {4}",
 		new Object[] { this.bankNumber, fromAccountID, toAccountID, amount, date });
@@ -173,6 +178,17 @@ public class BankManager implements ATM, Banking, Administration, Bank {
 	    if (!fromAccount.withdraw(amount)) {
 		return false;
 	    }
+
+	    // hide bank account id in transaction (because of quittance)
+	    if (toAccount.getAccountID().equals(this.bankAccount.getAccountID())) {
+		toAccountID = "";
+	    }
+
+	    // hide bank account id in transaction (because of quittance)
+	    if (fromAccount.getAccountID().equals(this.bankAccount.getAccountID())) {
+		fromAccountID = "";
+	    }
+
 	    fromAccount.addTransaction(new Transaction(toAccountID, fromAccountID, -amount, date));
 
 	    toAccount.deposit(amount);
@@ -463,12 +479,17 @@ public class BankManager implements ATM, Banking, Administration, Bank {
      * 
      * @param customers
      */
-    public void save(ArrayList<Customer> customers) {
+    public void save(List<Customer> customers) {
 	try {
-	    this.store.save("customers", customers);
+	    this.store.save("customers", (ArrayList<Customer>) customers);
 	} catch (IOException e) {
 	    LOGGER.log(Level.SEVERE, "[{0}] Could not save data to file system.", this.bankNumber);
 	}
+    }
+
+    @Override
+    public String getBankname() throws RemoteException {
+	return this.bankName;
     }
 
 }

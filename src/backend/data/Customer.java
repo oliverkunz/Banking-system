@@ -2,6 +2,7 @@ package backend.data;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Internally used by the bank, handles business logic
@@ -18,7 +19,7 @@ public class Customer implements Serializable {
     private String lastName;
     private String password;
     private String customerID;
-    private ArrayList<Account> accounts = new ArrayList<Account>();
+    private List<Account> accounts = new ArrayList<Account>();
 
     public Customer(String customerID, String firstName, String lastName, String password) {
 	this.firstName = firstName;
@@ -75,7 +76,7 @@ public class Customer implements Serializable {
     /**
      * @return accounts
      */
-    public ArrayList<Account> getAccounts() {
+    public List<Account> getAccounts() {
 	return accounts;
     }
 

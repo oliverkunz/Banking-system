@@ -3,6 +3,7 @@ package backend.data;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Logger;
 
 import backend.api.Transaction;
@@ -28,7 +29,7 @@ public abstract class Account implements Serializable {
     private String accountID;
     private Customer customer;
     private int pin;
-    private ArrayList<Transaction> transactions = new ArrayList<Transaction>();
+    private List<Transaction> transactions = new ArrayList<Transaction>();
     private State state;
 
     private static final Logger LOGGER = Logger.getLogger(Account.class.getName());
@@ -145,7 +146,7 @@ public abstract class Account implements Serializable {
      * @param amount
      * @return success
      */
-    public boolean isLimitReached(ArrayList<Transaction> transactions, LocalDate date, double limit, double amount) {
+    public boolean isLimitReached(List<Transaction> transactions, LocalDate date, double limit, double amount) {
 	double currentTransfers = amount;
 
 	if (limit == 0) {
@@ -236,7 +237,7 @@ public abstract class Account implements Serializable {
     /**
      * @return transactions
      */
-    public ArrayList<Transaction> getTransactions() {
+    public List<Transaction> getTransactions() {
 	return transactions;
     }
 

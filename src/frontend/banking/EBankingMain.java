@@ -1,14 +1,12 @@
 package frontend.banking;
 
-import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.HashMap;
+import java.util.Map;
 
-import backend.api.ATM;
 import backend.api.Account;
-import backend.api.Administration;
 import backend.api.Banking;
 import frontend.common.Customer;
 import frontend.common.Pair;
@@ -19,7 +17,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class EBankingMain extends Application {
-    HashMap<String, Pair<Scene, BaseController>> scenes = new HashMap<>();
+    Map<String, Pair<Scene, BaseController>> scenes = new HashMap<>();
 
     Stage primaryStage;
     Parent root;
@@ -31,10 +29,13 @@ public class EBankingMain extends Application {
 
     FXMLLoader fxmlLoader = new FXMLLoader();
     EBankingController eBankingController = (EBankingController) fxmlLoader.getController();
-    
+
     Registry registry;
 
+    static String bankName;
+
     public static void main(String[] args) {
+	EBankingMain.bankName = args[0];
 	launch(args);
     }
 
@@ -42,7 +43,7 @@ public class EBankingMain extends Application {
 	this.primaryStage = primaryStage;
 
 	Registry registry = LocateRegistry.getRegistry("localhost", 2001);
-	banking = (Banking) registry.lookup("ubs");
+	banking = (Banking) registry.lookup(EBankingMain.bankName);
 
 	FXMLLoader loader = new FXMLLoader(getClass().getResource("ebanking.fxml"));
 	BaseController controller = new EBankingController(this);
@@ -87,6 +88,10 @@ public class EBankingMain extends Application {
 
     public void setSelectedAccount(Account selectedAccount) {
 	this.selectedAccount = selectedAccount;
+    }
+
+    public String getBankName() {
+	return bankName;
     }
 
     public void refreshData() {

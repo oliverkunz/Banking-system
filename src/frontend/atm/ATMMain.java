@@ -5,6 +5,7 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.HashMap;
+import java.util.Map;
 
 import backend.api.ATM;
 import backend.api.Account;
@@ -16,7 +17,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class ATMMain extends Application {
-    HashMap<String, Pair<Scene, BaseControllerATM>> scenes = new HashMap<>();
+    Map<String, Pair<Scene, BaseControllerATM>> scenes = new HashMap<>();
 
     Stage primaryStage;
     Parent root;
@@ -27,7 +28,7 @@ public class ATMMain extends Application {
 
     FXMLLoader fxmlLoader = new FXMLLoader();
     ATMController controller = (ATMController) fxmlLoader.getController();
-    
+
     Registry registry;
 
     public static void main(String[] args) {
@@ -71,14 +72,14 @@ public class ATMMain extends Application {
     public void setLoggedInAccount(Account loggedInAccount) {
 	this.loggedInAccount = loggedInAccount;
     }
-    
+
     public void initializeATMForBank(String bankId) {
-    	try {
-			atm = (ATM) this.registry.lookup(bankId);
-		} catch (RemoteException | NotBoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	try {
+	    atm = (ATM) this.registry.lookup(bankId);
+	} catch (RemoteException | NotBoundException e) {
+	    // TODO Auto-generated catch block
+	    e.printStackTrace();
+	}
     }
 
 }

@@ -102,4 +102,10 @@ public interface Administration extends Remote {
      * @throws RemoteException
      */
     public boolean handleOverdrawInterests(String accountID) throws RemoteException;
+
+    /**
+     * @return bankName
+     * @throws RemoteException
+     */
+    public String getBankname() throws RemoteException;
 }

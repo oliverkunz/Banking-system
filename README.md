@@ -134,6 +134,9 @@ Unten die Übersicht der Administration:
 ![AdministationOverview](Ressources/AdministrationOverview.JPG)
 
 Die Bankangestellten sind in der Lage eine Übersicht über alle Konten eines Kunden anzeigen zu lassen.
+Um Geld ein- oder auszahlen zu können muss das gewünschte Konto in der Tabelle ausgewählt werden.
+Nach einer erfolgreichen Transaktion wird das Guthaben aktualisiert.
 
-
+So sieht die Konten-Übersicht eines Kunden aus:
+![AdministationAccounts](Ressources/AdministrationShowAccount.JPG)
 
